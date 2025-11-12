@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "325838560121",
+    "project_id": "minego-8553c",
+    "storage_bucket": "minego-8553c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:325838560121:android:d6f81cd74e76db72916da8",
+        "android_client_info": {
+          "package_name": "com.example.minego"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkFjHJDoF1D9xrQap4laIBZrP7GcTDLzE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
