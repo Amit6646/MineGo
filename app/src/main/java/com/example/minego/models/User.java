@@ -14,12 +14,15 @@ public class User {
     public Backpack backpack;
     public Stats stats;
     public ArrayList<Upgrade> upgrades;
+    public boolean admin;
 
     public User() {
+
     }
 
-    public User(String id, String username, String password, int xp, Backpack backpack, Stats stats, ArrayList<Upgrade> upgrades) {
+    public User(String id, String username, String password, int xp, Backpack backpack, Stats stats, ArrayList<Upgrade> upgrades, boolean admin) {
         this.id = id;
+        this.admin = admin;
         this.username = username;
         this.password = password;
         this.xp = xp;
@@ -80,9 +83,11 @@ public class User {
         return upgrades;
     }
 
-    public void setUpgrades(ArrayList<Upgrade> upgrades) {
-        this.upgrades = upgrades;
-    }
+    public void setUpgrades(ArrayList<Upgrade> upgrades) {this.upgrades = upgrades;}
+
+    public boolean getAdmin() {return admin;}
+
+    public void setAdmin(boolean admin) {this.admin = admin;}
 
     @NonNull
     @Override
@@ -95,6 +100,7 @@ public class User {
                 ", backpack=" + backpack +
                 ", stats=" + stats +
                 ", upgrades=" + upgrades +
+                ". admin= " + admin +
                 '}';
     }
 }

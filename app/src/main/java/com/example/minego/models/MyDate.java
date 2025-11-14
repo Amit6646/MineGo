@@ -62,6 +62,7 @@ public class MyDate implements Serializable, Comparable<MyDate> {
                 "year=" + year +
                 ", month=" + month +
                 ", day=" + day +
+                "data=" + day + "/" + month + "/" + year +
                 '}';
     }
 

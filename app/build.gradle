@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.minego"
-        minSdk 35
+        minSdk 34
         targetSdk 36
         versionCode 1
         versionName "1.0"
@@ -40,4 +40,5 @@ dependencies {
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
+    implementation libs.gson
 }
