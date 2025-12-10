@@ -70,6 +70,26 @@
             android:gravity="center_vertical"
             android:layout_gravity="center_horizontal"/>
 
+        <RadioGroup
+            android:id="@+id/rg_register_gender"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:padding="20dp">
+
+            <RadioButton
+                android:id="@+id/rb_register_gender_male"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Male" />
+
+            <RadioButton
+                android:id="@+id/rb_register_gender_female"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Female" />
+        </RadioGroup>
+
     </LinearLayout>
     <Button
         android:id="@+id/btn_Register_submit"

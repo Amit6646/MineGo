@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 
+
 public class User {
 
     public String id;
@@ -16,11 +17,14 @@ public class User {
     public ArrayList<Upgrade> upgrades;
     public boolean admin;
 
-    public User() {
+    public Gender gender;
 
+
+    public User() {
     }
 
-    public User(String id, String username, String password, int xp, Backpack backpack, Stats stats, ArrayList<Upgrade> upgrades, boolean admin) {
+    public User(String id, String username, String password, int xp, Backpack backpack,
+                Stats stats, ArrayList<Upgrade> upgrades, boolean admin, Gender gender) {
         this.id = id;
         this.admin = admin;
         this.username = username;
@@ -29,6 +33,7 @@ public class User {
         this.backpack = backpack;
         this.stats = stats;
         this.upgrades = upgrades;
+        this.gender = gender;
     }
 
     public String getId() {
@@ -85,9 +90,21 @@ public class User {
 
     public void setUpgrades(ArrayList<Upgrade> upgrades) {this.upgrades = upgrades;}
 
-    public boolean getAdmin() {return admin;}
+    public boolean isAdmin() {
+        return admin;
+    }
 
-    public void setAdmin(boolean admin) {this.admin = admin;}
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
 
     @NonNull
     @Override
@@ -101,6 +118,7 @@ public class User {
                 ", stats=" + stats +
                 ", upgrades=" + upgrades +
                 ". admin= " + admin +
+
                 '}';
     }
 }

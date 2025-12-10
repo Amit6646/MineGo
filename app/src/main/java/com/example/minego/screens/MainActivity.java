@@ -1,15 +1,10 @@
 package com.example.minego.screens;
 
-import static com.google.gson.internal.GsonTypes.arrayOf;
-
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -40,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
     private MapView map = null;
     MyLocationNewOverlay mLocationOverlay;
-    Button btnLogout;
+    Button btnLogout, btnAdmin;
 
 
     @Override
@@ -67,8 +62,13 @@ public class MainActivity extends AppCompatActivity {
             startActivity(mainIntent);
         });
 
+        btnAdmin = findViewById(R.id.btn_main_admin);
+        btnAdmin.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, AdminActivity.class);
+            startActivity(intent);
+        });
         // Initialize MapView
-        map = findViewById(R.id.map);
+        map = findViewById(R.id.adminmap);
         map.setTileSource(TileSourceFactory.MAPNIK);
 
         // Initialize the location overlay before checking permissions

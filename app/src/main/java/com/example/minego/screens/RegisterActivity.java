@@ -3,8 +3,11 @@ package com.example.minego.screens;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -15,6 +18,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.minego.R;
 import com.example.minego.models.Backpack;
+import com.example.minego.models.Gender;
 import com.example.minego.models.Stats;
 import com.example.minego.models.User;
 import com.example.minego.services.DatabaseService;
@@ -26,6 +30,8 @@ import java.util.ArrayList;
 public class RegisterActivity extends AppCompatActivity {
 
     EditText etUsername, etPassword, etPasswordConfirm;
+    RadioGroup rgGender;
+    RadioButton rbGenderMale, rbGenderFemale;
     Button btnSubmit;
 
     @Override
@@ -43,6 +49,10 @@ public class RegisterActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.et_register_password);
         etPasswordConfirm = findViewById(R.id.et_register_password_confirmation);
 
+        rgGender = findViewById(R.id.rg_register_gender);
+        rbGenderMale = findViewById(R.id.rb_register_gender_male);
+        rbGenderFemale = findViewById(R.id.rb_register_gender_female);
+
         btnSubmit = findViewById(R.id.btn_Register_submit);
 
         btnSubmit.setOnClickListener(v -> register());
@@ -54,7 +64,6 @@ public class RegisterActivity extends AppCompatActivity {
         String username = etUsername.getText().toString() + "";
         String password = etPassword.getText().toString() + "";
         String passwordCofirm = etPasswordConfirm.getText().toString() + "";
-
 
         if (!checkInput(username, password, passwordCofirm)) {
             return;
@@ -90,6 +99,10 @@ public class RegisterActivity extends AppCompatActivity {
             return false;
         }
 
+        if (rgGender.getCheckedRadioButtonId() == View.NO_ID) {
+            rgGender.requestFocus();
+        }
+
         return true;
 
     }
@@ -98,8 +111,16 @@ public class RegisterActivity extends AppCompatActivity {
         DatabaseService databaseService = DatabaseService.getInstance();
         String uid = databaseService.generateUserId();
 
+        Gender gender;
+        if (rgGender.getCheckedRadioButtonId() == rbGenderMale.getId()) {
+            gender = Gender.Male;
+        } else //if (rgGender.getCheckedRadioButtonId() == rbGenderFemale.getId())
+        {
+            gender = Gender.Female;
+        }
+
         /// create a new user object
-        User user = new User(uid, UserName, password, 0 , new Backpack(), new Stats(), new ArrayList<>(), false);
+        User user = new User(uid, UserName, password, 0 , new Backpack(), new Stats(), new ArrayList<>(), false, gender);
 
         databaseService.checkIfUsernameExists(user.username, new DatabaseService.DatabaseCallback<Boolean>() {
             @Override
