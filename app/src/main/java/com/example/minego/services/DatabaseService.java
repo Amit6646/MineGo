@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.minego.models.Miner;
 import com.example.minego.models.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.UnaryOperator;
 
+//generateUserId
 
 /// a service to interact with the Firebase Realtime Database.
 /// this class is a singleton, use getInstance() to get an instance of this class
@@ -34,8 +36,7 @@ public class DatabaseService {
     /// paths for different data types in the database
     /// @see DatabaseService#readData(String)
     private static final String USERS_PATH = "users",
-            FOODS_PATH = "foods",
-            CARTS_PATH = "carts";
+            Miner_PATH = "miner";
 
     /// callback interface for database operations
     /// @param <T> the type of the object to return
@@ -333,5 +334,17 @@ public class DatabaseService {
 
 
     // endregion User Section
+
+    //miner database
+    public String generateMinerId() {
+        return generateNewId(Miner_PATH);
+    }
+    public void createNewMiner(@NotNull final Miner miner, @Nullable final DatabaseCallback<Void> callback) {
+        writeData(Miner_PATH + "/" + miner.getId(), miner, callback);
+    }
+
+    public void getMinerList(@NotNull final DatabaseCallback<List<User>> callback) {
+        getDataList(Miner_PATH, User.class, callback);
+    }
 
 }

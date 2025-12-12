@@ -118,7 +118,6 @@ public class User {
                 ", stats=" + stats +
                 ", upgrades=" + upgrades +
                 ". admin= " + admin +
-
                 '}';
     }
 }

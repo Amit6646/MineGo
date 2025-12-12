@@ -18,6 +18,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.minego.R;
+import com.example.minego.models.Miner;
 import com.example.minego.utils.SharedPreferencesUtil;
 
 import org.osmdroid.api.IMapController;
@@ -99,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, "פה היוצר של המשחק גר (=", Toast.LENGTH_SHORT).show();
             return true;
         });
+
 
         map.getOverlays().add(marker);
         map.invalidate();
@@ -183,6 +185,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //צריך לבדוק איך לסדר שזה יציג את המיקום של השחקן
     private void checkLocationAvailability() {
         if (mLocationOverlay.getMyLocation() != null) {
             // Location is available immediately

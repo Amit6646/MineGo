@@ -88,6 +88,7 @@ public class LoginActivity extends AppCompatActivity {
             etPassword.requestFocus();
             return false;
         }
+
         return true;
     }
 }
