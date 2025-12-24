@@ -19,6 +19,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.minego.R;
 import com.example.minego.models.Miner;
+import com.example.minego.services.DatabaseService;
 import com.example.minego.utils.SharedPreferencesUtil;
 
 import org.osmdroid.api.IMapController;
@@ -31,12 +32,32 @@ import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class MainActivity extends AppCompatActivity {
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
     private MapView map = null;
     MyLocationNewOverlay mLocationOverlay;
+    private Marker myLocationMarker;
+    private ArrayList<Miner> miners = new ArrayList<>();
     Button btnLogout, btnAdmin;
+
+
+
+    private final android.os.Handler handler = new android.os.Handler();
+    private final Runnable locationUpdater = new Runnable() {
+        @Override public void run() {
+            if (mLocationOverlay != null && myLocationMarker != null) {
+                GeoPoint p = mLocationOverlay.getMyLocation();
+                if (p != null) {
+                    myLocationMarker.setPosition(p);
+                    map.invalidate();
+                }
+            }
+            handler.postDelayed(this, 1000); // update every 1s
+        }
+    };
 
 
     @Override
@@ -48,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
                 PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
 
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -92,17 +112,16 @@ public class MainActivity extends AppCompatActivity {
         // Set a fallback starting point until we have a valid location
         mapController.setCenter(new GeoPoint(31.9703, 34.7790));
 
-        Marker marker = new Marker(map);
-        marker.setPosition(new GeoPoint(31.9703, 34.7790));
-        marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+//        Marker marker = new Marker(map);
+//        marker.setPosition(new GeoPoint(31.9703, 34.7790));
+//        marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+//        marker.setOnMarkerClickListener((marker1, mapView) -> {
+//            Toast.makeText(MainActivity.this, "פה היוצר של המשחק גר (=", Toast.LENGTH_SHORT).show();
+//            return true;
+//        });
 
-        marker.setOnMarkerClickListener((marker1, mapView) -> {
-            Toast.makeText(MainActivity.this, "פה היוצר של המשחק גר (=", Toast.LENGTH_SHORT).show();
-            return true;
-        });
 
-
-        map.getOverlays().add(marker);
+//        map.getOverlays().add(marker);
         map.invalidate();
     }
 
@@ -115,16 +134,52 @@ public class MainActivity extends AppCompatActivity {
         //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         //Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
         map.onResume(); //needed for compass, my location overlays, v6.0.0 and up
+
+        if (mLocationOverlay != null) {
+            mLocationOverlay.enableMyLocation();
+            mLocationOverlay.enableFollowLocation();
+        }
+        handler.post(locationUpdater);
+
+
+        DatabaseService.getInstance().getMinerList(new DatabaseService.DatabaseCallback<List<Miner>>() {
+            @Override
+            public void onCompleted(List<Miner> minerList) {
+                miners.clear();
+                miners.addAll(minerList);
+
+                map.getOverlays().clear();
+
+                if (myLocationMarker != null)
+                    map.getOverlays().add(myLocationMarker);
+
+                List<Marker> list = new ArrayList<>();
+                for (Miner m : miners) {
+                    Marker marker = new Marker(map);
+                    marker.setPosition(m.asGeoPoint());
+                    list.add(marker);
+                }
+                map.getOverlays().addAll(list);
+            }
+
+            @Override
+            public void onFailed(Exception e) {
+
+            }
+        });
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        //this will refresh the osmdroid configuration on resuming.
-        //if you make changes to the configuration, use
-        //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        //Configuration.getInstance().save(this, prefs);
-        map.onPause();  //needed for compass, my location overlays, v6.0.0 and up
+
+        handler.removeCallbacks(locationUpdater);
+
+        if (mLocationOverlay != null) {
+            mLocationOverlay.disableMyLocation();
+            mLocationOverlay.disableFollowLocation();
+        }
+        map.onPause();
     }
 
     private void requestPermissionsIfNecessary(String[] permissions) {
@@ -172,31 +227,40 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void enableLocation() {
-        // Check if mLocationOverlay is properly initialized
-        if (mLocationOverlay != null) {
-            mLocationOverlay.enableMyLocation();
-            map.getOverlays().add(mLocationOverlay);
-
-            // Optionally, you can check if location is available immediately
-            checkLocationAvailability();
-        } else {
-            // Handle the case where mLocationOverlay is not initialized (shouldn't happen)
+        if (mLocationOverlay == null) {
             Toast.makeText(this, "Location overlay not initialized", Toast.LENGTH_LONG).show();
+            return;
         }
-    }
 
-    //צריך לבדוק איך לסדר שזה יציג את המיקום של השחקן
-    private void checkLocationAvailability() {
-        if (mLocationOverlay.getMyLocation() != null) {
-            // Location is available immediately
-            GeoPoint myLocation = mLocationOverlay.getMyLocation();
-            Toast.makeText(MainActivity.this, myLocation.toString(), Toast.LENGTH_LONG).show();
-
-            // Set a fallback starting point until we have a valid location
-            map.getController().setCenter(myLocation);
-        } else {
-            // ahhhhhhh!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        if (!map.getOverlays().contains(mLocationOverlay)) {
+            map.getOverlays().add(mLocationOverlay);
         }
+
+        mLocationOverlay.enableMyLocation();
+        mLocationOverlay.enableFollowLocation(); // optional
+
+        mLocationOverlay.runOnFirstFix(() -> runOnUiThread(() -> {
+            GeoPoint p = mLocationOverlay.getMyLocation();
+            if (p == null) return;
+
+            // create marker once
+            if (myLocationMarker == null) {
+                myLocationMarker = new Marker(map);
+                myLocationMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                // optional: custom icon
+                // myLocationMarker.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_my_location));
+                map.getOverlays().add(myLocationMarker);
+            }
+
+            myLocationMarker.setPosition(p);
+            map.getController().animateTo(p);
+            map.invalidate();
+
+
+
+            // keep updating marker as location changes:
+            mLocationOverlay.enableMyLocation(); // already enabled, but ok
+        }));
     }
 
 }

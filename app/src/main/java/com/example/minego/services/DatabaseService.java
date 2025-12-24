@@ -343,8 +343,8 @@ public class DatabaseService {
         writeData(Miner_PATH + "/" + miner.getId(), miner, callback);
     }
 
-    public void getMinerList(@NotNull final DatabaseCallback<List<User>> callback) {
-        getDataList(Miner_PATH, User.class, callback);
+    public void getMinerList(@NotNull final DatabaseCallback<List<Miner>> callback) {
+        getDataList(Miner_PATH, Miner.class, callback);
     }
 
 }
