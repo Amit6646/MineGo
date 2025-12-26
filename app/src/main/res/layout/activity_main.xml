@@ -29,6 +29,12 @@
             android:layout_height="wrap_content"
             android:text="admin" />
 
+        <Button
+            android:id="@+id/btn_main_editprofile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="editprofile" />
+
         <org.osmdroid.views.MapView
             android:id="@+id/adminmap"
             android:layout_width="fill_parent"

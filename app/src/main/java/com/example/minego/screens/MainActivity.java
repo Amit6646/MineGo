@@ -33,7 +33,6 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class MainActivity extends AppCompatActivity {
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
@@ -41,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     MyLocationNewOverlay mLocationOverlay;
     private Marker myLocationMarker;
     private ArrayList<Miner> miners = new ArrayList<>();
-    Button btnLogout, btnAdmin;
+    Button btnLogout, btnAdmin, btnEditProfile;
 
 
 
@@ -88,6 +87,12 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, AdminActivity.class);
             startActivity(intent);
         });
+
+        btnEditProfile = findViewById(R.id.btn_main_editprofile);
+        btnEditProfile.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, UserEditProfileActivity.class);
+            startActivity(intent);
+        });
         // Initialize MapView
         map = findViewById(R.id.adminmap);
         map.setTileSource(TileSourceFactory.MAPNIK);
@@ -111,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Set a fallback starting point until we have a valid location
         mapController.setCenter(new GeoPoint(31.9703, 34.7790));
+
 
 //        Marker marker = new Marker(map);
 //        marker.setPosition(new GeoPoint(31.9703, 34.7790));

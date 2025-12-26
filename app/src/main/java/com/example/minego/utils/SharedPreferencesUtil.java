@@ -134,6 +134,7 @@ public class SharedPreferencesUtil {
         return getObject(context, "user", User.class);
     }
 
+
     /// Sign out the user by removing user data from shared preferences
     /// @param context The context to use
     public static void signOutUser(Context context) {
