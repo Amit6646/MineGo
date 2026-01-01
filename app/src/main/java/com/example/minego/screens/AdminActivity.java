@@ -13,6 +13,8 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.minego.R;
 import com.example.minego.models.Miner;
 import com.example.minego.services.DatabaseService;
+import com.example.minego.utils.MapManager;
+import com.example.minego.utils.behaviors.AdminPlacementBehavior;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.events.MapEventsReceiver;
@@ -27,6 +29,8 @@ import java.util.ArrayList;
 
 public class AdminActivity extends AppCompatActivity {
     private MapView adminmap;
+    private MapManager mapManager;
+    private AdminPlacementBehavior adminBehavior;
     Button  btnSave;
     boolean markerloc = false;
 
@@ -45,66 +49,20 @@ public class AdminActivity extends AppCompatActivity {
 
         // Initialize MapView
         adminmap = findViewById(R.id.adminmap);
-        adminmap.setTileSource(TileSourceFactory.MAPNIK);
-        adminmap.setBuiltInZoomControls(true);
-        adminmap.setMultiTouchControls(true);
-        adminmap.setMaxZoomLevel(21.0);
-        adminmap.setMinZoomLevel(8.0);
-        IMapController mapController = adminmap.getController();
-        mapController.setZoom(18.5);
+        mapManager = new MapManager(this, adminmap);
 
-        Marker marker = new Marker(adminmap);
-        marker.setIcon(getDrawable(R.drawable.girlplayer));
-        marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-
-        // Set a fallback starting point until we have a valid location
-        mapController.setCenter(new GeoPoint(31.9703, 34.7790));
-
-
-        //your items
-        ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
-        items.add(new OverlayItem("Title", "Description", new GeoPoint(0.0d,0.0d))); // Lat/Lon decimal degrees
-
-        marker.setOnMarkerClickListener((marker1, mapView) -> {
-            Toast.makeText(AdminActivity.this, "", Toast.LENGTH_SHORT).show();
-            return true;
-        });
-
-        MapEventsReceiver mReceive = new MapEventsReceiver() {
-            @Override
-            public boolean singleTapConfirmedHelper(GeoPoint p) {
-                double lat = p.getLatitude();
-                double lon = p.getLongitude();
-
-                //Toast.makeText(AdminActivity.this,
-                //        "Lat: " + lat + ", Lon: " + lon,
-                //        Toast.LENGTH_SHORT).show();
-                marker.setPosition(new GeoPoint(lat, lon));
-                adminmap.getOverlays().add(marker);
-                adminmap.invalidate();
-                markerloc = true;
-
-
-                return true;
-            }
-
-            @Override
-            public boolean longPressHelper(GeoPoint p) {
-                return false;
-            }
-        };
-
-        MapEventsOverlay OverlayEvents = new MapEventsOverlay(mReceive);
-        adminmap.getOverlays().add(OverlayEvents);
+        adminBehavior = new AdminPlacementBehavior(this, R.drawable.girlplayer);
+        mapManager.setBehavior(adminBehavior);
 
 
         btnSave = findViewById(R.id.btn_admin_save);
         btnSave.setOnClickListener(v -> {
             // TODO change to miner
+            GeoPoint pos = adminBehavior.getSelectedPosition();
             String id = DatabaseService.getInstance().generateMinerId();
-            Miner miner = new Miner(id, marker.getPosition());
-            adminmap.getOverlays().remove(marker);
-            adminmap.invalidate();
+            Miner miner = new Miner(id, pos);
+//            adminmap.getOverlays().remove(marker);
+//            adminmap.invalidate();
             createMinerInDatabase(miner);
             markerloc = false;
         });
@@ -112,7 +70,7 @@ public class AdminActivity extends AppCompatActivity {
 
     }
     private void createMinerInDatabase(Miner miner) {
-        if (markerloc == false)
+        if (!markerloc)
         {
             Toast.makeText(AdminActivity.this, "אתה צריך לבחור מיקום בשביל ליצור מכרה", Toast.LENGTH_SHORT).show();
         }

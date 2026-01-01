@@ -51,22 +51,22 @@ public class MainActivity extends AppCompatActivity {
         MapView mapView = findViewById(R.id.adminmap);
         mapManager = new MapManager(this, mapView);
 
-        mapManager.setBehavior(new MapManager.MapBehavior() {
-            @Override
-            public void onSetup(MapView map) {
-
-            }
-
-            @Override
-            public boolean onMapTap(GeoPoint p, MapView map) {
-                return false;
-            }
-
-            @Override
-            public void onTeardown(MapView map) {
-
-            }
-        });
+//        mapManager.setBehavior(new MapManager.MapBehavior() {
+//            @Override
+//            public void onSetup(MapView map) {
+//
+//            }
+//
+//            @Override
+//            public boolean onMapTap(GeoPoint p, MapView map) {
+//                return false;
+//            }
+//
+//            @Override
+//            public void onTeardown(MapView map) {
+//
+//            }
+//        });
 
         if (PermissionManager.hasLocationPermissions(this)) {
             mapManager.enableLocation();

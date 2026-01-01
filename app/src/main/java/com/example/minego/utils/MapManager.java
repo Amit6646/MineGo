@@ -16,16 +16,7 @@ import java.util.List;
 
 public class MapManager {
 
-    public interface MapBehavior {
-        // Called when the strategy is attached to the manager
-        void onSetup(MapView map);
 
-        // Called when the user taps the map. Returns true if consumed.
-        boolean onMapTap(GeoPoint p, MapView map);
-
-        // Called when the activity pauses (cleanup)
-        void onTeardown(MapView map);
-    }
 
     private final MapView map;
     private final Context context;
