@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 //        });
 
         if (PermissionManager.hasLocationPermissions(this)) {
-            mapManager.enableLocation();
+            mapManager.enableLocation(MainActivity.this);
         } else {
             PermissionManager.requestLocationPermissions(this);
         }
@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (requestCode == PermissionManager.REQUEST_CODE_LOCATION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                mapManager.enableLocation();
+                mapManager.enableLocation(MainActivity.this);
             } else {
                 Toast.makeText(this, "Location permission is required for the map", Toast.LENGTH_LONG).show();
             }
