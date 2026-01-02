@@ -16,13 +16,13 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.minego.R;
 import com.example.minego.models.Miner;
+import com.example.minego.screens.Admin.AdminActivity;
 import com.example.minego.services.DatabaseService;
 import com.example.minego.utils.MapManager;
 import com.example.minego.utils.PermissionManager;
 import com.example.minego.utils.SharedPreferencesUtil;
 
 import org.osmdroid.config.Configuration;
-import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 
 import java.util.List;

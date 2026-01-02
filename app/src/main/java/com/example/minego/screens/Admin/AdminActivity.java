@@ -1,4 +1,4 @@
-package com.example.minego.screens;
+package com.example.minego.screens.Admin;
 
 import android.os.Bundle;
 import android.widget.Button;
@@ -36,25 +36,19 @@ public class AdminActivity extends AppCompatActivity {
             return insets;
         });
 
-        // 1. אתחול המפה והמנהל
         MapView map = findViewById(R.id.adminmap);
         mapManager = new MapManager(this, map);
 
-        // 2. יצירת ההתנהגות (Behavior) של המנהל והזרקתה
-        adminBehavior = new AdminPlacementBehavior(this, R.drawable.girlplayer);
+        adminBehavior = new AdminPlacementBehavior(this, org.osmdroid.library.R.drawable.marker_default);
         mapManager.setBehavior(adminBehavior);
 
-        // 3. כפתור שמירה
         btnSave = findViewById(R.id.btn_admin_save);
         btnSave.setOnClickListener(v -> {
-            // שואלים את ה-Behavior מה המיקום שנבחר
             GeoPoint pos = adminBehavior.getSelectedPosition();
 
             if (pos == null) {
-                // אם עדיין לא נבחר מיקום
                 Toast.makeText(AdminActivity.this, "אתה צריך לבחור מיקום בשביל ליצור מכרה", Toast.LENGTH_SHORT).show();
             } else {
-                // יש מיקום - יוצרים מכרה
                 String id = DatabaseService.getInstance().generateMinerId();
                 Miner miner = new Miner(id, pos);
                 createMinerInDatabase(miner);
