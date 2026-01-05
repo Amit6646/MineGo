@@ -140,8 +140,27 @@ public class RegisterActivity extends AppCompatActivity {
                     /// show error message to user
                     Toast.makeText(RegisterActivity.this, "UserName already exists", Toast.LENGTH_SHORT).show();
                 } else {
-                    /// proceed to create the user
-                    createUserInDatabase(user);
+
+                    databaseService.checkIfUsernameExists(user.email, new DatabaseService.DatabaseCallback<Boolean>() {
+                        @Override
+                        public void onCompleted(Boolean exists) {
+                            if (exists) {
+                                /// show error message to user
+                                Toast.makeText(RegisterActivity.this, "UserName already exists", Toast.LENGTH_SHORT).show();
+                            } else {
+                                /// proceed to create the user
+                                createUserInDatabase(user);
+                            }
+                        }
+
+                        @Override
+                        public void onFailed(Exception e) {
+                            Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+
+                    });
+
+
                 }
             }
 
@@ -152,24 +171,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         });
 
-        databaseService.checkIfUsernameExists(user.email, new DatabaseService.DatabaseCallback<Boolean>() {
-            @Override
-            public void onCompleted(Boolean exists) {
-                if (exists) {
-                    /// show error message to user
-                    Toast.makeText(RegisterActivity.this, "UserName already exists", Toast.LENGTH_SHORT).show();
-                } else {
-                    /// proceed to create the user
-                    createUserInDatabase(user);
-                }
-            }
 
-            @Override
-            public void onFailed(Exception e) {
-                Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-
-        });
     }
 
     private void createUserInDatabase(User user) {
