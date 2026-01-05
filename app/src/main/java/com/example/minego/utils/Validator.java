@@ -25,13 +25,6 @@ public class Validator {
     }
 
 
-    /// Check if the phone number is valid
-    /// @param phone phone number to validate
-    /// @return true if the phone number is valid, false otherwise
-    /// @see Patterns#PHONE
-    public static boolean isPhoneValid(@Nullable String phone) {
-        return phone != null && phone.length() >= 10 && Patterns.PHONE.matcher(phone).matches();
-    }
 
     /// Check if the name is valid
     /// @param name name to validate
@@ -39,4 +32,5 @@ public class Validator {
     public static boolean isNameValid(@Nullable String name) {
         return name != null && name.length() >= 3;
     }
+
 }

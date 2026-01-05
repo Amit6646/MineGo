@@ -29,7 +29,7 @@ import java.util.ArrayList;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    EditText etUsername, etPassword, etPasswordConfirm;
+    EditText etUsername, etPassword, etPasswordConfirm, etEmail;
     RadioGroup rgGender;
     RadioButton rbGenderMale, rbGenderFemale;
     Button btnSubmit;
@@ -48,6 +48,8 @@ public class RegisterActivity extends AppCompatActivity {
         etUsername = findViewById(R.id.et_register_username);
         etPassword = findViewById(R.id.et_register_password);
         etPasswordConfirm = findViewById(R.id.et_register_password_confirmation);
+        etEmail = findViewById(R.id.et_register_email);
+
 
         rgGender = findViewById(R.id.rg_register_gender);
         rbGenderMale = findViewById(R.id.rb_register_gender_male);
@@ -62,24 +64,33 @@ public class RegisterActivity extends AppCompatActivity {
     private void register() {
 
         String username = etUsername.getText().toString() + "";
+        String email = etEmail.getText().toString() + "";
         String password = etPassword.getText().toString() + "";
         String passwordCofirm = etPasswordConfirm.getText().toString() + "";
 
-        if (!checkInput(username, password, passwordCofirm)) {
+        if (!checkInput(username, password, passwordCofirm, email)) {
             return;
         }
 
-        registerUser(username, password);
+        registerUser(username, password, email);
 
     }
 
-    private boolean checkInput(String username, String password, String passwordConfrim) {
+    private boolean checkInput(String username, String password, String passwordConfrim, String Email) {
 
         if (!Validator.isNameValid(username)) {
             /// show error message to user
             etUsername.setError("Username must be at least 3 characters long");
-            /// set focus to email field
+            /// set focus to UserName field
             etUsername.requestFocus();
+            return false;
+        }
+
+        if (!Validator.isEmailValid(Email)) {
+            /// show error message to user
+            etEmail.setError("Email is not valid");
+            /// set focus to password field
+            etEmail.requestFocus();
             return false;
         }
 
@@ -106,7 +117,7 @@ public class RegisterActivity extends AppCompatActivity {
         return true;
 
     }
-    private void registerUser(String UserName, String password) {
+    private void registerUser(String UserName, String password, String Email) {
 
         DatabaseService databaseService = DatabaseService.getInstance();
         String uid = databaseService.generateUserId();
@@ -120,14 +131,14 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         /// create a new user object
-        User user = new User(uid, UserName, password, 0 , new Backpack(), new Stats(), new ArrayList<>(), false, gender);
+        User user = new User(uid, UserName, password, 0 , new Backpack(), new Stats(), new ArrayList<>(), false, gender, Email);
 
         databaseService.checkIfUsernameExists(user.username, new DatabaseService.DatabaseCallback<Boolean>() {
             @Override
             public void onCompleted(Boolean exists) {
                 if (exists) {
                     /// show error message to user
-                    Toast.makeText(RegisterActivity.this, "Email already exists", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, "UserName already exists", Toast.LENGTH_SHORT).show();
                 } else {
                     /// proceed to create the user
                     createUserInDatabase(user);
@@ -138,6 +149,26 @@ public class RegisterActivity extends AppCompatActivity {
             public void onFailed(Exception e) {
                 Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
+
+        });
+
+        databaseService.checkIfUsernameExists(user.email, new DatabaseService.DatabaseCallback<Boolean>() {
+            @Override
+            public void onCompleted(Boolean exists) {
+                if (exists) {
+                    /// show error message to user
+                    Toast.makeText(RegisterActivity.this, "UserName already exists", Toast.LENGTH_SHORT).show();
+                } else {
+                    /// proceed to create the user
+                    createUserInDatabase(user);
+                }
+            }
+
+            @Override
+            public void onFailed(Exception e) {
+                Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+
         });
     }
 

@@ -43,6 +43,18 @@
             android:layout_gravity="center_horizontal"/>
 
         <EditText
+            android:id="@+id/et_register_email"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/edittext_border"
+            android:hint="Email"
+            android:padding="12dp"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white"
+            android:gravity="center_vertical"
+            android:layout_gravity="center_horizontal"/>
+        <EditText
             android:id="@+id/et_register_password"
             android:layout_width="300dp"
             android:layout_height="60dp"

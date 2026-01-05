@@ -10,6 +10,8 @@ public class User {
     public String id;
     public String username;
     public String password;
+    public String email;
+
     public int xp;
 
     public Backpack backpack;
@@ -24,7 +26,7 @@ public class User {
     }
 
     public User(String id, String username, String password, int xp, Backpack backpack,
-                Stats stats, ArrayList<Upgrade> upgrades, boolean admin, Gender gender) {
+                Stats stats, ArrayList<Upgrade> upgrades, boolean admin, Gender gender,String email) {
         this.id = id;
         this.admin = admin;
         this.username = username;
@@ -34,6 +36,8 @@ public class User {
         this.stats = stats;
         this.upgrades = upgrades;
         this.gender = gender;
+        this.email = email;
+
     }
 
     public String getId() {
@@ -106,6 +110,14 @@ public class User {
         this.gender = gender;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @NonNull
     @Override
     public String toString() {
@@ -114,6 +126,7 @@ public class User {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", xp=" + xp +
+                ", email=" + email +
                 ", backpack=" + backpack +
                 ", stats=" + stats +
                 ", upgrades=" + upgrades +
