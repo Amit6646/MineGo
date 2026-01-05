@@ -16,7 +16,9 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.minego.R;
 import com.example.minego.models.Miner;
+import com.example.minego.models.User;
 import com.example.minego.screens.Admin.AdminActivity;
+import com.example.minego.screens.Admin.Admin_landing_Activity;
 import com.example.minego.services.DatabaseService;
 import com.example.minego.utils.MapManager;
 import com.example.minego.utils.PermissionManager;
@@ -30,6 +32,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private MapManager mapManager;
     Button btnLogout, btnAdmin, btnEditProfile;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupUI() {
+        user = SharedPreferencesUtil.getUser(this);
         btnLogout = findViewById(R.id.btn_main_logout);
         btnLogout.setOnClickListener(v -> {
             SharedPreferencesUtil.signOutUser(MainActivity.this);
@@ -84,10 +88,19 @@ public class MainActivity extends AppCompatActivity {
             startActivity(mainIntent);
         });
 
+        // במידה ואתה לא אדמין אז הכפתור לא יוצג
         btnAdmin = findViewById(R.id.btn_main_admin);
-        btnAdmin.setOnClickListener(v -> startActivity(new Intent(this, AdminActivity.class)));
+        if (user.isAdmin() == true) {
+            btnAdmin.setVisibility(android.view.View.VISIBLE);
+        }
+        else {
+            btnAdmin.setVisibility(android.view.View.GONE);
+        }
+        btnAdmin.setOnClickListener(v -> startActivity(new Intent(this, Admin_landing_Activity.class)));
+
 
         btnEditProfile = findViewById(R.id.btn_main_editprofile);
+
         btnEditProfile.setOnClickListener(v -> startActivity(new Intent(this, UserEditProfileActivity.class)));
     }
 
@@ -106,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
             public void onFailed(Exception e) {
                 Toast.makeText(MainActivity.this, "Failed to load miners", Toast.LENGTH_SHORT).show();
             }
+
         });
     }
 

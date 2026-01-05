@@ -18,9 +18,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MineGo">
         <activity
-            android:name=".screens.Admin.AdminUserListActivity"
+            android:name=".screens.Admin.Admin_landing_Activity"
             android:exported="false" />
-        <!-- This element is required to enable Google Pay in your app. -->
+        <activity
+            android:name=".screens.Admin.AdminUserListActivity"
+            android:exported="false" /> <!-- This element is required to enable Google Pay in your app. -->
         <meta-data
             android:name="com.google.android.gms.wallet.api.enabled"
             android:value="true" />
