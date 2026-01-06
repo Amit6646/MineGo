@@ -1,16 +1,25 @@
 package com.example.minego.screens.Admin;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.minego.R;
+import com.example.minego.models.User;
+import com.example.minego.services.DatabaseService;
+
+import java.util.List;
 
 public class AdminUserListActivity extends AppCompatActivity {
+    private TextView tvUserCount;
+    private RecyclerView rvUserList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +31,24 @@ public class AdminUserListActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        tvUserCount = findViewById(R.id.tv_user_count);
+
+
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        DatabaseService.getInstance().getUserList(new DatabaseService.DatabaseCallback<>() {
+            @Override
+            public void onCompleted(List<User> users) {
+//                userAdapter.setUserList(users);
+                tvUserCount.setText("Total users: " + users.size());
+            }
+
+            @Override
+            public void onFailed(Exception e) {
+            }
+        });
+    }
 }

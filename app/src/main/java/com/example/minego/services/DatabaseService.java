@@ -314,6 +314,26 @@ public class DatabaseService {
         });
     }
 
+    public void checkIfEmailExists(@NotNull final String Email, @NotNull final DatabaseCallback<Boolean> callback) {
+        getUserList(new DatabaseCallback<List<User>>() {
+            @Override
+            public void onCompleted(List<User> users) {
+                for (User user : users) {
+                    if (Objects.equals(user.getEmail(), Email)) {
+                        callback.onCompleted(true);
+                        return;
+                    }
+                }
+                callback.onCompleted(false);
+            }
+
+            @Override
+            public void onFailed(Exception e) {
+                onFailed(e);
+            }
+        });
+    }
+
     public void updateUser(@NotNull final User user, @Nullable final DatabaseCallback<Void> callback) {
         runTransaction(USERS_PATH + "/" + user.getId(), User.class, currentUser -> user, new DatabaseCallback<User>() {
             @Override

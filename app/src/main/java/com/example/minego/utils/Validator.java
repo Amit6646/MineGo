@@ -33,4 +33,10 @@ public class Validator {
         return name != null && name.length() >= 3;
     }
 
+    public static boolean thisEnglish(@Nullable String text){
+        return text.matches("^[a-zA-Z_]+$");
+
+    }
+
+
 }

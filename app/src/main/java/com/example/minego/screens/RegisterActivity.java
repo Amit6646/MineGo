@@ -110,6 +110,14 @@ public class RegisterActivity extends AppCompatActivity {
             return false;
         }
 
+        if (!Validator.thisEnglish(username)) {
+            /// show error message to user
+            etUsername.setError("Name must contain only English letters and underscores");
+            /// set focus to password field
+            etUsername.requestFocus();
+            return false;
+        }
+
         if (rgGender.getCheckedRadioButtonId() == View.NO_ID) {
             rgGender.requestFocus();
         }
@@ -138,15 +146,15 @@ public class RegisterActivity extends AppCompatActivity {
             public void onCompleted(Boolean exists) {
                 if (exists) {
                     /// show error message to user
-                    Toast.makeText(RegisterActivity.this, "UserName already exists", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, "Username already exists", Toast.LENGTH_SHORT).show();
                 } else {
 
-                    databaseService.checkIfUsernameExists(user.email, new DatabaseService.DatabaseCallback<Boolean>() {
+                    databaseService.checkIfEmailExists(user.email, new DatabaseService.DatabaseCallback<Boolean>() {
                         @Override
                         public void onCompleted(Boolean exists) {
                             if (exists) {
                                 /// show error message to user
-                                Toast.makeText(RegisterActivity.this, "UserName already exists", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RegisterActivity.this, "Email already exists", Toast.LENGTH_SHORT).show();
                             } else {
                                 /// proceed to create the user
                                 createUserInDatabase(user);
