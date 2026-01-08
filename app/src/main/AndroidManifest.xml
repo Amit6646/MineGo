@@ -18,6 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MineGo">
         <activity
+            android:name=".screens.Admin.Admin_UserProfile_activity"
+            android:exported="false" />
+        <activity
             android:name=".screens.Admin.Admin_landing_Activity"
             android:exported="false" />
         <activity

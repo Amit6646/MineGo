@@ -37,14 +37,16 @@ public class AdminUserListActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        tvUserCount = findViewById(R.id.tv_user_count);
+
         RecyclerView usersList = findViewById(R.id.rv_users_list);
+        tvUserCount = findViewById(R.id.tv_user_count);
         usersList.setLayoutManager(new LinearLayoutManager(this));
+
         userAdapter = new UserAdapter(new UserAdapter.OnUserClickListener() {
             @Override
             public void onUserClick(User user) {
                 // Handle user click
-                Intent intent = new Intent(UsersListActivity.this, UserProfileActivity.class);
+                Intent intent = new Intent(AdminUserListActivity.this, Admin_UserProfile_activity.class);
                 intent.putExtra("USER_UID", user.getId());
                 startActivity(intent);
             }
@@ -55,7 +57,6 @@ public class AdminUserListActivity extends AppCompatActivity {
             }
         });
         usersList.setAdapter(userAdapter);
-
     }
 
 
