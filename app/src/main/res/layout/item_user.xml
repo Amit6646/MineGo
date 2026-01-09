@@ -50,12 +50,12 @@
                 android:id="@+id/tv_item_user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="John Doe"
+                android:text="Amit6646"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="?attr/colorOnSurface"
                 android:layout_marginBottom="4dp"
-                tools:text="@tools:sample/full_names" />
+                tools:text="@tools:sample/first_names" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -99,7 +99,7 @@
                 android:text="Admin"
                 android:textSize="12sp"
                 android:visibility="gone"
-                app:chipBackgroundColor="?attr/colorSecondary"
+                app:chipBackgroundColor="#FF2222"
                 app:chipStrokeWidth="0dp"
                 tools:visibility="visible" />
 

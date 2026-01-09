@@ -1,6 +1,13 @@
 package com.example.minego.screens.Admin;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,8 +16,23 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.minego.R;
+import com.example.minego.models.User;
+import com.example.minego.utils.SharedPreferencesUtil;
 
 public class Admin_UserProfile_activity extends AppCompatActivity {
+
+    private EditText etUserUsername, etUserEmail, etUserPassword;
+
+    RadioGroup rgUserGender;
+    RadioButton rbGenderMale, rbGenderFemale;
+    private Button btnUpdateProfile, btnRemove;
+    String selectedUid;
+    private View adminBadge;
+    boolean isCurrentUser = false;
+
+
+    User selectedUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,5 +44,28 @@ public class Admin_UserProfile_activity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        selectedUid = getIntent().getStringExtra("USER_UID");
+        User currentUser = SharedPreferencesUtil.getUser(this);
+        assert currentUser != null;
+
+        if (selectedUid == null) {
+            selectedUid = currentUser.getId();
+        }
+
+        isCurrentUser = selectedUid.equals(currentUser.getId());
+        if (!currentUser.isAdmin()) {
+            // If the user is not an admin and the selected user is not the current user
+            // then finish the activity
+            Toast.makeText(this, "You are not authorized to view this profile", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+        etUserUsername = findViewById(R.id.et_user_username);
+        etUserEmail = findViewById(R.id.et_user_email);
+        etUserPassword = findViewById(R.id.et_user_password);
+        btnUpdateProfile = findViewById(R.id.btn_edit_profile);
+        btnRemove = findViewById(R.id.btn_remove);
+
+
     }
 }

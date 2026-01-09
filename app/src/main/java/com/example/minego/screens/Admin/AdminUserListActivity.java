@@ -24,7 +24,6 @@ import java.util.List;
 public class AdminUserListActivity extends AppCompatActivity {
     private TextView tvUserCount;
     private UserAdapter userAdapter;
-    private RecyclerView rvUserList;
 
 
     @Override

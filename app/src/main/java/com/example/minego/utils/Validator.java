@@ -34,7 +34,7 @@ public class Validator {
     }
 
     public static boolean thisEnglish(@Nullable String text){
-        return text.matches("^[a-zA-Z_]+$");
+        return text != null && text.matches("^[a-zA-Z_]+$");
 
     }
 
