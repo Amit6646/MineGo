@@ -16,8 +16,12 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.minego.R;
+import com.example.minego.models.Gender;
 import com.example.minego.models.User;
+import com.example.minego.services.DatabaseService;
 import com.example.minego.utils.SharedPreferencesUtil;
+
+import java.util.HashMap;
 
 public class Admin_UserProfile_activity extends AppCompatActivity {
 
@@ -53,7 +57,7 @@ public class Admin_UserProfile_activity extends AppCompatActivity {
         }
 
         isCurrentUser = selectedUid.equals(currentUser.getId());
-        if (!currentUser.isAdmin()) {
+        if (!isCurrentUser && !currentUser.isAdmin()) {
             // If the user is not an admin and the selected user is not the current user
             // then finish the activity
             Toast.makeText(this, "You are not authorized to view this profile", Toast.LENGTH_SHORT).show();
@@ -65,7 +69,53 @@ public class Admin_UserProfile_activity extends AppCompatActivity {
         etUserPassword = findViewById(R.id.et_user_password);
         btnUpdateProfile = findViewById(R.id.btn_edit_profile);
         btnRemove = findViewById(R.id.btn_remove);
+        rgUserGender = findViewById(R.id.rg_user_profile_gender);
+        rbGenderFemale = findViewById(R.id.rb_user_profile_gender_female);
+        rbGenderMale = findViewById(R.id.rb_user_profile_gender_male);
+        DatabaseService.getInstance().getUser(selectedUid, new DatabaseService.DatabaseCallback<User>() {
+            @Override
+            public void onCompleted(User user) {
+                if(isCurrentUser) {
+                    SharedPreferencesUtil.saveUser(Admin_UserProfile_activity.this, user);
+                }
+                showUserDetail(user);
+            }
+
+            @Override
+            public void onFailed(Exception e) {
+
+            }
+        });
 
 
+        btnUpdateProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UpdateUser();
+            }
+        });
+
+    }
+    
+    private void showUserDetail(User user) {
+        this.selectedUser = user;
+        etUserUsername.setText(user.getUsername());
+        etUserEmail.setText(user.getEmail());
+        etUserPassword.setText(user.getPassword());
+        if (user.getGender() == Gender.Male) {
+            rgUserGender.check(rbGenderMale.getId());
+        } else {
+            rgUserGender.check(rbGenderFemale.getId());
+        }
+        
+    }
+
+    private void UpdateUser() {
+        if (selectedUser == null) return;
+
+
+        // TODO get all info from edit text
+        // save in selectedUser
+        // save in db
     }
 }
