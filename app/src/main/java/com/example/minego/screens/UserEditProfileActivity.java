@@ -59,7 +59,7 @@ public class UserEditProfileActivity extends AppCompatActivity {
             @Override
             public void onCompleted(User user) {
                 user.setPassword(etPassword.getText().toString());
-                databaseService.createNewUser(user, new DatabaseService.DatabaseCallback<Void>() {
+                databaseService.writeUser(user, new DatabaseService.DatabaseCallback<Void>() {
                     @Override
                     public void onCompleted(Void object) {
 

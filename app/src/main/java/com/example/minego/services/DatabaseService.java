@@ -230,7 +230,7 @@ public class DatabaseService {
     ///            if the operation fails, the callback will receive an exception
     /// @see DatabaseCallback
     /// @see User
-    public void createNewUser(@NotNull final User user, @Nullable final DatabaseCallback<Void> callback) {
+    public void writeUser(@NotNull final User user, @Nullable final DatabaseCallback<Void> callback) {
         writeData(USERS_PATH + "/" + user.getId(), user, callback);
     }
 
@@ -320,6 +320,28 @@ public class DatabaseService {
             public void onCompleted(List<User> users) {
                 for (User user : users) {
                     if (Objects.equals(user.getEmail(), Email)) {
+                        callback.onCompleted(true);
+                        return;
+                    }
+                }
+                callback.onCompleted(false);
+            }
+
+            @Override
+            public void onFailed(Exception e) {
+                onFailed(e);
+            }
+        });
+    }
+
+    public void checkIfUsernameOrEmailExists(@NotNull final String username, @NotNull final String email,
+                                             @NotNull final DatabaseCallback<Boolean> callback) {
+        getUserList(new DatabaseCallback<List<User>>() {
+            @Override
+            public void onCompleted(List<User> users) {
+                for (User user : users) {
+                    if (Objects.equals(user.getUsername(), username) ||
+                            Objects.equals(user.getEmail(), email)) {
                         callback.onCompleted(true);
                         return;
                     }
