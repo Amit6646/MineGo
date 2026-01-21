@@ -1,6 +1,7 @@
 package com.example.minego.screens.Admin;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,9 +24,14 @@ import com.example.minego.services.DatabaseService;
 import com.example.minego.utils.SharedPreferencesUtil;
 import com.example.minego.utils.Validator;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.HashMap;
+import java.util.List;
 
 public class Admin_UserProfile_activity extends AppCompatActivity {
+
+    private final String TAG = "Admin_UserProfile_activity";
 
     private EditText etUserUsername, etUserEmail, etUserPassword;
 
@@ -114,8 +120,9 @@ public class Admin_UserProfile_activity extends AppCompatActivity {
 
     private void UpdateUser() {
         if (selectedUser == null) return;
-
-        if (!checkInput(etUserUsername.getText().toString(), etUserPassword.getText().toString(), etUserEmail.getText().toString())) return;
+        final String username = etUserUsername.getText().toString();
+        final String password = etUserPassword.getText().toString();
+        final String email = etUserEmail.getText().toString();
 
         Gender gender;
         if (rgUserGender.getCheckedRadioButtonId() == rbGenderMale.getId()) {
@@ -125,76 +132,41 @@ public class Admin_UserProfile_activity extends AppCompatActivity {
             gender = Gender.Female;
         }
 
-
-        selectedUser.setPassword(etUserPassword.getText().toString());
-        selectedUser.setGender(gender);
-
-        if(!checkInput(etUserUsername.getText().toString(), etUserPassword.getText().toString(),etUserEmail.getText().toString()))
-        {
+        if (!checkInput(username, password, email)) {
+            Log.i(TAG, "input is not valid");
             return;
         }
-        else if (!etUserUsername.getText().toString().equals(selectedUser.getUsername()))
-        {
-            selectedUser.setUsername(etUserUsername.getText().toString());
-            checkusernameexits();
-        }
-        else if (!etUserEmail.getText().toString().equals(selectedUser.getEmail()))
-        {
-            selectedUser.setEmail(etUserEmail.getText().toString());
-            checkEmailexits();
-        }
-        else
-        {
-            writeUser();
-        }
 
 
-
-        // TODO get all info from edit text
-        // save in selectedUser
-        // save in db
-    }
-    private void checkusernameexits(){
-        DatabaseService.getInstance().checkIfUsernameExists(etUserUsername.getText().toString(), new DatabaseService.DatabaseCallback<Boolean>() {
+        DatabaseService.getInstance().getUserList(new DatabaseService.DatabaseCallback<List<User>>() {
             @Override
-            public void onCompleted(Boolean exist) {
-                if (exist)
-                {
-                    Toast.makeText(Admin_UserProfile_activity.this, "Username already exists", Toast.LENGTH_SHORT).show();
-
-                }
-                else
-                {
-                    if (!etUserEmail.getText().toString().equals(selectedUser.getEmail()))
-                    {
-                        selectedUser.setEmail(etUserEmail.getText().toString());
-                        checkEmailexits();
+            public void onCompleted(List<User> users) {
+                for (User user : users) {
+                    if (user.getId().equals(selectedUid)) {
+                        continue;
                     }
-                    else
-                    {
-                        writeUser();
+                    if (user.getUsername().equals(username)) {
+                        /// show error message to user
+                        etUserUsername.setError("Username already taken");
+                        /// set focus to field
+                        etUserUsername.requestFocus();
+                        return;
+                    }
+                    if (user.getEmail().equals(email)) {
+                        /// show error message to user
+                        etUserEmail.setError("Email already taken");
+                        /// set focus to field
+                        etUserEmail.requestFocus();
+                        return;
                     }
                 }
-            }
 
-            @Override
-            public void onFailed(Exception e) {
+                selectedUser.setUsername(username);
+                selectedUser.setPassword(password);
+                selectedUser.setEmail(email);
+                selectedUser.setGender(gender);
 
-            }
-        });
-    }
-    private void checkEmailexits(){
-        DatabaseService.getInstance().checkIfEmailExists(etUserEmail.getText().toString(), new DatabaseService.DatabaseCallback<Boolean>() {
-            @Override
-            public void onCompleted(Boolean exist) {
-                if (exist)
-                {
-                    Toast.makeText(Admin_UserProfile_activity.this, "email already exists", Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
-                    writeUser();
-                }
+                writeUser(selectedUser);
             }
 
             @Override
@@ -204,11 +176,13 @@ public class Admin_UserProfile_activity extends AppCompatActivity {
         });
     }
 
-    private void writeUser()
+    private void writeUser(@NotNull final User user)
     {
-        DatabaseService.getInstance().writeUser(selectedUser, new DatabaseService.DatabaseCallback<Void>() {
+        DatabaseService.getInstance().writeUser(user, new DatabaseService.DatabaseCallback<Void>() {
             @Override
             public void onCompleted(Void object) {
+                Log.i(TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                Toast.makeText(Admin_UserProfile_activity.this,"המשתמש עודכן בהצלחה", Toast.LENGTH_SHORT).show();
 
             }
 
