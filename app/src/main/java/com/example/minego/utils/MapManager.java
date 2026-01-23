@@ -2,6 +2,7 @@ package com.example.minego.utils;
 
 import android.content.Context;
 import android.os.Handler;
+import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 
@@ -9,6 +10,9 @@ import com.example.minego.R;
 import com.example.minego.models.Gender;
 import com.example.minego.models.Miner;
 import com.example.minego.models.User;
+import com.example.minego.screens.Admin.Admin_UserProfile_activity;
+import com.example.minego.screens.MainActivity;
+import com.example.minego.services.DatabaseService;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.events.MapEventsReceiver;
@@ -154,8 +158,22 @@ public class MapManager {
             marker.setPosition(m.asGeoPoint());
             // You can add more customization here (icons, titles, etc.)
             map.getOverlays().add(marker);
+            marker.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(Marker marker, MapView mapView) {
+                    OnClickMine(m);
+                    return false;
+                }
+            });
+
+
+
         }
         map.invalidate();
+    }
+    public void OnClickMine(Miner miner)
+    {
+        DatabaseService.getInstance().
     }
 
     public void onResume() {

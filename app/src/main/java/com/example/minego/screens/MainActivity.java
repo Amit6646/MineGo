@@ -18,6 +18,8 @@ import com.example.minego.R;
 import com.example.minego.models.Miner;
 import com.example.minego.models.User;
 import com.example.minego.screens.Admin.AdminActivity;
+import com.example.minego.screens.Admin.AdminUserListActivity;
+import com.example.minego.screens.Admin.Admin_UserProfile_activity;
 import com.example.minego.screens.Admin.Admin_landing_Activity;
 import com.example.minego.services.DatabaseService;
 import com.example.minego.utils.MapManager;
@@ -84,8 +86,15 @@ public class MainActivity extends AppCompatActivity {
 
         btnEditProfile = findViewById(R.id.btn_main_editprofile);
 
-        btnEditProfile.setOnClickListener(v -> startActivity(new Intent(this, UserEditProfileActivity.class)));
-    }
+        btnEditProfile.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, Admin_UserProfile_activity.class);
+
+            intent.putExtra("USER_UID", user.getId());
+            startActivity(intent);
+
+
+        });}
+
 
     @Override
     public void onResume() {

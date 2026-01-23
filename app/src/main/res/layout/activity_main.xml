@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -7,42 +8,79 @@
     android:layout_height="match_parent"
     tools:context=".screens.MainActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="100dp"
-        android:orientation="vertical"
+    <org.osmdroid.views.MapView
+        android:id="@+id/adminmap"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/btn_main_logout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="logout" />
+    <androidx.cardview.widget.CardView
+        android:id="@+id/bottom_nav_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="8dp"
+        app:cardBackgroundColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <Button
-            android:id="@+id/btn_main_admin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="admin" />
-
-        <Button
-            android:id="@+id/btn_main_editprofile"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="editprofile" />
+            android:orientation="horizontal"
+            android:padding="8dp">
 
-        <org.osmdroid.views.MapView
-            android:id="@+id/adminmap"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_main_editprofile"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Profile"
+                android:textSize="12sp"
+                android:textColor="#555555"
+                app:icon="@android:drawable/ic_menu_edit"
+                app:iconTint="#555555"
+                app:iconGravity="textTop"
+                android:gravity="center" />
 
-        </org.osmdroid.views.MapView>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_main_admin"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Admin"
+                android:textSize="12sp"
+                android:textColor="#6200EE"
+                app:icon="@android:drawable/ic_dialog_dialer"
+                app:iconTint="#6200EE"
+                app:iconGravity="textTop"
+                android:gravity="center" />
 
-    </LinearLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_main_logout"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Logout"
+                android:textSize="12sp"
+                android:textColor="#D32F2F"
+                app:icon="@android:drawable/ic_lock_power_off"
+                app:iconTint="#D32F2F"
+                app:iconGravity="textTop"
+                android:gravity="center" />
 
+
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

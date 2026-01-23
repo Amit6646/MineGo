@@ -181,8 +181,7 @@ public class Admin_UserProfile_activity extends AppCompatActivity {
         DatabaseService.getInstance().writeUser(user, new DatabaseService.DatabaseCallback<Void>() {
             @Override
             public void onCompleted(Void object) {
-                Log.i(TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                Toast.makeText(Admin_UserProfile_activity.this,"המשתמש עודכן בהצלחה", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Admin_UserProfile_activity.this,"המשתמש עודכן בהצלחה", Toast.LENGTH_SHORT).show();
 
             }
 
@@ -192,6 +191,8 @@ public class Admin_UserProfile_activity extends AppCompatActivity {
             }
         });
     }
+
+
 
 
 
