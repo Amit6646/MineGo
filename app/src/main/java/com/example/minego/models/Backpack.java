@@ -1,32 +1,29 @@
 package com.example.minego.models;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 public class Backpack {
     public String name;
-    public int BackPackSize;
+    public int totalSize;
     private List<Item> items;
 
 
 
-
-
-    public int totalItems(List<Item> items) {
-        int count = 0;
-
-        for (int i = 0; i < items.size(); i++)
-        {
-            count += items.get(i).count;
+    public int currentSize() {
+        int total = 0;
+        for (Item item : items) {
+            total += item.count;
         }
-        return count;
+        return total;
     }
 
     public boolean addItem(Item item) {
-        if (isFull()) return false;
+        if (!canAddItemToBackpack(item)) return false;
 
         for (int i = 0; i < items.size(); i++) {
             Item item1 = items.get(i);
-            if (item1.name.equals(item)) {
+            if (item1.name.equals(item.name)) {
                 item1.count += item.count;
                 return true;
             }
@@ -35,19 +32,37 @@ public class Backpack {
         return true;
     }
 
-    public void removeItem(Item item, int count) {
-        if (item.count >= count)
-        {
-            item.count -= count;
+    public void removeItem(Item item) {
+
+        // remove the item from the list
+        boolean isRemoved = items.removeIf(new Predicate<Item>() {
+            @Override
+            public boolean test(Item it) {
+                if (!it.name.equals(item.name)) return false;
+                return it.count <= item.count;
+            }
+        });
+
+        if (isRemoved) return;
+
+        // modify the list by the given item
+        for (int i = 0; i < items.size(); i++) {
+            Item it = items.get(i);
+            if (!it.name.equals(item.name)) continue;
+
+            it.count -= item.count;
+            return;
         }
-        if (item.count == 0)
-        {
-            items.remove(item);
-        }
+
     }
 
     public boolean isFull() {
-        int itemscount = totalItems(items);
-        return itemscount == BackPackSize;
+        return currentSize() == totalSize;
+    }
+
+    private boolean canAddItemToBackpack(Item item) {
+        int total = currentSize();
+        total += item.count;
+        return total <= totalSize;
     }
 }
