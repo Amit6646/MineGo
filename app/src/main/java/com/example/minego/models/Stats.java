@@ -1,7 +1,9 @@
 package com.example.minego.models;
 
+import java.time.LocalDate;
+
 public class Stats {
     public int mineCount;
-    public MyDate startPlaying;
+    public LocalDate startPlaying;
     public int totalSteps;
 }

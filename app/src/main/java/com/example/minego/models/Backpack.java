@@ -1,5 +1,8 @@
 package com.example.minego.models;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -8,23 +11,64 @@ public class Backpack {
     public int totalSize;
     private List<Item> items;
 
+    public Backpack() {
+    }
 
+    public Backpack(String name, int totalSize) {
+        this.name = name;
+        this.totalSize = totalSize;
+        items = new ArrayList<>();
+    }
+
+    public Backpack(String name, int totalSize, List<Item> items) {
+        this.name = name;
+        this.totalSize = totalSize;
+        this.items = items;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getTotalSize() {
+        return totalSize;
+    }
+
+    public void setTotalSize(int totalSize) {
+        if (totalSize < 0) throw new IllegalArgumentException("Total size cannot be negative.");
+        if (totalSize <= currentSize()) throw new IllegalArgumentException("Total size must be greater than the current size.");
+        this.totalSize = totalSize;
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
+    }
 
     public int currentSize() {
         int total = 0;
         for (Item item : items) {
-            total += item.count;
+            total += item.getCount();
         }
         return total;
     }
 
-    public boolean addItem(Item item) {
+    public boolean addItem(@NotNull final Item item) {
         if (!canAddItemToBackpack(item)) return false;
 
         for (int i = 0; i < items.size(); i++) {
-            Item item1 = items.get(i);
-            if (item1.name.equals(item.name)) {
-                item1.count += item.count;
+            Item backpackItem = items.get(i);
+            if (backpackItem.getType().equals(item.getType())) {
+                // backpackItem = מה שיש לי כבר
+                // item = מה שאני רוצה להוסיף
+                backpackItem.increaseCount(item.getCount());
                 return true;
             }
         }
@@ -38,8 +82,8 @@ public class Backpack {
         boolean isRemoved = items.removeIf(new Predicate<Item>() {
             @Override
             public boolean test(Item it) {
-                if (!it.name.equals(item.name)) return false;
-                return it.count <= item.count;
+                if (!it.getType().equals(item.getType())) return false;
+                return it.getCount() <= item.getCount();
             }
         });
 
@@ -48,9 +92,9 @@ public class Backpack {
         // modify the list by the given item
         for (int i = 0; i < items.size(); i++) {
             Item it = items.get(i);
-            if (!it.name.equals(item.name)) continue;
+            if (!it.getType().equals(item.getType())) continue;
 
-            it.count -= item.count;
+            it.decreaseCount(item.getCount());
             return;
         }
 
@@ -62,7 +106,7 @@ public class Backpack {
 
     private boolean canAddItemToBackpack(Item item) {
         int total = currentSize();
-        total += item.count;
+        total += item.getCount();
         return total <= totalSize;
     }
 }
