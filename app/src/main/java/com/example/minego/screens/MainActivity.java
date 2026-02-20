@@ -54,7 +54,12 @@ public class MainActivity extends AppCompatActivity {
 
         // Initialize MapManager with the MapView from layout
         MapView mapView = findViewById(R.id.adminmap);
-        mapManager = new MapManager(this, mapView);
+        mapManager = new MapManager(this, mapView, new MapManager.OnMapManagerListener() {
+            @Override
+            public void onMinerClick(Miner miner) {
+
+            }
+        });
 
         if (PermissionManager.hasLocationPermissions(this)) {
             mapManager.enableLocation(MainActivity.this);

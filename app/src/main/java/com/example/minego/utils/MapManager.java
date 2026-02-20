@@ -1,6 +1,9 @@
 package com.example.minego.utils;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.widget.Toast;
 
@@ -11,7 +14,10 @@ import com.example.minego.models.Gender;
 import com.example.minego.models.Miner;
 import com.example.minego.models.User;
 import com.example.minego.screens.Admin.Admin_UserProfile_activity;
+import com.example.minego.screens.LandingActivity;
+import com.example.minego.screens.LoginActivity;
 import com.example.minego.screens.MainActivity;
+import com.example.minego.screens.Mini_Game_Activity;
 import com.example.minego.services.DatabaseService;
 
 import org.osmdroid.api.IMapController;
@@ -35,9 +41,16 @@ public class MapManager {
     private final Handler handler = new Handler();
     private  User user;
 
-    public MapManager(Context context, MapView map) {
+    public interface OnMapManagerListener {
+        public void onMinerClick(Miner miner);
+    }
+
+    private OnMapManagerListener listener;
+
+    public MapManager(Context context, MapView map, OnMapManagerListener listener) {
         this.context = context;
         this.map = map;
+        this.listener = listener;
         initMap();
     }
 
@@ -173,7 +186,7 @@ public class MapManager {
     }
     public void OnClickMine(Miner miner)
     {
-        DatabaseService.getInstance().
+        listener.onMinerClick(miner);
     }
 
     public void onResume() {

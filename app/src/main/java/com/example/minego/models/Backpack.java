@@ -109,4 +109,5 @@ public class Backpack {
         total += item.getCount();
         return total <= totalSize;
     }
+
 }

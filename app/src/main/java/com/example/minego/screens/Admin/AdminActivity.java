@@ -37,7 +37,12 @@ public class AdminActivity extends AppCompatActivity {
         });
 
         MapView map = findViewById(R.id.adminmap);
-        mapManager = new MapManager(this, map);
+        mapManager = new MapManager(this, map, new MapManager.OnMapManagerListener() {
+            @Override
+            public void onMinerClick(Miner miner) {
+
+            }
+        });
 
         adminBehavior = new AdminPlacementBehavior(this, org.osmdroid.library.R.drawable.marker_default);
         mapManager.setBehavior(adminBehavior);

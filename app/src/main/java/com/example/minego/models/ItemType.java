@@ -1,9 +1,10 @@
 package com.example.minego.models;
 
 public enum ItemType {
-    copper("Copper"),
+    stone("Stone"),
     iron("Iron"),
     gold("Gold"),
+    ruby("Ruby"),
     diamond("Diamond");
 
     final String type;
