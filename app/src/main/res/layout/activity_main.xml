@@ -77,6 +77,20 @@
                 app:iconGravity="textTop"
                 android:gravity="center" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_main_temp"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Temp"
+                android:textSize="12sp"
+                android:textColor="#6200EE"
+                app:icon="@android:drawable/ic_dialog_dialer"
+                app:iconTint="#6200EE"
+                app:iconGravity="textTop"
+                android:gravity="center" />
+
 
 
         </LinearLayout>

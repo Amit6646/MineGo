@@ -2,10 +2,11 @@ package com.example.minego.models;
 
 import androidx.annotation.NonNull;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public class User {
+public class User implements Serializable {
 
     public String id;
     public String username;
@@ -16,7 +17,8 @@ public class User {
 
     public Backpack backpack;
     public Stats stats;
-    public ArrayList<Upgrade> upgrades;
+    public Upgrade upgrade;
+
     public boolean admin;
 
     public Gender gender;
@@ -26,7 +28,8 @@ public class User {
     }
 
     public User(String id, String username, String password, int xp, Backpack backpack,
-                Stats stats, ArrayList<Upgrade> upgrades, boolean admin, Gender gender,String email) {
+                Stats stats, Upgrade upgrade, boolean admin, Gender gender,String email) {
+
         this.id = id;
         this.admin = admin;
         this.username = username;
@@ -34,7 +37,7 @@ public class User {
         this.xp = xp;
         this.backpack = backpack;
         this.stats = stats;
-        this.upgrades = upgrades;
+        this.upgrade = upgrade;
         this.gender = gender;
         this.email = email;
 
@@ -88,11 +91,13 @@ public class User {
         this.stats = stats;
     }
 
-    public ArrayList<Upgrade> getUpgrades() {
-        return upgrades;
+    public Upgrade getUpgrade() {
+        return upgrade;
     }
 
-    public void setUpgrades(ArrayList<Upgrade> upgrades) {this.upgrades = upgrades;}
+    public void setUpgrade(Upgrade upgrade) {
+        this.upgrade = upgrade;
+    }
 
     public boolean isAdmin() {
         return admin;
@@ -120,8 +125,7 @@ public class User {
 
     @NonNull
     @Override
-    public String toString() {
-        return "User{" +
+    public String toString() {return "User{" +
                 "id='" + id + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
@@ -129,7 +133,7 @@ public class User {
                 ", email=" + email +
                 ", backpack=" + backpack +
                 ", stats=" + stats +
-                ", upgrades=" + upgrades +
+                ", upgrades=" + upgrade +
                 ". admin= " + admin +
                 '}';
     }

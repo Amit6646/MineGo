@@ -19,6 +19,7 @@ import com.example.minego.R;
 import com.example.minego.models.Backpack;
 import com.example.minego.models.Gender;
 import com.example.minego.models.Stats;
+import com.example.minego.models.Upgrade;
 import com.example.minego.models.User;
 import com.example.minego.services.DatabaseService;
 import com.example.minego.utils.SharedPreferencesUtil;
@@ -136,9 +137,10 @@ public class RegisterActivity extends AppCompatActivity {
         {
             gender = Gender.Female;
         }
-
+        Upgrade upgrade = new Upgrade(0,0,0,0);
         /// create a new user object
-        User user = new User(uid, UserName, password, 0 , new Backpack(), new Stats(), new ArrayList<>(), false, gender, Email);
+        User user = new User(uid, UserName, password, 0 , new Backpack(),
+                new Stats(), upgrade, false, gender, Email);
 
         databaseService.checkIfUsernameExists(user.username, new DatabaseService.DatabaseCallback<Boolean>() {
             @Override

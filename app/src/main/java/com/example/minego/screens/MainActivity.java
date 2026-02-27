@@ -33,7 +33,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private MapManager mapManager;
-    Button btnLogout, btnAdmin, btnEditProfile;
+    Button btnLogout, btnAdmin, btnEditProfile, btnTemp;
     private User user;
 
     @Override
@@ -77,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
             mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(mainIntent);
         });
+        btnTemp = findViewById(R.id.btn_main_temp);
+        btnTemp.setOnClickListener(v -> startActivity(new Intent(this, Mini_Game_Activity.class)));
 
         // במידה ואתה לא אדמין אז הכפתור לא יוצג
         btnAdmin = findViewById(R.id.btn_main_admin);
@@ -90,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         btnEditProfile = findViewById(R.id.btn_main_editprofile);
-
         btnEditProfile.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, Admin_UserProfile_activity.class);
 
@@ -99,6 +100,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         });}
+
+
 
 
     @Override

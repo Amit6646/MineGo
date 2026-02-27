@@ -1,5 +1,7 @@
 package com.example.minego.models;
 
+import com.google.firebase.database.Exclude;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -45,6 +47,7 @@ public class Backpack {
     }
 
     public List<Item> getItems() {
+        if (items == null) items = new ArrayList<>();
         return items;
     }
 
@@ -52,14 +55,16 @@ public class Backpack {
         this.items = items;
     }
 
+    @Exclude
     public int currentSize() {
         int total = 0;
-        for (Item item : items) {
+        for (Item item : getItems()) {
             total += item.getCount();
         }
         return total;
     }
 
+    @Exclude
     public boolean addItem(@NotNull final Item item) {
         if (!canAddItemToBackpack(item)) return false;
 
@@ -76,6 +81,7 @@ public class Backpack {
         return true;
     }
 
+    @Exclude
     public void removeItem(Item item) {
 
         // remove the item from the list
@@ -100,10 +106,12 @@ public class Backpack {
 
     }
 
+    @Exclude
     public boolean isFull() {
         return currentSize() == totalSize;
     }
 
+    @Exclude
     private boolean canAddItemToBackpack(Item item) {
         int total = currentSize();
         total += item.getCount();

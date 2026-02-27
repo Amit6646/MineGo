@@ -1,9 +1,22 @@
 package com.example.minego.models;
 
-public class Upgrade {
+import java.io.Serializable;
+
+public class Upgrade implements Serializable {
     private int MineLevel;
     private int Radius;
     private int efficiency;
+    private int time;
+
+    public Upgrade() {
+    }
+
+    public Upgrade(int mineLevel, int radius, int efficiency, int time) {
+        MineLevel = mineLevel;
+        Radius = radius;
+        this.efficiency = efficiency;
+        this.time = time;
+    }
 
     public int getMineLevel() {
         return MineLevel;
@@ -30,15 +43,15 @@ public class Upgrade {
     }
     public int getMineHp () {
         if (MineLevel == 1) {
-            return 10;
-        }
-        else if (MineLevel == 2) {
             return 50;
         }
-        else if (MineLevel == 3) {
-            return 125;
+        else if (MineLevel == 2) {
+            return 150;
         }
-        return 0;
+        else if (MineLevel == 3) {
+            return 250;
+        }
+        return 10;
     }
 
     public int getMineDrop () {
@@ -54,6 +67,7 @@ public class Upgrade {
         }
         else if (MineLevel == 3) {
             // Stone & Iron & Gold & Rube & Diamond
+            return 5;
         }
         return 0;
 
