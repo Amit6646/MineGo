@@ -24,14 +24,14 @@ import java.util.ArrayList;
 
 public class Mini_Game_Activity extends AppCompatActivity {
 
-    private int MineHp = 20;
+    private int MineHp;
     //private Upgrade upgrade;
     private ImageButton btn_clicker;
     private TextView tv_hp;
     private User user;
     private int Minelevel = 0;
 
-    private int StartHP = MineHp;
+    private int StartHP;
     private int imgStage = 1;
     private int[] mineImages = {
             R.drawable.mine1,
@@ -66,6 +66,7 @@ public class Mini_Game_Activity extends AppCompatActivity {
         Upgrade upgrade = user.getUpgrade();
         Minelevel = upgrade.getMineDrop();
         MineHp = upgrade.getMineHp();
+        StartHP = MineHp;
 
         btn_clicker = findViewById(R.id.btn_minigame_temp);
         tv_hp = findViewById(R.id.tv_minigame_temp);

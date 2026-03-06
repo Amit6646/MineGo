@@ -42,16 +42,18 @@ public class Upgrade implements Serializable {
         this.efficiency = efficiency;
     }
     public int getMineHp () {
+        int Hp = 2;
         if (MineLevel == 1) {
-            return 50;
+            Hp = 5;
         }
         else if (MineLevel == 2) {
-            return 150;
+            Hp = 10;
         }
         else if (MineLevel == 3) {
-            return 250;
+            Hp = 15;
         }
-        return 10;
+        Hp *= 15;
+        return Hp;
     }
 
     public int getMineDrop () {
