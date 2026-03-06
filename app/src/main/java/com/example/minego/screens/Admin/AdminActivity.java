@@ -44,8 +44,8 @@ public class AdminActivity extends AppCompatActivity {
             }
         });
 
-        adminBehavior = new AdminPlacementBehavior(this, org.osmdroid.library.R.drawable.marker_default);
-        mapManager.setBehavior(adminBehavior);
+        //adminBehavior = new AdminPlacementBehavior(this, org.osmdroid.library.R.drawable.marker_default);
+     //   mapManager.setBehavior(adminBehavior);
 
         btnSave = findViewById(R.id.btn_admin_save);
         btnSave.setOnClickListener(v -> {

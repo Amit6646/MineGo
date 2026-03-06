@@ -1,11 +1,7 @@
 package com.example.minego.utils;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
 import android.content.Context;
-import android.content.Intent;
 import android.os.Handler;
-import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 
@@ -13,12 +9,6 @@ import com.example.minego.R;
 import com.example.minego.models.Gender;
 import com.example.minego.models.Miner;
 import com.example.minego.models.User;
-import com.example.minego.screens.Admin.Admin_UserProfile_activity;
-import com.example.minego.screens.LandingActivity;
-import com.example.minego.screens.LoginActivity;
-import com.example.minego.screens.MainActivity;
-import com.example.minego.screens.Mini_Game_Activity;
-import com.example.minego.services.DatabaseService;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.events.MapEventsReceiver;
