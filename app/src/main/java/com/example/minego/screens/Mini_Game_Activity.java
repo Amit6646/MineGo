@@ -3,9 +3,9 @@ package com.example.minego.screens;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,12 +15,17 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.minego.R;
 
+import com.example.minego.models.Backpack;
+import com.example.minego.models.Item;
+import com.example.minego.models.ItemType;
 import com.example.minego.models.Upgrade;
 import com.example.minego.models.User;
 import com.example.minego.services.DatabaseService;
 import com.example.minego.utils.SharedPreferencesUtil;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class Mini_Game_Activity extends AppCompatActivity {
 
@@ -33,6 +38,8 @@ public class Mini_Game_Activity extends AppCompatActivity {
 
     private int StartHP;
     private int imgStage = 1;
+    /** מונע טיפול כפול כשהמוקש מגיע ל־0 HP */
+    private boolean mineClearedHandled = false;
     private int[] mineImages = {
             R.drawable.mine1,
             R.drawable.mine2,
@@ -78,13 +85,126 @@ public class Mini_Game_Activity extends AppCompatActivity {
                 MineHp -= 1;
                 GetImgLevel(MineHp);
                 tv_hp.setText("Hp: " + MineHp);
-                if (MineHp == 0)
-                {
-
+                if (MineHp <= 0) {
+                    onMineDepleted();
                 }
             }
         });
 
+    }
+
+    private void onMineDepleted() {
+        if (mineClearedHandled) {
+            return;
+        }
+        mineClearedHandled = true;
+        btn_clicker.setEnabled(false);
+        MineHp = 0;
+        tv_hp.setText("Hp: 0");
+
+        final List<Item> rewards = buildRewards();
+        String toastText = formatRewardsForToast(rewards);
+
+        if (user == null || user.getId() == null || user.getId().isEmpty()) {
+            Toast.makeText(this, toastText, Toast.LENGTH_LONG).show();
+            goToMainScreen();
+            return;
+        }
+
+        DatabaseService.getInstance().updateUser(user.getId(), currentUser -> {
+            if (currentUser == null) {
+                return null;
+            }
+            mergeRewardsIntoBackpack(currentUser, rewards);
+            return currentUser;
+        }, new DatabaseService.DatabaseCallback<User>() {
+            @Override
+            public void onCompleted(User updatedUser) {
+                if (updatedUser != null) {
+                    SharedPreferencesUtil.saveUser(Mini_Game_Activity.this, updatedUser);
+                }
+                Toast.makeText(Mini_Game_Activity.this, toastText, Toast.LENGTH_LONG).show();
+                goToMainScreen();
+            }
+
+            @Override
+            public void onFailed(Exception e) {
+                User local = SharedPreferencesUtil.getUser(Mini_Game_Activity.this);
+                if (local != null && user.getId().equals(local.getId())) {
+                    mergeRewardsIntoBackpack(local, rewards);
+                    SharedPreferencesUtil.saveUser(Mini_Game_Activity.this, local);
+                }
+                Toast.makeText(Mini_Game_Activity.this,
+                        toastText + "\n" + getString(R.string.minigame_sync_failed, e.getMessage() != null ? e.getMessage() : ""),
+                        Toast.LENGTH_LONG).show();
+                goToMainScreen();
+            }
+        });
+    }
+
+    private void goToMainScreen() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+        finish();
+    }
+
+    /**
+     * פרסים לפי רמת הטיפול במכרה ({@link Upgrade#getMineDrop()}): טווח סוגי המינרלים.
+     */
+    private List<Item> buildRewards() {
+        ArrayList<ItemType> pool = new ArrayList<>();
+        int dropTier = Minelevel;
+        if (dropTier <= 0) {
+            dropTier = 2;
+        }
+        pool.add(ItemType.stone);
+        pool.add(ItemType.iron);
+        if (dropTier >= 4) {
+            pool.add(ItemType.gold);
+            pool.add(ItemType.ruby);
+        }
+        if (dropTier >= 5) {
+            pool.add(ItemType.diamond);
+        }
+        Random random = new Random();
+        ArrayList<Item> out = new ArrayList<>();
+        for (ItemType type : pool) {
+            int count = 1 + random.nextInt(3);
+            out.add(new Item(type, count));
+        }
+        return out;
+    }
+
+    private void mergeRewardsIntoBackpack(User targetUser, List<Item> rewards) {
+        Backpack bp = targetUser.getBackpack();
+        if (bp == null) {
+            bp = new Backpack();
+            targetUser.setBackpack(bp);
+        }
+        int sumNew = 0;
+        for (Item r : rewards) {
+            sumNew += r.getCount();
+        }
+        int needed = bp.currentSize() + sumNew;
+        if (bp.totalSize < needed) {
+            bp.totalSize = needed + 100;
+        }
+        for (Item reward : rewards) {
+            bp.addItem(new Item(reward.getType(), reward.getCount()));
+        }
+    }
+
+    private static String formatRewardsForToast(List<Item> rewards) {
+        StringBuilder sb = new StringBuilder("קיבלת: ");
+        for (int i = 0; i < rewards.size(); i++) {
+            Item it = rewards.get(i);
+            if (i > 0) {
+                sb.append(", ");
+            }
+            sb.append(it.getType().getType()).append(" ×").append(it.getCount());
+        }
+        return sb.toString();
     }
     private void GetImgLevel(int hp)
     {
@@ -112,9 +232,6 @@ public class Mini_Game_Activity extends AppCompatActivity {
         }
 
         btn_clicker.setImageResource(mineImages[numimg - 1]);
-    }
-    private void GetRewards(){
-
     }
 
 }

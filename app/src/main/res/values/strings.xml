@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">MineGo</string>
+    <string name="minigame_sync_failed">שגיאה בשמירה לענן: %1$s</string>
 
     <!-- Checkout activity -->
     <string name="title_activity_checkout">CheckoutActivity</string>

@@ -17,8 +17,6 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.minego.R;
 import com.example.minego.models.Miner;
 import com.example.minego.models.User;
-import com.example.minego.screens.Admin.AdminActivity;
-import com.example.minego.screens.Admin.AdminUserListActivity;
 import com.example.minego.screens.Admin.Admin_UserProfile_activity;
 import com.example.minego.screens.Admin.Admin_landing_Activity;
 import com.example.minego.services.DatabaseService;
@@ -82,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
         // במידה ואתה לא אדמין אז הכפתור לא יוצג
         btnAdmin = findViewById(R.id.btn_main_admin);
-        if (user.isAdmin() == true) {
+        if (user.isAdmin()) {
             btnAdmin.setVisibility(android.view.View.VISIBLE);
         }
         else {
@@ -100,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         });}
+
 
 
 
