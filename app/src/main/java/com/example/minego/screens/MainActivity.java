@@ -31,7 +31,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private MapManager mapManager;
-    Button btnLogout, btnAdmin, btnEditProfile, btnTemp;
+    Button btnLogout, btnAdmin, btnEditProfile, btnTemp, btnUpgrade;
     private User user;
 
     @Override
@@ -55,6 +55,14 @@ public class MainActivity extends AppCompatActivity {
         mapManager = new MapManager(this, mapView, new MapManager.OnMapManagerListener() {
             @Override
             public void onMinerClick(Miner miner) {
+                double distance = miner.distanceToPlayerMeters(
+                        mapManager.getPlayerLatitude(),
+                        mapManager.getPlayerLongitude());
+                Toast.makeText(MainActivity.this, "Distance to player: " + distance + " meters", Toast.LENGTH_SHORT).show();
+                if (distance <= 20.0)
+                {
+                    startActivity(new Intent(MainActivity.this, Mini_Game_Activity.class));
+                }
 
             }
         });
@@ -88,6 +96,9 @@ public class MainActivity extends AppCompatActivity {
         }
         btnAdmin.setOnClickListener(v -> startActivity(new Intent(this, Admin_landing_Activity.class)));
 
+
+        btnUpgrade = findViewById(R.id.btn_main_upgrade);
+        btnUpgrade.setOnClickListener(v -> startActivity(new Intent(this, UpgradesActivity.class)));
 
         btnEditProfile = findViewById(R.id.btn_main_editprofile);
         btnEditProfile.setOnClickListener(v -> {

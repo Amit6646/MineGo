@@ -18,6 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MineGo">
         <activity
+            android:name=".screens.UpgradesActivity"
+            android:exported="false" />
+        <activity
             android:name=".screens.Mini_Game_Activity"
             android:exported="false" />
         <activity

@@ -35,6 +35,20 @@
             android:orientation="horizontal"
             android:padding="8dp">
 
+            <Button
+                android:id="@+id/btn_main_upgrade"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Upgrade"
+                android:textSize="12sp"
+                android:textColor="#555555"
+                app:icon="@android:drawable/ic_menu_preferences"
+                app:iconTint="#555555"
+                app:iconGravity="textTop"
+                android:gravity="center" />
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_main_editprofile"
                 style="@style/Widget.MaterialComponents.Button.TextButton"

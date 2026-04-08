@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F4F6FB"
+    android:layoutDirection="rtl"
+    tools:context=".screens.UpgradesActivity">
+
+    <ScrollView
+        android:id="@+id/scroll_upgrades"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:overScrollMode="ifContentScrolls"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/content_upgrades"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="24dp">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_upgrades_header"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:id="@+id/tv_upgrades_title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="שדרוגים"
+                        android:textColor="#111111"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_upgrades_subtitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:gravity="center"
+                        android:text="שפר יכולות כדי להתקדם מהר יותר"
+                        android:textColor="#6B7280"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_upgrades_title" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- ===== Row 1 ===== -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_upgrade_1_left"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/card_upgrades_header"
+                app:layout_constraintEnd_toStartOf="@id/card_upgrade_1_right"
+                app:layout_constraintWidth_percent="0.52">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="14dp">
+
+                    <TextView
+                        android:id="@+id/tv_upgrade_1_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="מדד התקדמות בשיפורים"
+                        android:textColor="#374151"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ProgressBar
+                        android:id="@+id/pb_upgrade_1"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="0dp"
+                        android:layout_height="10dp"
+                        android:layout_marginTop="10dp"
+                        android:indeterminate="false"
+                        android:max="100"
+                        android:progress="40"
+                        android:progressTint="#6200EE"
+                        android:backgroundTint="#E5E7EB"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_upgrade_1_label" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_upgrade_1"
+                        android:layout_width="0dp"
+                        android:layout_height="44dp"
+                        android:layout_marginTop="12dp"
+                        android:text="כפתור שיפור היכולת"
+                        android:textAllCaps="false"
+                        android:textColor="#6200EE"
+                        app:backgroundTint="#FFFFFF"
+                        app:cornerRadius="12dp"
+                        app:strokeColor="#6200EE"
+                        app:strokeWidth="2dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/pb_upgrade_1" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_upgrade_1_right"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="16dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/card_upgrade_1_left"
+                app:layout_constraintTop_toBottomOf="@id/card_upgrades_header"
+                app:layout_constraintWidth_percent="0.44">
+
+                <TextView
+                    android:id="@+id/tv_upgrade_1_desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="18dp"
+                    android:text="השיפור שאתה\nמשפר המתואר\nבתמונה"
+                    android:textColor="#111111"
+                    android:textSize="15sp"
+                    android:lineSpacingExtra="2dp" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- ===== Row 2 ===== -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_upgrade_2_left"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/card_upgrade_1_left"
+                app:layout_constraintEnd_toStartOf="@id/card_upgrade_2_right"
+                app:layout_constraintWidth_percent="0.52">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="14dp">
+
+                    <TextView
+                        android:id="@+id/tv_upgrade_2_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="מדד התקדמות בשיפורים"
+                        android:textColor="#374151"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ProgressBar
+                        android:id="@+id/pb_upgrade_2"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="0dp"
+                        android:layout_height="10dp"
+                        android:layout_marginTop="10dp"
+                        android:indeterminate="false"
+                        android:max="100"
+                        android:progress="25"
+                        android:progressTint="#6200EE"
+                        android:backgroundTint="#E5E7EB"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_upgrade_2_label" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_upgrade_2"
+                        android:layout_width="0dp"
+                        android:layout_height="44dp"
+                        android:layout_marginTop="12dp"
+                        android:text="כפתור שיפור היכולת"
+                        android:textAllCaps="false"
+                        android:textColor="#6200EE"
+                        app:backgroundTint="#FFFFFF"
+                        app:cornerRadius="12dp"
+                        app:strokeColor="#6200EE"
+                        app:strokeWidth="2dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/pb_upgrade_2" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_upgrade_2_right"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="18dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/card_upgrade_2_left"
+                app:layout_constraintTop_toBottomOf="@id/card_upgrade_1_left"
+                app:layout_constraintWidth_percent="0.44">
+
+                <TextView
+                    android:id="@+id/tv_upgrade_2_desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="18dp"
+                    android:text="השיפור שאתה\nמשפר המתואר\nבתמונה"
+                    android:textColor="#111111"
+                    android:textSize="15sp"
+                    android:lineSpacingExtra="2dp" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- ===== Row 3 ===== -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_upgrade_3_left"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/card_upgrade_2_left"
+                app:layout_constraintEnd_toStartOf="@id/card_upgrade_3_right"
+                app:layout_constraintWidth_percent="0.52">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="14dp">
+
+                    <TextView
+                        android:id="@+id/tv_upgrade_3_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="מדד התקדמות בשיפורים"
+                        android:textColor="#374151"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ProgressBar
+                        android:id="@+id/pb_upgrade_3"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="0dp"
+                        android:layout_height="10dp"
+                        android:layout_marginTop="10dp"
+                        android:indeterminate="false"
+                        android:max="100"
+                        android:progress="60"
+                        android:progressTint="#6200EE"
+                        android:backgroundTint="#E5E7EB"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_upgrade_3_label" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_upgrade_3"
+                        android:layout_width="0dp"
+                        android:layout_height="44dp"
+                        android:layout_marginTop="12dp"
+                        android:text="כפתור שיפור היכולת"
+                        android:textAllCaps="false"
+                        android:textColor="#6200EE"
+                        app:backgroundTint="#FFFFFF"
+                        app:cornerRadius="12dp"
+                        app:strokeColor="#6200EE"
+                        app:strokeWidth="2dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/pb_upgrade_3" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_upgrade_3_right"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="18dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/card_upgrade_3_left"
+                app:layout_constraintTop_toBottomOf="@id/card_upgrade_2_left"
+                app:layout_constraintWidth_percent="0.44">
+
+                <TextView
+                    android:id="@+id/tv_upgrade_3_desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="18dp"
+                    android:text="השיפור שאתה\nמשפר המתואר\nבתמונה"
+                    android:textColor="#111111"
+                    android:textSize="15sp"
+                    android:lineSpacingExtra="2dp" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- ===== Row 4 ===== -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_upgrade_4_left"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/card_upgrade_3_left"
+                app:layout_constraintEnd_toStartOf="@id/card_upgrade_4_right"
+                app:layout_constraintWidth_percent="0.52"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="14dp">
+
+                    <TextView
+                        android:id="@+id/tv_upgrade_4_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="מדד התקדמות בשיפורים"
+                        android:textColor="#374151"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ProgressBar
+                        android:id="@+id/pb_upgrade_4"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="0dp"
+                        android:layout_height="10dp"
+                        android:layout_marginTop="10dp"
+                        android:indeterminate="false"
+                        android:max="100"
+                        android:progress="10"
+                        android:progressTint="#6200EE"
+                        android:backgroundTint="#E5E7EB"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_upgrade_4_label" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_upgrade_4"
+                        android:layout_width="0dp"
+                        android:layout_height="44dp"
+                        android:layout_marginTop="12dp"
+                        android:text="כפתור שיפור היכולת"
+                        android:textAllCaps="false"
+                        android:textColor="#6200EE"
+                        app:backgroundTint="#FFFFFF"
+                        app:cornerRadius="12dp"
+                        app:strokeColor="#6200EE"
+                        app:strokeWidth="2dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/pb_upgrade_4" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_upgrade_4_right"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="18dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/card_upgrade_4_left"
+                app:layout_constraintTop_toBottomOf="@id/card_upgrade_3_left"
+                app:layout_constraintWidth_percent="0.44"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <TextView
+                    android:id="@+id/tv_upgrade_4_desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="18dp"
+                    android:text="השיפור שאתה\nמשפר המתואר\nבתמונה"
+                    android:textColor="#111111"
+                    android:textSize="15sp"
+                    android:lineSpacingExtra="2dp" />
+            </com.google.android.material.card.MaterialCardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

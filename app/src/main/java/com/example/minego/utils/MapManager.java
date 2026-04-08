@@ -149,6 +149,30 @@ public class MapManager {
 
     }
 
+    /**
+     * קו רוחב (latitude) של השחקן במעלות.
+     * @return הערך מ-GPS; {@link Double#NaN} אם שכבת המיקום לא פעילה או שעדיין אין תיקון.
+     */
+    public double getPlayerLatitude() {
+        if (locationOverlay == null) {
+            return Double.NaN;
+        }
+        GeoPoint p = locationOverlay.getMyLocation();
+        return p != null ? p.getLatitude() : Double.NaN;
+    }
+
+    /**
+     * קו אורך (longitude) של השחקן במעלות.
+     * @return הערך מ-GPS; {@link Double#NaN} אם שכבת המיקום לא פעילה או שעדיין אין תיקון.
+     */
+    public double getPlayerLongitude() {
+        if (locationOverlay == null) {
+            return Double.NaN;
+        }
+        GeoPoint p = locationOverlay.getMyLocation();
+        return p != null ? p.getLongitude() : Double.NaN;
+    }
+
     public void updateMinerMarkers(List<Miner> miners) {
         // Clear all markers but KEEP the location overlay and user marker
         map.getOverlays().clear();
