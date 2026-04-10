@@ -18,6 +18,7 @@ import com.example.minego.R;
 import com.example.minego.models.Backpack;
 import com.example.minego.models.Item;
 import com.example.minego.models.ItemType;
+import com.example.minego.models.Miner;
 import com.example.minego.models.Upgrade;
 import com.example.minego.models.User;
 import com.example.minego.services.DatabaseService;
@@ -36,9 +37,10 @@ public class Mini_Game_Activity extends AppCompatActivity {
     private User user;
     private int Minelevel = 0;
 
+    private Miner miner;
     private int StartHP;
     private int imgStage = 1;
-    /** מונע טיפול כפול כשהמוקש מגיע ל־0 HP */
+    /** מונע מהמכרה להגיע ל -1 HP */
     private boolean mineClearedHandled = false;
     private int[] mineImages = {
             R.drawable.mine1,
@@ -101,12 +103,12 @@ public class Mini_Game_Activity extends AppCompatActivity {
         btn_clicker.setEnabled(false);
         MineHp = 0;
         tv_hp.setText("Hp: 0");
+        final Item rewards = miner.GetItemDrop();
+        Toast.makeText(this, (rewards.getType() + " *" + rewards.getCount()) , Toast.LENGTH_LONG).show();
 
-        final List<Item> rewards = buildRewards();
-        String toastText = formatRewardsForToast(rewards);
 
         if (user == null || user.getId() == null || user.getId().isEmpty()) {
-            Toast.makeText(this, toastText, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "", Toast.LENGTH_LONG).show();
             goToMainScreen();
             return;
         }
@@ -115,7 +117,7 @@ public class Mini_Game_Activity extends AppCompatActivity {
             if (currentUser == null) {
                 return null;
             }
-            mergeRewardsIntoBackpack(currentUser, rewards);
+           // mergeRewardsIntoBackpack(currentUser, rewards);
             return currentUser;
         }, new DatabaseService.DatabaseCallback<User>() {
             @Override
@@ -123,7 +125,7 @@ public class Mini_Game_Activity extends AppCompatActivity {
                 if (updatedUser != null) {
                     SharedPreferencesUtil.saveUser(Mini_Game_Activity.this, updatedUser);
                 }
-                Toast.makeText(Mini_Game_Activity.this, toastText, Toast.LENGTH_LONG).show();
+                // Toast.makeText(Mini_Game_Activity.this, toastText, Toast.LENGTH_LONG).show();
                 goToMainScreen();
             }
 
@@ -131,12 +133,12 @@ public class Mini_Game_Activity extends AppCompatActivity {
             public void onFailed(Exception e) {
                 User local = SharedPreferencesUtil.getUser(Mini_Game_Activity.this);
                 if (local != null && user.getId().equals(local.getId())) {
-                    mergeRewardsIntoBackpack(local, rewards);
+                   // mergeRewardsIntoBackpack(local, rewards);
                     SharedPreferencesUtil.saveUser(Mini_Game_Activity.this, local);
                 }
-                Toast.makeText(Mini_Game_Activity.this,
-                        toastText + "\n" + getString(R.string.minigame_sync_failed, e.getMessage() != null ? e.getMessage() : ""),
-                        Toast.LENGTH_LONG).show();
+                //Toast.makeText(Mini_Game_Activity.this,
+                //        toastText + "\n" + getString(R.string.minigame_sync_failed, e.getMessage() != null ? e.getMessage() : ""),
+                //        Toast.LENGTH_LONG).show();
                 goToMainScreen();
             }
         });
@@ -149,32 +151,7 @@ public class Mini_Game_Activity extends AppCompatActivity {
         finish();
     }
 
-    /**
-     * פרסים לפי רמת הטיפול במכרה ({@link Upgrade#getMineDrop()}): טווח סוגי המינרלים.
-     */
-    private List<Item> buildRewards() {
-        ArrayList<ItemType> pool = new ArrayList<>();
-        int dropTier = Minelevel;
-        if (dropTier <= 0) {
-            dropTier = 2;
-        }
-        pool.add(ItemType.stone);
-        pool.add(ItemType.iron);
-        if (dropTier >= 4) {
-            pool.add(ItemType.gold);
-            pool.add(ItemType.ruby);
-        }
-        if (dropTier >= 5) {
-            pool.add(ItemType.diamond);
-        }
-        Random random = new Random();
-        ArrayList<Item> out = new ArrayList<>();
-        for (ItemType type : pool) {
-            int count = 1 + random.nextInt(3);
-            out.add(new Item(type, count));
-        }
-        return out;
-    }
+
 
     private void mergeRewardsIntoBackpack(User targetUser, List<Item> rewards) {
         Backpack bp = targetUser.getBackpack();
@@ -195,17 +172,6 @@ public class Mini_Game_Activity extends AppCompatActivity {
         }
     }
 
-    private static String formatRewardsForToast(List<Item> rewards) {
-        StringBuilder sb = new StringBuilder("קיבלת: ");
-        for (int i = 0; i < rewards.size(); i++) {
-            Item it = rewards.get(i);
-            if (i > 0) {
-                sb.append(", ");
-            }
-            sb.append(it.getType().getType()).append(" ×").append(it.getCount());
-        }
-        return sb.toString();
-    }
     private void GetImgLevel(int hp)
     {
         int img = StartHP / 15;

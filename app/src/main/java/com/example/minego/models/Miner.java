@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import org.osmdroid.util.GeoPoint;
 
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Miner {
