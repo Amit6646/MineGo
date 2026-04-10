@@ -6,68 +6,112 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".screens.Admin.Admin_landing_Activity"
-    android:background="#2299A9">
+    android:background="@drawable/bg_landing"
+    android:padding="24dp">
+
+    <ImageView
+        android:id="@+id/iv_admin_logo"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/app_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/ic_launcher" />
 
     <TextView
         android:id="@+id/tv_admin_adminpage"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
+        android:layout_marginTop="12dp"
+        android:text="Admin Panel"
         android:textColor="@color/white"
-        android:textSize="50dp"
-        android:text="Admin Page" />
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_admin_logo" />
 
     <LinearLayout
-        android:layout_width="409dp"
+        android:id="@+id/admin_card"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_auth_card"
         android:orientation="vertical"
+        android:padding="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_admin_adminpage"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="1dp">
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.9">
 
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_admin_lan_Miners_list"
-            android:layout_width="300dp"
-            android:layout_height="60dp"
-            android:background="@drawable/edittext_border"
-            android:textColor="@android:color/white"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="25dp"
-            android:text="Miner list"/>
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:text="Miner list"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFFFF"
+            app:backgroundTint="#00000000"
+            app:cornerRadius="16dp"
+            app:icon="@android:drawable/ic_menu_mapmode"
+            app:iconGravity="textStart"
+            app:iconPadding="12dp"
+            app:iconSize="22dp"
+            app:iconTint="#FFB9B2FF"
+            app:strokeColor="#FFB9B2FF"
+            app:strokeWidth="2dp" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_admin_lan_userList"
-            android:layout_width="300dp"
-            android:layout_height="60dp"
-            android:background="@drawable/edittext_border"
-            android:textColor="@android:color/white"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="25dp"
-            android:text="User List" />
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="12dp"
+            android:text="User list"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFFFF"
+            app:backgroundTint="#00000000"
+            app:cornerRadius="16dp"
+            app:icon="@android:drawable/ic_menu_myplaces"
+            app:iconGravity="textStart"
+            app:iconPadding="12dp"
+            app:iconSize="22dp"
+            app:iconTint="#FFB9B2FF"
+            app:strokeColor="#FFB9B2FF"
+            app:strokeWidth="2dp" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button3"
-            android:layout_width="300dp"
-            android:layout_height="60dp"
-            android:background="@drawable/edittext_border"
-            android:textColor="@android:color/white"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="25dp"
-            android:text="Button" />
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="12dp"
+            android:enabled="false"
+            android:text="Coming soon"
+            android:textAllCaps="false"
+            android:textColor="#CCFFFFFF"
+            app:backgroundTint="#00000000"
+            app:cornerRadius="16dp"
+            app:strokeColor="#55FFFFFF"
+            app:strokeWidth="1dp" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button4"
-            android:layout_width="300dp"
-            android:layout_height="60dp"
-            android:background="@drawable/edittext_border"
-            android:textColor="@android:color/white"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="25dp"
-            android:text="Button" />
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="12dp"
+            android:enabled="false"
+            android:text="Coming soon"
+            android:textAllCaps="false"
+            android:textColor="#CCFFFFFF"
+            app:backgroundTint="#00000000"
+            app:cornerRadius="16dp"
+            app:strokeColor="#55FFFFFF"
+            app:strokeWidth="1dp" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -18,13 +18,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MineGo">
         <activity
+            android:name=".screens.LandingActivity"
+            android:exported="false" />
+        <activity
             android:name=".screens.UpgradesActivity"
             android:exported="false" />
         <activity
             android:name=".screens.Mini_Game_Activity"
-            android:exported="false" />
-        <activity
-            android:name=".screens.MainActivity2"
             android:exported="false" />
         <activity
             android:name=".screens.Admin.Admin_UserProfile_activity"
@@ -43,9 +43,6 @@
             android:name=".screens.UserEditProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".screens.AccountsAdmin"
-            android:exported="false" />
-        <activity
             android:name=".screens.Admin.AdminActivity"
             android:exported="false" />
         <activity
@@ -58,7 +55,7 @@
             android:name=".screens.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".screens.LandingActivity"
+            android:name=".screens.splash_activity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

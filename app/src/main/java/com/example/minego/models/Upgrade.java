@@ -11,13 +11,13 @@ import com.google.firebase.database.Exclude;
 import java.io.Serializable;
 
 public class Upgrade implements Serializable {
-    private static final int MAX_MINE_LEVEL = 4;
-    private static final int MAX_RADIUS = 4;
+    private static final int MAX_MINE_LEVEL = 3;
+    private static final int MAX_RADIUS_LEVEL = 4;
     private static final int MAX_EFFICIENCY = 4;
     private static final int MAX_TIME = 4;
 
     private int MineLevel;
-    private int Radius;
+    private int Radius_Level;
     private int efficiency;
     private int time;
 
@@ -26,7 +26,7 @@ public class Upgrade implements Serializable {
 
     public Upgrade(int mineLevel, int radius, int efficiency, int time) {
         MineLevel = mineLevel;
-        Radius = radius;
+        Radius_Level = radius;
         this.efficiency = efficiency;
         this.time = time;
     }
@@ -48,8 +48,8 @@ public class Upgrade implements Serializable {
     }
 
     public boolean UpgradeRadius() {
-        if (Radius < MAX_RADIUS) {
-            Radius++;
+        if (Radius_Level < MAX_RADIUS_LEVEL) {
+            Radius_Level++;
             return true;
         }
         return false;
@@ -76,7 +76,7 @@ public class Upgrade implements Serializable {
     }
 
     public int MaxUpgradeRadius() {
-        return MAX_RADIUS;
+        return MAX_RADIUS_LEVEL;
     }
 
     public int MaxUpgradeEfficiency() {
@@ -156,12 +156,16 @@ public class Upgrade implements Serializable {
         MineLevel = mineLevel;
     }
 
-    public int getRadius() {
-        return Radius;
+    public int getRadius_Level() {
+        return Radius_Level;
     }
 
-    public void setRadius(int radius) {
-        Radius = radius;
+    /**
+     * Firebase Realtime DB (JavaBeans) expects the setter name to match the getter.
+     * We keep this method to ensure {@code Radius_Level} is properly deserialized from DB.
+     */
+    public void setRadius_Level(int radius) {
+        Radius_Level = radius;
     }
 
     public int getEfficiency() {
@@ -184,9 +188,6 @@ public class Upgrade implements Serializable {
         else if (MineLevel == 3) {
             Hp = 15;
         }
-        else if (MineLevel == 4) {
-            Hp = 20;
-        }
         Hp *= 15;
         return Hp;
     }
@@ -208,7 +209,20 @@ public class Upgrade implements Serializable {
             return 5;
         }
         return 0;
-
-
+    }
+    public int GetRadius () {
+        if (Radius_Level == 1) {
+            return 20;
+        }
+        if (Radius_Level == 2) {
+            return 30;
+        }
+        if (Radius_Level == 3) {
+            return 45;
+        }
+        if (Radius_Level == 4) {
+            return 60;
+        }
+        return 15;
     }
 }

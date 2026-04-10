@@ -75,7 +75,7 @@ public class UpgradesActivity extends AppCompatActivity {
         MaxUpgradeMineLevel = (int) Math.round((upgrade.getMineLevel() * 100.0) / Math.max(1, upgrade.MaxUpgradeMineLevel()));
         pb_upgrade_1.setProgress(MaxUpgradeMineLevel);
 
-        MaxUpgradeRadius = (int) Math.round((upgrade.getRadius() * 100.0) / Math.max(1, upgrade.MaxUpgradeRadius()));
+        MaxUpgradeRadius = (int) Math.round((upgrade.getRadius_Level() * 100.0) / Math.max(1, upgrade.MaxUpgradeRadius()));
         pb_upgrade_2.setProgress(MaxUpgradeRadius);
 
         MaxUpgradeEfficiency = (int) Math.round((upgrade.getEfficiency() * 100.0) / Math.max(1, upgrade.MaxUpgradeEfficiency()));

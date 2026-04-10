@@ -3,6 +3,7 @@ package com.example.minego.screens.Admin;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.app.AlertDialog;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -95,6 +96,12 @@ public class Admin_UserProfile_activity extends AppCompatActivity {
             }
         });
 
+        // Only admins can remove users, and never remove themselves
+        boolean canRemove = currentUser.isAdmin() && !isCurrentUser;
+        btnRemove.setVisibility(canRemove ? View.VISIBLE : View.GONE);
+        if (canRemove) {
+            btnRemove.setOnClickListener(v -> confirmAndRemoveUser(selectedUid));
+        }
 
         btnUpdateProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,12 +111,36 @@ public class Admin_UserProfile_activity extends AppCompatActivity {
         });
 
     }
+
+    private void confirmAndRemoveUser(String uidToRemove) {
+        if (uidToRemove == null || uidToRemove.isEmpty()) return;
+        new AlertDialog.Builder(this)
+                .setTitle("Remove user")
+                .setMessage("Are you sure you want to remove this user? This action cannot be undone.")
+                .setNegativeButton("Cancel", (d, which) -> d.dismiss())
+                .setPositiveButton("Remove", (d, which) -> {
+                    DatabaseService.getInstance().deleteUser(uidToRemove, new DatabaseService.DatabaseCallback<Void>() {
+                        @Override
+                        public void onCompleted(Void object) {
+                            Toast.makeText(Admin_UserProfile_activity.this, "User removed", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+
+                        @Override
+                        public void onFailed(Exception e) {
+                            Toast.makeText(Admin_UserProfile_activity.this, "Failed to remove user", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                })
+                .show();
+    }
     
     private void showUserDetail(User user) {
         this.selectedUser = user;
         etUserUsername.setText(user.getUsername());
         etUserEmail.setText(user.getEmail());
-        etUserPassword.setText(user.getPassword());
+        // Don't prefill password for security; allow leaving blank to keep current password
+        etUserPassword.setText("");
         if (user.getGender() == Gender.Male) {
             rgUserGender.check(rbGenderMale.getId());
         } else {
@@ -162,7 +193,9 @@ public class Admin_UserProfile_activity extends AppCompatActivity {
                 }
 
                 selectedUser.setUsername(username);
-                selectedUser.setPassword(password);
+                if (password != null && !password.isEmpty()) {
+                    selectedUser.setPassword(password);
+                }
                 selectedUser.setEmail(email);
                 selectedUser.setGender(gender);
 
@@ -182,12 +215,17 @@ public class Admin_UserProfile_activity extends AppCompatActivity {
             @Override
             public void onCompleted(Void object) {
                     Toast.makeText(Admin_UserProfile_activity.this,"המשתמש עודכן בהצלחה", Toast.LENGTH_SHORT).show();
+                    // If the current user edited themselves, keep local session in sync
+                    User current = SharedPreferencesUtil.getUser(Admin_UserProfile_activity.this);
+                    if (current != null && current.getId() != null && current.getId().equals(user.getId())) {
+                        SharedPreferencesUtil.saveUser(Admin_UserProfile_activity.this, user);
+                    }
 
             }
 
             @Override
             public void onFailed(Exception e) {
-
+                Toast.makeText(Admin_UserProfile_activity.this,"שמירה נכשלה", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -214,10 +252,9 @@ public class Admin_UserProfile_activity extends AppCompatActivity {
             return false;
         }
 
-        if (!Validator.isPasswordValid(password)) {
-            /// show error message to user
+        // Password is optional: empty means "keep current password"
+        if (password != null && !password.isEmpty() && !Validator.isPasswordValid(password)) {
             etUserPassword.setError("Password must be at least 6 characters long");
-            /// set focus to password field
             etUserPassword.requestFocus();
             return false;
         }

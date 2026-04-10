@@ -31,7 +31,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private MapManager mapManager;
-    Button btnLogout, btnAdmin, btnEditProfile, btnTemp, btnUpgrade;
+    Button btnLogout, btnAdmin, btnEditProfile, btnUpgrade;
     private User user;
 
     @Override
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
                         mapManager.getPlayerLatitude(),
                         mapManager.getPlayerLongitude());
                 Toast.makeText(MainActivity.this, "Distance to player: " + distance + " meters", Toast.LENGTH_SHORT).show();
-                if (distance <= 20.0)
+                if (distance <= (double) user.upgrade.GetRadius())
                 {
                     startActivity(new Intent(MainActivity.this, Mini_Game_Activity.class));
                 }
@@ -83,8 +83,6 @@ public class MainActivity extends AppCompatActivity {
             mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(mainIntent);
         });
-        btnTemp = findViewById(R.id.btn_main_temp);
-        btnTemp.setOnClickListener(v -> startActivity(new Intent(this, Mini_Game_Activity.class)));
 
         // במידה ואתה לא אדמין אז הכפתור לא יוצג
         btnAdmin = findViewById(R.id.btn_main_admin);
