@@ -108,7 +108,7 @@ public class Mini_Game_Activity extends AppCompatActivity {
 
 
         if (user == null || user.getId() == null || user.getId().isEmpty()) {
-            Toast.makeText(this, "", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "שגיאה במציאת השחקן", Toast.LENGTH_LONG).show();
             goToMainScreen();
             return;
         }

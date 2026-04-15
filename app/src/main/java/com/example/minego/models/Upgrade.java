@@ -4,6 +4,7 @@ import android.content.Context;
 
 import androidx.annotation.Nullable;
 
+import com.example.minego.R;
 import com.example.minego.services.DatabaseService;
 import com.example.minego.utils.SharedPreferencesUtil;
 import com.google.firebase.database.Exclude;
@@ -21,8 +22,20 @@ public class Upgrade implements Serializable {
     private int efficiency;
     private int time;
 
+    private int[] mineImages = {
+        R.drawable.mineupgradelevel1,
+        R.drawable.mineupgradelevel2,
+        R.drawable.mineupgradelevel3,
+        R.drawable.mineupgradelevel4
+    };
+
     public Upgrade() {
     }
+
+    public int imageminelevel() {
+        return mineImages[MineLevel];
+    }
+
 
     public Upgrade(int mineLevel, int radius, int efficiency, int time) {
         MineLevel = mineLevel;
@@ -208,7 +221,7 @@ public class Upgrade implements Serializable {
             // Stone & Iron & Gold & Rube & Diamond
             return 5;
         }
-        return 0;
+        return 1;
     }
     public int GetRadius () {
         if (Radius_Level == 1) {

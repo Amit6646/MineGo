@@ -2,6 +2,7 @@ package com.example.minego.screens;
 
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import androidx.activity.EdgeToEdge;
@@ -19,6 +20,7 @@ public class UpgradesActivity extends AppCompatActivity {
 
     Button btn_upgrade_1, btn_upgrade_2, btn_upgrade_3, btn_upgrade_4;
     ProgressBar pb_upgrade_1, pb_upgrade_2, pb_upgrade_3, pb_upgrade_4;
+    ImageView iv_upgrade_1_image;
     int MaxUpgradeMineLevel, MaxUpgradeRadius, MaxUpgradeEfficiency;
     private User user;
     Upgrade upgrade;
@@ -41,6 +43,7 @@ public class UpgradesActivity extends AppCompatActivity {
         pb_upgrade_2 = findViewById(R.id.pb_upgrade_2);
         pb_upgrade_3 = findViewById(R.id.pb_upgrade_3);
         pb_upgrade_4 = findViewById(R.id.pb_upgrade_4);
+        iv_upgrade_1_image = findViewById(R.id.iv_upgrade_1_image);
         upgrade = user.getUpgrade();
 
         pb_upgrade_1.setMax(100);
@@ -74,6 +77,7 @@ public class UpgradesActivity extends AppCompatActivity {
 
         MaxUpgradeMineLevel = (int) Math.round((upgrade.getMineLevel() * 100.0) / Math.max(1, upgrade.MaxUpgradeMineLevel()));
         pb_upgrade_1.setProgress(MaxUpgradeMineLevel);
+        iv_upgrade_1_image.setImageResource(upgrade.imageminelevel());
 
         MaxUpgradeRadius = (int) Math.round((upgrade.getRadius_Level() * 100.0) / Math.max(1, upgrade.MaxUpgradeRadius()));
         pb_upgrade_2.setProgress(MaxUpgradeRadius);
