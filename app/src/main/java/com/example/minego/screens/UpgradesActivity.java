@@ -73,10 +73,12 @@ public class UpgradesActivity extends AppCompatActivity {
     }
 
     private void updateProgressBars() {
-        // Math.round מעגל את המספר
-
+        // זה בודק מה הרמה של המכרה מכפיל אותו ב 100
+        // ואז מחלק את זה בכמות הרמות שיש לאותו שיפור
         MaxUpgradeMineLevel = (int) Math.round((upgrade.getMineLevel() * 100.0) / Math.max(1, upgrade.MaxUpgradeMineLevel()));
+        // מעדכן את המד התקדמות לפי האחוז שיצא מקודם
         pb_upgrade_1.setProgress(MaxUpgradeMineLevel);
+        // מעדכן את הרמה שלך
         iv_upgrade_1_image.setImageResource(upgrade.imageminelevel());
 
         MaxUpgradeRadius = (int) Math.round((upgrade.getRadius_Level() * 100.0) / Math.max(1, upgrade.MaxUpgradeRadius()));

@@ -35,13 +35,17 @@ public class Mini_Game_Activity extends AppCompatActivity {
     private ImageButton btn_clicker;
     private TextView tv_hp;
     private User user;
+
     private int Minelevel = 0;
 
     private Miner miner;
     private int StartHP;
+
     private int imgStage = 1;
     /** מונע מהמכרה להגיע ל -1 HP */
     private boolean mineClearedHandled = false;
+
+
     private int[] mineImages = {
             R.drawable.mine1,
             R.drawable.mine2,
@@ -174,30 +178,26 @@ public class Mini_Game_Activity extends AppCompatActivity {
 
     private void GetImgLevel(int hp)
     {
+        // בודק כמה חיים צריך לרדת בשביך להחליף תמונה
         int img = StartHP / 15;
 
+
+        // בודק כמה חיים ירד למכרה וכל פעם שירד הכמות חיים הרצויה זה מחליף לתמונה הבאה
         if ((hp % img) == 0)
         {
             imgStage++;
-            updateMineImage(imgStage);
+            if(imgStage < 1){
+                imgStage = 1;
+            }
+            if(imgStage > mineImages.length)
+            {
+                imgStage = mineImages.length;
+            }
+
+            btn_clicker.setImageResource(mineImages[imgStage - 1]);
 
         }
 
-
-
-
-    }
-
-    private void updateMineImage(int numimg) {
-        if(numimg < 1){
-            numimg = 1;
-        }
-        if(numimg > mineImages.length)
-        {
-            numimg = mineImages.length;
-        }
-
-        btn_clicker.setImageResource(mineImages[numimg - 1]);
     }
 
 }

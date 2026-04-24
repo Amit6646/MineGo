@@ -75,7 +75,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupUI() {
+
+        //מגדיר את השחקן לפי המידע ששמור
         user = SharedPreferencesUtil.getUser(this);
+
+        //מגדיר את הכפתור של להתנתק
+        //מנתק את השחקן מהאפליקציה ומעביר אותו למסך LandingActivity
         btnLogout = findViewById(R.id.btn_main_logout);
         btnLogout.setOnClickListener(v -> {
             SharedPreferencesUtil.signOutUser(MainActivity.this);
@@ -84,7 +89,11 @@ public class MainActivity extends AppCompatActivity {
             startActivity(mainIntent);
         });
 
-        // במידה ואתה לא אדמין אז הכפתור לא יוצג
+
+        //מגדיר את הכפתור של האדמינים
+        //ומציג אותו רק כאשר אתה אדמין
+        //כאשר אתה לוחץ על הכפתור זה מעביר אותך למסך Admin_landing_Activity
+
         btnAdmin = findViewById(R.id.btn_main_admin);
         if (user.isAdmin()) {
             btnAdmin.setVisibility(android.view.View.VISIBLE);
@@ -94,17 +103,22 @@ public class MainActivity extends AppCompatActivity {
         }
         btnAdmin.setOnClickListener(v -> startActivity(new Intent(this, Admin_landing_Activity.class)));
 
-
+        //מגדיר את הכפתור של השיפורים
+        //כאשר אתה לוחץ על הכפתור זה מעביר אותך למסך pgradesActivity
         btnUpgrade = findViewById(R.id.btn_main_upgrade);
         btnUpgrade.setOnClickListener(v -> startActivity(new Intent(this, UpgradesActivity.class)));
 
+
+        //מגדיר את הכפתור של עריכת פרופיל
+        //כאשר אתה לוחץ על הכפתור זה מעביר אותך למסך admin_UserProfile_activity
+        //לפי המידע של המשתמש שלך
         btnEditProfile = findViewById(R.id.btn_main_editprofile);
         btnEditProfile.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, Admin_UserProfile_activity.class);
 
             intent.putExtra("USER_UID", user.getId());
             startActivity(intent);
-
+    
 
         });}
 

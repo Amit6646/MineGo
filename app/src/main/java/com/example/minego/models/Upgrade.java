@@ -224,7 +224,7 @@ public class Upgrade implements Serializable {
         return 1;
     }
     public int GetRadius () {
-        if (Radius_Level == 1) {
+        if (Radius_Level   == 1) {
             return 20;
         }
         if (Radius_Level == 2) {
