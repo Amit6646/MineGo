@@ -17,8 +17,8 @@ import com.example.minego.utils.SharedPreferencesUtil;
 
 public class splash_activity extends AppCompatActivity {
 
-    private static final String TAG = "SplashActivity";
     private static final int SPLASH_DISPLAY_TIME = 3000; // 3 seconds
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,10 +32,8 @@ public class splash_activity extends AppCompatActivity {
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             Intent intent;
             if (SharedPreferencesUtil.isUserLoggedIn(this)) {
-                Log.d(TAG, "User signed in, redirecting to MainActivity");
                 intent = new Intent(splash_activity.this, MainActivity.class);
             } else {
-                Log.d(TAG, "User not signed in, redirecting to LandingActivity");
                 intent = new Intent(splash_activity.this, LandingActivity.class);
             }
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

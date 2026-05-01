@@ -1,0 +1,153 @@
+@startuml
+class com.example.minego.models.Stats {
++ int mineCount
++ LocalDate startPlaying
++ int totalSteps
+}
+
+class com.example.minego.models.Backpack {
++ String name
++ int totalSize
+- List<Item> items
++ String getName()
++ void setName(String)
++ int getTotalSize()
++ void setTotalSize(int)
++ List<Item> getItems()
++ void setItems(List<Item>)
++ int currentSize()
++ boolean addItem(Item)
++ void removeItem(Item)
++ boolean isFull()
+- boolean canAddItemToBackpack(Item)
+}
+
+
+enum com.example.minego.models.Gender {
++  Male
++  Female
+}
+
+class com.example.minego.models.Upgrade {
+- {static} int MAX_MINE_LEVEL
+- {static} int MAX_RADIUS_LEVEL
+- {static} int MAX_EFFICIENCY
+- {static} int MAX_TIME
+- int MineLevel
+- int Radius_Level
+- int efficiency
+- int time
+- int[] mineImages
++ int imageminelevel()
++ boolean UpgradeMineLevel()
++ boolean UpgradeMineLevel(Context)
++ boolean UpgradeRadius()
++ boolean UpgradeRadius(Context)
++ boolean Upgradeefficiency()
++ int MaxUpgradeMineLevel()
++ int MaxUpgradeRadius()
++ int MaxUpgradeEfficiency()
++ int MaxUpgradeTime()
++ boolean Upgradeefficiency(Context)
++ void updateUpgradeindb(Context,DatabaseService.DatabaseCallback<User>)
++ void updateUpgradeindb(String,Context,DatabaseService.DatabaseCallback<User>)
++ int getMineLevel()
++ void setMineLevel(int)
++ int getRadius_Level()
++ void setRadius_Level(int)
++ int getEfficiency()
++ void setEfficiency(int)
++ int getMineHp()
++ int getMineDrop()
++ int GetRadius()
+}
+
+
+class com.example.minego.models.User {
++ String id
++ String username
++ String password
++ String email
++ int xp
++ Backpack backpack
++ Stats stats
++ Upgrade upgrade
++ boolean admin
++ Gender gender
++ String getId()
++ void setId(String)
++ String getUsername()
++ void setUsername(String)
++ String getPassword()
++ void setPassword(String)
++ int getXp()
++ void setXp(int)
++ Backpack getBackpack()
++ void setBackpack(Backpack)
++ Stats getStats()
++ void setStats(Stats)
++ Upgrade getUpgrade()
++ void setUpgrade(Upgrade)
++ boolean isAdmin()
++ void setAdmin(boolean)
++ Gender getGender()
++ void setGender(Gender)
++ String getEmail()
++ void setEmail(String)
++ String toString()
+}
+
+
+class com.example.minego.models.Item {
+- ItemType type
+- int count
++ ItemType getType()
++ void setType(ItemType)
++ int getCount()
++ void setCount(int)
++ void increaseCount(int)
++ void decreaseCount(int)
++ String toString()
+}
+
+
+class com.example.minego.models.Miner {
+- {static} double EARTH_RADIUS_METERS
+- String id
+- double lat
+- double lon
+- Upgrade upgrade
++ {static} double haversineDistanceMeters(double,double,double,double)
++ String getId()
++ void setId(String)
++ double getLat()
++ void setLat(double)
++ double getLon()
++ void setLon(double)
++ String toString()
++ GeoPoint asGeoPoint()
++ double distanceToPlayerMeters(double,double)
++ double distanceToPlayerMeters(GeoPoint)
++ Item GetItemDrop()
+- ItemType determineType(int,int)
+}
+
+
+enum com.example.minego.models.ItemType {
++  stone
++  iron
++  gold
++  ruby
++  diamond
+~ String type
++ {static} ItemType of(String)
++ {static} boolean isExist(String)
++ String getType()
+}
+
+
+
+
+java.io.Serializable <|.. com.example.minego.models.Upgrade
+java.io.Serializable <|.. com.example.minego.models.User
+@enduml

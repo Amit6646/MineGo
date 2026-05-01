@@ -1,14 +1,13 @@
 package com.example.minego.screens.Admin;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.app.AlertDialog;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -20,32 +19,25 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.minego.R;
 import com.example.minego.models.Gender;
 import com.example.minego.models.User;
-import com.example.minego.screens.RegisterActivity;
 import com.example.minego.services.DatabaseService;
 import com.example.minego.utils.SharedPreferencesUtil;
 import com.example.minego.utils.Validator;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
 import java.util.List;
 
 public class Admin_UserProfile_activity extends AppCompatActivity {
 
     private final String TAG = "Admin_UserProfile_activity";
-
-    private EditText etUserUsername, etUserEmail, etUserPassword;
-
     RadioGroup rgUserGender;
     RadioButton rbGenderMale, rbGenderFemale;
-    private Button btnUpdateProfile, btnRemove;
     String selectedUid;
-    private View adminBadge;
     boolean isCurrentUser = false;
-
-
     User selectedUser;
-
+    private EditText etUserUsername, etUserEmail, etUserPassword;
+    private Button btnUpdateProfile, btnRemove;
+    private View adminBadge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +76,7 @@ public class Admin_UserProfile_activity extends AppCompatActivity {
         DatabaseService.getInstance().getUser(selectedUid, new DatabaseService.DatabaseCallback<User>() {
             @Override
             public void onCompleted(User user) {
-                if(isCurrentUser) {
+                if (isCurrentUser) {
                     SharedPreferencesUtil.saveUser(Admin_UserProfile_activity.this, user);
                 }
                 showUserDetail(user);
@@ -134,7 +126,7 @@ public class Admin_UserProfile_activity extends AppCompatActivity {
                 })
                 .show();
     }
-    
+
     private void showUserDetail(User user) {
         this.selectedUser = user;
         etUserUsername.setText(user.getUsername());
@@ -146,7 +138,7 @@ public class Admin_UserProfile_activity extends AppCompatActivity {
         } else {
             rgUserGender.check(rbGenderFemale.getId());
         }
-        
+
     }
 
     private void UpdateUser() {
@@ -209,29 +201,25 @@ public class Admin_UserProfile_activity extends AppCompatActivity {
         });
     }
 
-    private void writeUser(@NotNull final User user)
-    {
+    private void writeUser(@NotNull final User user) {
         DatabaseService.getInstance().writeUser(user, new DatabaseService.DatabaseCallback<Void>() {
             @Override
             public void onCompleted(Void object) {
-                    Toast.makeText(Admin_UserProfile_activity.this,"המשתמש עודכן בהצלחה", Toast.LENGTH_SHORT).show();
-                    // If the current user edited themselves, keep local session in sync
-                    User current = SharedPreferencesUtil.getUser(Admin_UserProfile_activity.this);
-                    if (current != null && current.getId() != null && current.getId().equals(user.getId())) {
-                        SharedPreferencesUtil.saveUser(Admin_UserProfile_activity.this, user);
-                    }
+                Toast.makeText(Admin_UserProfile_activity.this, "המשתמש עודכן בהצלחה", Toast.LENGTH_SHORT).show();
+                // If the current user edited themselves, keep local session in sync
+                User current = SharedPreferencesUtil.getUser(Admin_UserProfile_activity.this);
+                if (current != null && current.getId() != null && current.getId().equals(user.getId())) {
+                    SharedPreferencesUtil.saveUser(Admin_UserProfile_activity.this, user);
+                }
 
             }
 
             @Override
             public void onFailed(Exception e) {
-                Toast.makeText(Admin_UserProfile_activity.this,"שמירה נכשלה", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Admin_UserProfile_activity.this, "שמירה נכשלה", Toast.LENGTH_SHORT).show();
             }
         });
     }
-
-
-
 
 
     private boolean checkInput(String username, String password, String Email) {

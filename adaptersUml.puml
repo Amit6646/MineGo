@@ -1,0 +1,31 @@
+@startuml
+class com.example.minego.adapters.UserAdapter {
+- List<User> userList
+- OnUserClickListener onUserClickListener
++ UserAdapter.ViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(ViewHolder,int)
++ int getItemCount()
++ void setUserList(List<User>)
++ void addUser(User)
++ void updateUser(User)
++ void removeUser(User)
+}
+
+
+interface com.example.minego.adapters.UserAdapter$OnUserClickListener {
+~ void onUserClick(User)
+~ void onLongUserClick(User)
+}
+
+class com.example.minego.adapters.UserAdapter$ViewHolder {
+~ TextView tvName
+~ Chip chipRole
+}
+
+
+
+com.example.minego.adapters.Adapter <|-- com.example.minego.adapters.UserAdapter
+com.example.minego.adapters.UserAdapter +.. com.example.minego.adapters.UserAdapter$OnUserClickListener
+com.example.minego.adapters.UserAdapter +.. com.example.minego.adapters.UserAdapter$ViewHolder
+com.example.minego.adapters.ViewHolder <|-- com.example.minego.adapters.UserAdapter$ViewHolder
+@enduml

@@ -3,7 +3,6 @@ package com.example.minego.models;
 import androidx.annotation.NonNull;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 
 public class User implements Serializable {
@@ -28,7 +27,7 @@ public class User implements Serializable {
     }
 
     public User(String id, String username, String password, int xp, Backpack backpack,
-                Stats stats, Upgrade upgrade, boolean admin, Gender gender,String email) {
+                Stats stats, Upgrade upgrade, boolean admin, Gender gender, String email) {
 
         this.id = id;
         this.admin = admin;
@@ -125,7 +124,8 @@ public class User implements Serializable {
 
     @NonNull
     @Override
-    public String toString() {return "User{" +
+    public String toString() {
+        return "User{" +
                 "id='" + id + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +

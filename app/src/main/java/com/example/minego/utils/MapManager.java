@@ -1,6 +1,10 @@
 package com.example.minego.utils;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 
 import androidx.core.content.ContextCompat;
@@ -19,23 +23,32 @@ import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
+
 import java.util.List;
 
 public class MapManager {
 
     private final MapView map;
     private final Context context;
+    private final Handler handler = new Handler();
     private MyLocationNewOverlay locationOverlay;
     private Marker myLocationMarker;
+    private final Runnable locationUpdater = new Runnable() {
+        @Override
+        public void run() {
+            if (locationOverlay != null && myLocationMarker != null) {
+                GeoPoint p = locationOverlay.getMyLocation();
+                if (p != null) {
+                    myLocationMarker.setPosition(p);
+                    map.invalidate();
+                }
+            }
+            handler.postDelayed(this, 1000);
+        }
+    };
     private MapBehavior currentBehavior; // <--- The Injected Logic
-    private final Handler handler = new Handler();
-    private  User user;
-
-    public interface OnMapManagerListener {
-        public void onMinerClick(Miner miner);
-    }
-
-    private OnMapManagerListener listener;
+    private User user;
+    private final OnMapManagerListener listener;
 
     public MapManager(Context context, MapView map, OnMapManagerListener listener) {
         this.context = context;
@@ -52,8 +65,8 @@ public class MapManager {
         map.setMinZoomLevel(8.0);
 
         IMapController mapController = map.getController();
-        mapController.setZoom(18.5);
-        mapController.setCenter(new GeoPoint(31.9703, 34.7790));
+        mapController.setZoom(15.0);
+        mapController.setCenter(new GeoPoint(31.9700, 34.7790));
 
         // Global Event Receiver that delegates to the Interface
         MapEventsReceiver mReceive = new MapEventsReceiver() {
@@ -64,25 +77,18 @@ public class MapManager {
                 }
                 return false;
             }
+
             @Override
-            public boolean longPressHelper(GeoPoint p) { return false; }
+            public boolean longPressHelper(GeoPoint p) {
+                return false;
+            }
         };
         map.getOverlays().add(new MapEventsOverlay(mReceive));
     }
 
-    private final Runnable locationUpdater = new Runnable() {
-        @Override
-        public void run() {
-            if (locationOverlay != null && myLocationMarker != null) {
-                GeoPoint p = locationOverlay.getMyLocation();
-                if (p != null) {
-                    myLocationMarker.setPosition(p);
-                    map.invalidate();
-                }
-            }
-            handler.postDelayed(this, 1000);
-        }
-    };
+    public MapBehavior getBehavior() {
+        return currentBehavior;
+    }
 
     /**
      * INJECT YOUR LOGIC HERE
@@ -99,10 +105,6 @@ public class MapManager {
         if (this.currentBehavior != null) {
             this.currentBehavior.onSetup(map);
         }
-    }
-
-    public MapBehavior getBehavior() {
-        return currentBehavior;
     }
 
     public void enableLocation(Context context) {
@@ -139,8 +141,8 @@ public class MapManager {
             }
         });
     }
-    private void SetPlayerGender(Gender gender)
-    {
+
+    private void SetPlayerGender(Gender gender) {
         if (gender == Gender.Male)
             myLocationMarker.setIcon(ContextCompat.getDrawable(context, R.drawable.boyplayer));
         else
@@ -151,6 +153,7 @@ public class MapManager {
 
     /**
      * קו רוחב (latitude) של השחקן במעלות.
+     *
      * @return הערך מ-GPS; {@link Double#NaN} אם שכבת המיקום לא פעילה או שעדיין אין תיקון.
      */
     public double getPlayerLatitude() {
@@ -163,6 +166,7 @@ public class MapManager {
 
     /**
      * קו אורך (longitude) של השחקן במעלות.
+     *
      * @return הערך מ-GPS; {@link Double#NaN} אם שכבת המיקום לא פעילה או שעדיין אין תיקון.
      */
     public double getPlayerLongitude() {
@@ -184,6 +188,10 @@ public class MapManager {
             Marker marker = new Marker(map);
             marker.setPosition(m.asGeoPoint());
             // You can add more customization here (icons, titles, etc.)
+            marker.setIcon(scaledDrawable(R.drawable.mine1, 96));
+            //marker.setIcon(ContextCompat.getDrawable(context, R.drawable.mine1));
+
+
             map.getOverlays().add(marker);
             marker.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
                 @Override
@@ -194,12 +202,27 @@ public class MapManager {
             });
 
 
-
         }
         map.invalidate();
     }
-    public void OnClickMine(Miner miner)
-    {
+
+
+    private Drawable scaledDrawable(int drawableRes, int sizeDp) {
+        Drawable d = ContextCompat.getDrawable(context, drawableRes);
+        if (d == null) return null;
+
+        int sizePx = (int) (sizeDp * context.getResources().getDisplayMetrics().density);
+
+        Bitmap b = Bitmap.createBitmap(sizePx, sizePx, Bitmap.Config.ARGB_8888);
+        Canvas c = new Canvas(b);
+
+        d.setBounds(0, 0, sizePx, sizePx);
+        d.draw(c);
+
+        return new BitmapDrawable(context.getResources(), b);
+    }
+
+    public void OnClickMine(Miner miner) {
         listener.onMinerClick(miner);
     }
 
@@ -215,5 +238,9 @@ public class MapManager {
         handler.removeCallbacks(locationUpdater);
         if (locationOverlay != null) locationOverlay.disableMyLocation();
         map.onPause();
+    }
+
+    public interface OnMapManagerListener {
+        void onMinerClick(Miner miner);
     }
 }

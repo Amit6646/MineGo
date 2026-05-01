@@ -45,13 +45,13 @@ public class UserEditProfileActivity extends AppCompatActivity {
 
 
     }
-    private boolean Update()
-    {
-        if (!user.getPassword().equals(etPasswordOriginal.getText().toString() + "")) {
+
+    private boolean Update() {
+        if (!user.getPassword().equals(etPasswordOriginal.getText().toString())) {
             return false;
         }
 
-        if(!Validator.isPasswordValid(etPassword.getText().toString())){
+        if (!Validator.isPasswordValid(etPassword.getText().toString())) {
             return false;
         }
         user.setPassword(etPassword.getText().toString());
@@ -80,7 +80,6 @@ public class UserEditProfileActivity extends AppCompatActivity {
 
         return true;
     }
-
 
 
 }

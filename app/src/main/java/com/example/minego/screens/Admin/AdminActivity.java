@@ -20,9 +20,9 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 
 public class AdminActivity extends AppCompatActivity {
+    Button btnSave;
     private MapManager mapManager;
     private AdminPlacementBehavior adminBehavior;
-    Button btnSave;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

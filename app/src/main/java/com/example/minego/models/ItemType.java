@@ -8,19 +8,16 @@ public enum ItemType {
     diamond("Diamond");
 
     final String type;
+
     ItemType(String type) {
         this.type = type;
-    }
-
-    public String getType() {
-        return type;
     }
 
     public static ItemType of(String type) {
         if (type == null || type.isBlank()) return null;
 
         type = type.trim().toLowerCase();
-        type = Character.toUpperCase(type.charAt(0)) +  type.substring(1);
+        type = Character.toUpperCase(type.charAt(0)) + type.substring(1);
 
         for (ItemType itemType : ItemType.values()) {
             if (itemType.type.equals(type)) {
@@ -35,7 +32,7 @@ public enum ItemType {
         if (type == null || type.isBlank()) return false;
 
         type = type.trim().toLowerCase();
-        type = Character.toUpperCase(type.charAt(0)) +  type.substring(1);
+        type = Character.toUpperCase(type.charAt(0)) + type.substring(1);
 
         for (ItemType itemType : ItemType.values()) {
             if (itemType.type.equals(type)) {
@@ -44,5 +41,9 @@ public enum ItemType {
         }
 
         return false; // not found
+    }
+
+    public String getType() {
+        return type;
     }
 }

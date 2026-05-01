@@ -11,10 +11,10 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.minego.R;
-import com.example.minego.screens.UserEditProfileActivity;
 
 public class Admin_landing_Activity extends AppCompatActivity {
     Button UserList, MinerEdit;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

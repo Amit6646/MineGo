@@ -2,7 +2,6 @@ package com.example.minego.screens;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -22,6 +21,7 @@ public class LoginActivity extends AppCompatActivity {
 
     EditText etUsername, etPassword;
     Button btnSubmit;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,8 +42,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private void Login() {
 
-        String username = etUsername.getText().toString() + "";
-        String password = etPassword.getText().toString() + "";
+        String username = etUsername.getText().toString();
+        String password = etPassword.getText().toString();
 
         if (!checkInput(username, password)) {
             return;

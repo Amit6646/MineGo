@@ -109,12 +109,26 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                    <TextView
+                        android:id="@+id/tv_upgrade_1_cost"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:gravity="center"
+                        android:text="עלות שיפור: 5 אבן 3 ברזל"
+                        android:textColor="#374151"
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_upgrade_1_label" />
+
+                    <!-- פס התקדמות: ממוקם מתחת לעלות השיפור -->
                     <ProgressBar
                         android:id="@+id/pb_upgrade_1"
                         style="?android:attr/progressBarStyleHorizontal"
                         android:layout_width="0dp"
                         android:layout_height="10dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="12dp"
                         android:indeterminate="false"
                         android:max="100"
                         android:progress="40"
@@ -122,7 +136,7 @@
                         android:backgroundTint="#E5E7EB"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_upgrade_1_label" />
+                        app:layout_constraintTop_toBottomOf="@id/tv_upgrade_1_cost" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_upgrade_1"

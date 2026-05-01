@@ -22,26 +22,25 @@ public class Upgrade implements Serializable {
     private int efficiency;
     private int time;
 
-    private int[] mineImages = {
-        R.drawable.mineupgradelevel1,
-        R.drawable.mineupgradelevel2,
-        R.drawable.mineupgradelevel3,
-        R.drawable.mineupgradelevel4
+    private final int[] mineImages = {
+            R.drawable.mineupgradelevel1,
+            R.drawable.mineupgradelevel2,
+            R.drawable.mineupgradelevel3,
+            R.drawable.mineupgradelevel4
     };
 
     public Upgrade() {
     }
-
-    public int imageminelevel() {
-        return mineImages[MineLevel];
-    }
-
 
     public Upgrade(int mineLevel, int radius, int efficiency, int time) {
         MineLevel = mineLevel;
         Radius_Level = radius;
         this.efficiency = efficiency;
         this.time = time;
+    }
+
+    public int imageminelevel() {
+        return mineImages[MineLevel];
     }
 
     public boolean UpgradeMineLevel() {
@@ -190,15 +189,13 @@ public class Upgrade implements Serializable {
     }
 
     @Exclude
-    public int getMineHp () {
+    public int getMineHp() {
         int Hp = 2;
         if (MineLevel == 1) {
             Hp = 5;
-        }
-        else if (MineLevel == 2) {
+        } else if (MineLevel == 2) {
             Hp = 10;
-        }
-        else if (MineLevel == 3) {
+        } else if (MineLevel == 3) {
             Hp = 15;
         }
         Hp *= 15;
@@ -206,24 +203,23 @@ public class Upgrade implements Serializable {
     }
 
     @Exclude
-    public int getMineDrop () {
+    public int getMineDrop() {
         if (MineLevel == 1) {
             // stone & Iron
             return 2;
 
-        }
-        else if (MineLevel == 2) {
+        } else if (MineLevel == 2) {
             // Stone & Iron & Gold & Rube
             return 4;
 
-        }
-        else if (MineLevel == 3) {
+        } else if (MineLevel == 3) {
             // Stone & Iron & Gold & Rube & Diamond
             return 5;
         }
         return 1;
     }
-    public int GetRadius () {
+
+    public int GetRadius() {
         if (Radius_Level   == 1) {
             return 20;
         }

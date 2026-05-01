@@ -4,12 +4,13 @@ import androidx.annotation.NonNull;
 
 import org.osmdroid.util.GeoPoint;
 
-import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Miner {
 
-    /** רדיוס כדור הארץ במטרים (שימוש בנוסחת Haversine) */
+    /**
+     * רדיוס כדור הארץ במטרים (שימוש בנוסחת Haversine)
+     */
     private static final double EARTH_RADIUS_METERS = 6371000.0;
 
     private String id;
@@ -32,6 +33,37 @@ public class Miner {
         this.id = id;
         this.lat = geoPoint.getLatitude();
         this.lon = geoPoint.getLongitude();
+    }
+
+    /**
+     * מרחק במטרים בין שתי נקודות על פני כדור הארץ.
+     * <p>
+     * נוסחת Haversine:
+     * <pre>
+     *   φ₁, φ₂ — קו רוחב ברדיאנים;  Δφ = φ₂ − φ₁;  Δλ — הפרש אורך ברדיאנים
+     *   a = sin²(Δφ/2) + cos φ₁ · cos φ₂ · sin²(Δλ/2)
+     *   c = 2 · atan2( √a, √(1−a) )
+     *   d = R · c        (R = רדיוס כדור הארץ במטרים)
+     * </pre>
+     *
+     * @param lat1 קו רוחב נקודה ראשונה (מעלות)
+     * @param lon1 קו אורך נקודה ראשונה (מעלות)
+     * @param lat2 קו רוחב נקודה שנייה (מעלות)
+     * @param lon2 קו אורך נקודה שנייה (מעלות)
+     * @return מרחק קווי על פני השטח במטרים
+     */
+    public static double haversineDistanceMeters(double lat1, double lon1, double lat2, double lon2) {
+        double phi1 = Math.toRadians(lat1);
+        double phi2 = Math.toRadians(lat2);
+        double deltaPhi = Math.toRadians(lat2 - lat1);
+        double deltaLambda = Math.toRadians(lon2 - lon1);
+
+        double sinHalfDeltaPhi = Math.sin(deltaPhi / 2.0);
+        double sinHalfDeltaLambda = Math.sin(deltaLambda / 2.0);
+        double a = sinHalfDeltaPhi * sinHalfDeltaPhi
+                + Math.cos(phi1) * Math.cos(phi2) * sinHalfDeltaLambda * sinHalfDeltaLambda;
+        double c = 2.0 * Math.atan2(Math.sqrt(a), Math.sqrt(1.0 - a));
+        return EARTH_RADIUS_METERS * c;
     }
 
     public String getId() {
@@ -73,42 +105,15 @@ public class Miner {
     }
 
     /**
-     * מרחק במטרים בין שתי נקודות על פני כדור הארץ.
-     * <p>
-     * נוסחת Haversine:
-     * <pre>
-     *   φ₁, φ₂ — קו רוחב ברדיאנים;  Δφ = φ₂ − φ₁;  Δλ — הפרש אורך ברדיאנים
-     *   a = sin²(Δφ/2) + cos φ₁ · cos φ₂ · sin²(Δλ/2)
-     *   c = 2 · atan2( √a, √(1−a) )
-     *   d = R · c        (R = רדיוס כדור הארץ במטרים)
-     * </pre>
-     *
-     * @param lat1 קו רוחב נקודה ראשונה (מעלות)
-     * @param lon1 קו אורך נקודה ראשונה (מעלות)
-     * @param lat2 קו רוחב נקודה שנייה (מעלות)
-     * @param lon2 קו אורך נקודה שנייה (מעלות)
-     * @return מרחק קווי על פני השטח במטרים
+     * מרחק במטרים מהמכרה הזה עד לשחקן (קו רוחב / אורך במעלות).
      */
-    public static double haversineDistanceMeters(double lat1, double lon1, double lat2, double lon2) {
-        double phi1 = Math.toRadians(lat1);
-        double phi2 = Math.toRadians(lat2);
-        double deltaPhi = Math.toRadians(lat2 - lat1);
-        double deltaLambda = Math.toRadians(lon2 - lon1);
-
-        double sinHalfDeltaPhi = Math.sin(deltaPhi / 2.0);
-        double sinHalfDeltaLambda = Math.sin(deltaLambda / 2.0);
-        double a = sinHalfDeltaPhi * sinHalfDeltaPhi
-                + Math.cos(phi1) * Math.cos(phi2) * sinHalfDeltaLambda * sinHalfDeltaLambda;
-        double c = 2.0 * Math.atan2(Math.sqrt(a), Math.sqrt(1.0 - a));
-        return EARTH_RADIUS_METERS * c;
-    }
-
-    /** מרחק במטרים מהמכרה הזה עד לשחקן (קו רוחב / אורך במעלות). */
     public double distanceToPlayerMeters(double playerLat, double playerLon) {
         return haversineDistanceMeters(playerLat, playerLon, lat, lon);
     }
 
-    /** מרחק במטרים מהמכרה הזה עד לנקודת שחקן במפה. */
+    /**
+     * מרחק במטרים מהמכרה הזה עד לנקודת שחקן במפה.
+     */
     public double distanceToPlayerMeters(GeoPoint playerLocation) {
         if (playerLocation == null) {
             return Double.NaN;
@@ -116,8 +121,7 @@ public class Miner {
         return distanceToPlayerMeters(playerLocation.getLatitude(), playerLocation.getLongitude());
     }
 
-    public Item GetItemDrop()
-    {
+    public Item GetItemDrop() {
         Item item = new Item();
         int level = upgrade.getMineDrop();
         int random = ThreadLocalRandom.current().nextInt(1, 101);

@@ -2,9 +2,11 @@ package com.example.minego.utils.behaviors;
 
 import com.example.minego.models.Miner;
 import com.example.minego.utils.MapBehavior;
+
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
+
 import java.util.List;
 
 public class MinerDisplayBehavior implements MapBehavior {

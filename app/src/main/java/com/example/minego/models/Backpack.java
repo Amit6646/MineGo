@@ -42,7 +42,8 @@ public class Backpack {
 
     public void setTotalSize(int totalSize) {
         if (totalSize < 0) throw new IllegalArgumentException("Total size cannot be negative.");
-        if (totalSize < currentSize()) throw new IllegalArgumentException("Total size must be greater than the current size.");
+        if (totalSize < currentSize())
+            throw new IllegalArgumentException("Total size must be greater than the current size.");
         this.totalSize = totalSize;
     }
 

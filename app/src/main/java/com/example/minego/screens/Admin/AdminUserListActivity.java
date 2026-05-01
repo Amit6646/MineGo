@@ -2,7 +2,6 @@ package com.example.minego.screens.Admin;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -13,9 +12,8 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.minego.adapters.UserAdapter;
-
 import com.example.minego.R;
+import com.example.minego.adapters.UserAdapter;
 import com.example.minego.models.User;
 import com.example.minego.services.DatabaseService;
 

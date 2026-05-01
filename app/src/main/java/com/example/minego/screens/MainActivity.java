@@ -30,8 +30,8 @@ import org.osmdroid.views.MapView;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private MapManager mapManager;
     Button btnLogout, btnAdmin, btnEditProfile, btnUpgrade;
+    private MapManager mapManager;
     private User user;
 
     @Override
@@ -59,8 +59,7 @@ public class MainActivity extends AppCompatActivity {
                         mapManager.getPlayerLatitude(),
                         mapManager.getPlayerLongitude());
                 Toast.makeText(MainActivity.this, "Distance to player: " + distance + " meters", Toast.LENGTH_SHORT).show();
-                if (distance <= (double) user.upgrade.GetRadius())
-                {
+                if (distance <= (double) user.upgrade.GetRadius()) {
                     startActivity(new Intent(MainActivity.this, Mini_Game_Activity.class));
                 }
 
@@ -97,8 +96,7 @@ public class MainActivity extends AppCompatActivity {
         btnAdmin = findViewById(R.id.btn_main_admin);
         if (user.isAdmin()) {
             btnAdmin.setVisibility(android.view.View.VISIBLE);
-        }
-        else {
+        } else {
             btnAdmin.setVisibility(android.view.View.GONE);
         }
         btnAdmin.setOnClickListener(v -> startActivity(new Intent(this, Admin_landing_Activity.class)));
@@ -120,10 +118,8 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
     
 
-        });}
-
-
-
+        });
+    }
 
 
     @Override

@@ -25,8 +25,6 @@ import com.example.minego.services.DatabaseService;
 import com.example.minego.utils.SharedPreferencesUtil;
 import com.example.minego.utils.Validator;
 
-import java.util.ArrayList;
-
 public class RegisterActivity extends AppCompatActivity {
 
     EditText etUsername, etPassword, etPasswordConfirm, etEmail;
@@ -61,12 +59,13 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     }
+
     private void register() {
 
-        String username = etUsername.getText().toString() + "";
-        String email = etEmail.getText().toString() + "";
-        String password = etPassword.getText().toString() + "";
-        String passwordCofirm = etPasswordConfirm.getText().toString() + "";
+        String username = etUsername.getText().toString();
+        String email = etEmail.getText().toString();
+        String password = etPassword.getText().toString();
+        String passwordCofirm = etPasswordConfirm.getText().toString();
 
         if (!checkInput(username, password, passwordCofirm, email)) {
             return;
@@ -125,6 +124,7 @@ public class RegisterActivity extends AppCompatActivity {
         return true;
 
     }
+
     private void registerUser(String UserName, String password, String Email) {
 
         DatabaseService databaseService = DatabaseService.getInstance();
@@ -137,9 +137,9 @@ public class RegisterActivity extends AppCompatActivity {
         {
             gender = Gender.Female;
         }
-        Upgrade upgrade = new Upgrade(0,0,0,0);
+        Upgrade upgrade = new Upgrade(0, 0, 0, 0);
         /// create a new user object
-        User user = new User(uid, UserName, password, 0 , new Backpack(),
+        User user = new User(uid, UserName, password, 0, new Backpack(),
                 new Stats(), upgrade, false, gender, Email);
 
         databaseService.checkIfUsernameExists(user.username, new DatabaseService.DatabaseCallback<Boolean>() {

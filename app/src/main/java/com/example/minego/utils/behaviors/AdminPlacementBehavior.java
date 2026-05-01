@@ -2,14 +2,16 @@ package com.example.minego.utils.behaviors;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+
 import com.example.minego.utils.MapBehavior;
+
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 
 public class AdminPlacementBehavior implements MapBehavior {
-    private Marker placementMarker;
     private final Drawable icon;
+    private Marker placementMarker;
     private GeoPoint selectedPosition;
 
     public AdminPlacementBehavior(Context context, int iconResId) {

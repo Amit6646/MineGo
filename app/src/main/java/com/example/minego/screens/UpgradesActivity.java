@@ -22,8 +22,9 @@ public class UpgradesActivity extends AppCompatActivity {
     ProgressBar pb_upgrade_1, pb_upgrade_2, pb_upgrade_3, pb_upgrade_4;
     ImageView iv_upgrade_1_image;
     int MaxUpgradeMineLevel, MaxUpgradeRadius, MaxUpgradeEfficiency;
-    private User user;
     Upgrade upgrade;
+    private User user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
