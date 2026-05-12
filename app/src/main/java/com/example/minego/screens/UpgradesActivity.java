@@ -11,6 +11,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.textfield.TextInputEditText;
+
 import com.example.minego.R;
 import com.example.minego.models.Upgrade;
 import com.example.minego.models.User;
@@ -20,10 +22,13 @@ public class UpgradesActivity extends AppCompatActivity {
 
     Button btn_upgrade_1, btn_upgrade_2, btn_upgrade_3, btn_upgrade_4;
     ProgressBar pb_upgrade_1, pb_upgrade_2, pb_upgrade_3, pb_upgrade_4;
-    ImageView iv_upgrade_1_image;
-    int MaxUpgradeMineLevel, MaxUpgradeRadius, MaxUpgradeEfficiency;
-    Upgrade upgrade;
+    ImageView iv_upgrade_1_image, iv_upgrade_2_image, iv_upgrade_3_image, iv_upgrade_4_image;
+    TextInputEditText et_upgrade_1_cost, et_upgrade_2_cost, et_upgrade_3_cost, et_upgrade_4_cost;
+
+    int MaxUpgradeMineLevel, MaxUpgradeRadius, MaxUpgradeEfficiency, MaxUpgradeBackpack;
+
     private User user;
+    Upgrade upgrade;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +40,7 @@ public class UpgradesActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
         user = SharedPreferencesUtil.getUser(this);
         btn_upgrade_1 = findViewById(R.id.btn_upgrade_1);
         btn_upgrade_2 = findViewById(R.id.btn_upgrade_2);
@@ -45,6 +51,14 @@ public class UpgradesActivity extends AppCompatActivity {
         pb_upgrade_3 = findViewById(R.id.pb_upgrade_3);
         pb_upgrade_4 = findViewById(R.id.pb_upgrade_4);
         iv_upgrade_1_image = findViewById(R.id.iv_upgrade_1_image);
+        iv_upgrade_2_image = findViewById(R.id.iv_upgrade_2_image);
+        iv_upgrade_3_image = findViewById(R.id.iv_upgrade_3_image);
+        iv_upgrade_4_image = findViewById(R.id.iv_upgrade_4_image);
+        et_upgrade_1_cost = findViewById(R.id.et_upgrade_1_cost);
+        et_upgrade_2_cost = findViewById(R.id.et_upgrade_2_cost);
+        et_upgrade_3_cost = findViewById(R.id.et_upgrade_3_cost);
+        et_upgrade_4_cost = findViewById(R.id.et_upgrade_4_cost);
+
         upgrade = user.getUpgrade();
 
         pb_upgrade_1.setMax(100);
@@ -55,7 +69,7 @@ public class UpgradesActivity extends AppCompatActivity {
         updateProgressBars();
 
         btn_upgrade_1.setOnClickListener(v -> {
-            if (upgrade.UpgradeMineLevel(this)) {
+            if (upgrade.UpgradeMineLevel(UpgradesActivity.this)) {
                 updateProgressBars();
             }
         });
@@ -69,23 +83,45 @@ public class UpgradesActivity extends AppCompatActivity {
                 updateProgressBars();
             }
         });
+    }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // טוען מחדש מההעדפות בכל כניסה למסך — אחרת חוזרים לאקטיביטי שכבר בזיכרון ורואים נתונים ישנים
+        user = SharedPreferencesUtil.getUser(this);
+        if (user == null) {
+            finish();
+            return;
+        }
+        upgrade = user.getUpgrade();
+        if (upgrade == null) {
+            upgrade = new Upgrade(0, 0, 0, 0);
+            user.setUpgrade(upgrade);
+            SharedPreferencesUtil.saveUser(this, user);
+        }
+        updateProgressBars();
     }
 
     private void updateProgressBars() {
-        // זה בודק מה הרמה של המכרה מכפיל אותו ב 100
-        // ואז מחלק את זה בכמות הרמות שיש לאותו שיפור
         MaxUpgradeMineLevel = (int) Math.round((upgrade.getMineLevel() * 100.0) / Math.max(1, upgrade.MaxUpgradeMineLevel()));
-        // מעדכן את המד התקדמות לפי האחוז שיצא מקודם
         pb_upgrade_1.setProgress(MaxUpgradeMineLevel);
-        // מעדכן את הרמה שלך
-        iv_upgrade_1_image.setImageResource(upgrade.imageminelevel());
+        iv_upgrade_1_image.setImageResource(upgrade.getMineLevelImage());
+        btn_upgrade_1.setEnabled(upgrade.checkprice(upgrade.PriceMineLevel(), user.getBackpack().getItems()));
+        et_upgrade_1_cost.setText(upgrade.getMineUpgradeCostText());
 
-        MaxUpgradeRadius = (int) Math.round((upgrade.getRadius_Level() * 100.0) / Math.max(1, upgrade.MaxUpgradeRadius()));
+
+        MaxUpgradeRadius = (int) Math.round((upgrade.getRadiusLevel() * 100.0) / Math.max(1, upgrade.MaxUpgradeRadius()));
         pb_upgrade_2.setProgress(MaxUpgradeRadius);
+        iv_upgrade_2_image.setImageResource(upgrade.getRadiusImage());
+        et_upgrade_2_cost.setText(upgrade.getRadiusUpgradeCostText());
+
 
         MaxUpgradeEfficiency = (int) Math.round((upgrade.getEfficiency() * 100.0) / Math.max(1, upgrade.MaxUpgradeEfficiency()));
         pb_upgrade_3.setProgress(MaxUpgradeEfficiency);
+
+        MaxUpgradeBackpack = (int) Math.round((upgrade.getBackpacksize() * 100.0) / Math.max(1, upgrade.MaxUpgradeBackpack()));
+        pb_upgrade_4.setProgress(MaxUpgradeBackpack);
+
     }
 }

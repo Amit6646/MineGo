@@ -48,7 +48,9 @@ public class Backpack {
     }
 
     public List<Item> getItems() {
-        if (items == null) items = new ArrayList<>();
+        if (items == null) {
+            items = new ArrayList<>();
+        }
         return items;
     }
 
