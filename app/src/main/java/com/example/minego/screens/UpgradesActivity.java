@@ -74,7 +74,7 @@ public class UpgradesActivity extends AppCompatActivity {
             }
         });
         btn_upgrade_2.setOnClickListener(v -> {
-            if (upgrade.UpgradeRadius(this)) {
+            if (upgrade.UpgradeRadius(UpgradesActivity.this)) {
                 updateProgressBars();
             }
         });
@@ -107,7 +107,6 @@ public class UpgradesActivity extends AppCompatActivity {
         MaxUpgradeMineLevel = (int) Math.round((upgrade.getMineLevel() * 100.0) / Math.max(1, upgrade.MaxUpgradeMineLevel()));
         pb_upgrade_1.setProgress(MaxUpgradeMineLevel);
         iv_upgrade_1_image.setImageResource(upgrade.getMineLevelImage());
-        btn_upgrade_1.setEnabled(upgrade.checkprice(upgrade.PriceMineLevel(), user.getBackpack().getItems()));
         et_upgrade_1_cost.setText(upgrade.getMineUpgradeCostText());
 
 
@@ -119,6 +118,8 @@ public class UpgradesActivity extends AppCompatActivity {
 
         MaxUpgradeEfficiency = (int) Math.round((upgrade.getEfficiency() * 100.0) / Math.max(1, upgrade.MaxUpgradeEfficiency()));
         pb_upgrade_3.setProgress(MaxUpgradeEfficiency);
+        iv_upgrade_3_image.setImageResource(upgrade.getefficiencyImages());
+        et_upgrade_3_cost.setText(upgrade.getEfficiencyUpgradeCostText());
 
         MaxUpgradeBackpack = (int) Math.round((upgrade.getBackpacksize() * 100.0) / Math.max(1, upgrade.MaxUpgradeBackpack()));
         pb_upgrade_4.setProgress(MaxUpgradeBackpack);

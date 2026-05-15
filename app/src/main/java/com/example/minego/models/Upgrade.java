@@ -1,6 +1,7 @@
 package com.example.minego.models;
 
 import android.content.Context;
+import android.media.effect.Effect;
 
 import androidx.annotation.Nullable;
 
@@ -22,12 +23,13 @@ public class Upgrade implements Serializable {
     private int efficiency;
     private int backpacksize;
 
+    @Exclude
+    private transient User pendingUserForDbMerge;
 
     public boolean checkprice(Item[] items, List<Item> UserBackPack) {
         if (UserBackPack.isEmpty()) return false;
         if (items == null) return false;
         if (items.length == 0) return false;
-        if (MineLevel == MaxUpgradeMineLevel()) return false;
 
         boolean ok = false;
         for (int i = 0; i < items.length; i++) {
@@ -46,6 +48,26 @@ public class Upgrade implements Serializable {
                 return false;
             }
         }
+        return true;
+    }
+
+    private boolean takeprice(Item[] price, Backpack backpack) {
+        if (!checkprice(price, backpack.getItems())) return false;
+
+        List<Item> items = backpack.getItems();
+
+        for (int i = 0; i < price.length; i++) {
+            Item itemprice = price[i];
+            for (int j = 0; j < items.size(); j++) {
+                if (itemprice.getType().equals(items.get(j).getType())) {
+                    items.get(j).removeCount(itemprice.getCount());
+                }
+
+            }
+
+        }
+        backpack.setItems(items);
+
         return true;
     }
 
@@ -71,23 +93,16 @@ public class Upgrade implements Serializable {
     };
 
     @Exclude
-    public boolean UpgradeMineLevel() {
-        if (MineLevel > MAX_MINE_LEVEL) {
-            return false;
-        }
-
-        MineLevel++;
-        return true;
-    }
-
-    @Exclude
     public boolean UpgradeMineLevel(Context context) {
         if (MineLevel >= MAX_MINE_LEVEL) {
             return false;
         }
         User user = SharedPreferencesUtil.getUser(context);
 
+        Item[] items = PriceMineLevel();
+        if (!takeprice(items, user.getBackpack())) return false;
 
+        this.pendingUserForDbMerge = user;
 
         MineLevel++;
 
@@ -177,24 +192,30 @@ public class Upgrade implements Serializable {
         }
         return RadiusImages[rl];
     }
-    @Exclude
-    public boolean UpgradeRadius() {
-        if (RadiusLevel < MAX_RADIUS_LEVEL) {
-            RadiusLevel++;
-            return true;
-        }
-        return false;
-    }
+
 
     @Exclude
     public boolean UpgradeRadius(Context context) {
+        if (RadiusLevel >= MAX_RADIUS_LEVEL) {
+            return false;
+        }
+        User user = SharedPreferencesUtil.getUser(context);
+
+        Item[] items = PriceRadius();
+        if (!takeprice(items, user.getBackpack())) return false;
+
+        this.pendingUserForDbMerge = user;
+
+        RadiusLevel++;
+
         updateUpgradeindb(context, null);
-        return false;
+        return true;
     }
 
+    @Exclude
     public String getRadiusUpgradeCostText() {
         String text = "";
-        if (MineLevel >= MAX_MINE_LEVEL) {
+        if (RadiusLevel >= MAX_RADIUS_LEVEL) {
             return "Max Level";
         } else {
             Item[] items = PriceRadius();
@@ -241,15 +262,102 @@ public class Upgrade implements Serializable {
 
 
 
+    //efficiency
+
+    @Exclude
+    private final int[] efficiencyImages = {
+            R.drawable.efficiencyupgradelevel1,
+            R.drawable.efficiencyupgradelevel2,
+            R.drawable.efficiencyupgradelevel3,
+            R.drawable.efficiencyupgradelevel4,
+            R.drawable.efficiencyupgradelevel5
+    };
+    @Exclude
+    public int getefficiencyImages() {
+        int el = efficiency;
+        if (el < 0) {
+            el = 0;
+        } else if (el >= efficiencyImages.length) {
+            el = efficiencyImages.length - 1;
+        }
+        return efficiencyImages[el];
+    }
+
+    @Exclude
+    public boolean Upgradeefficiency(Context context) {
+        if (efficiency >= MAX_EFFICIENCY) {
+            return false;
+        }
+        User user = SharedPreferencesUtil.getUser(context);
+
+        Item[] items = PriceEfficiency();
+        if (!takeprice(items, user.getBackpack())) return false;
+
+        this.pendingUserForDbMerge = user;
+
+        efficiency++;
+
+
+        updateUpgradeindb(context, null);
+        return true;
+    }
+
+    public Item[] PriceEfficiency() {
+        Item[] items;
+        if (efficiency == 0) {
+            items = new Item[1];
+            items[0] = new Item(ItemType.stone, 12);
+        }
+        else if(efficiency == 1){
+            items = new Item[2];
+            items[0] = new Item(ItemType.stone, 10);
+            items[1] = new Item(ItemType.iron, 8);
+        }
+        else if(efficiency == 2){
+            items = new Item[3];
+            items[0] = new Item(ItemType.iron, 16);
+            items[1] = new Item(ItemType.gold, 12);
+            items[2] = new Item(ItemType.ruby, 8);
+        }
+        else if(efficiency == 3){
+            items = new Item[4];
+            items[0] = new Item(ItemType.iron, 20);
+            items[1] = new Item(ItemType.gold, 12);
+            items[2] = new Item(ItemType.ruby, 10);
+            items[3] = new Item(ItemType.diamond, 6);
+
+        }
+        else{
+            items = null;
+        }
+        return items;
+    }
+
 
 
     @Exclude
-    public boolean Upgradeefficiency() {
-        if (efficiency < MAX_EFFICIENCY) {
-            efficiency++;
-            return true;
+    public String getEfficiencyUpgradeCostText() {
+        String text = "";
+        if (efficiency >= MAX_EFFICIENCY) {
+            return "Max Level";
+        } else {
+            Item[] items = PriceEfficiency();
+            if (items == null) {
+                return text;
+            } else {
+                for (int i = 0; i < items.length; i++) {
+                    if (i == items.length - 1){
+                        text += items[i].getType() + ":" + items[i].getCount();
+                    }
+                    else {
+                        text += items[i].getType() + ":" + items[i].getCount() + " + ";
+                    }
+                }
+
+            }
+
         }
-        return false;
+        return text;
     }
 
     @Exclude
@@ -272,14 +380,6 @@ public class Upgrade implements Serializable {
         return  MAX_BACKPACK_SIZE;
     }
 
-    @Exclude
-    public boolean Upgradeefficiency(Context context) {
-        boolean ok = Upgradeefficiency();
-        if (ok) {
-            updateUpgradeindb(context, null);
-        }
-        return ok;
-    }
 
     public int getMineLevel() {
         return MineLevel;
@@ -312,6 +412,9 @@ public class Upgrade implements Serializable {
     public void setBackpacksize(int backpacksize) {
         this.backpacksize = backpacksize;
     }
+
+
+
 
 
     //rewards
@@ -367,6 +470,10 @@ public class Upgrade implements Serializable {
 
 
 
+
+
+
+
     // database
 
 
@@ -399,15 +506,21 @@ public class Upgrade implements Serializable {
             return;
         }
 
+        final User mergeSource = this.pendingUserForDbMerge;
+
         DatabaseService.getInstance().updateUser(uid, currentUser -> {
             if (currentUser == null) {
                 return null;
             }
             currentUser.setUpgrade(this);
+            if (mergeSource != null && mergeSource.getBackpack() != null) {
+                currentUser.setBackpack(mergeSource.getBackpack());
+            }
             return currentUser;
         }, new DatabaseService.DatabaseCallback<User>() {
             @Override
             public void onCompleted(User updatedUser) {
+                pendingUserForDbMerge = null;
                 if (contextForLocalSave != null && updatedUser != null) {
                     SharedPreferencesUtil.saveUser(contextForLocalSave, updatedUser);
                 }
@@ -418,6 +531,7 @@ public class Upgrade implements Serializable {
 
             @Override
             public void onFailed(Exception e) {
+                pendingUserForDbMerge = null;
                 if (callback != null) {
                     callback.onFailed(e);
                 }

@@ -12,11 +12,14 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.minego.R;
+import com.example.minego.models.User;
+import com.example.minego.services.DatabaseService;
 import com.example.minego.utils.SharedPreferencesUtil;
 
 public class LandingActivity extends AppCompatActivity {
 
     Button btnLogin, btnRegister;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +31,7 @@ public class LandingActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
 
         if (SharedPreferencesUtil.isUserLoggedIn(LandingActivity.this)) {
             Intent mainIntent = new Intent(LandingActivity.this, MainActivity.class);
