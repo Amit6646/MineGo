@@ -5,9 +5,9 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".screens.RegisterActivity"
     android:background="@drawable/bg_landing"
-    android:padding="24dp">
+    android:padding="24dp"
+    tools:context=".screens.RegisterActivity">
 
     <ImageView
         android:id="@+id/iv_register_logo"
@@ -167,11 +167,11 @@
         app:iconPadding="12dp"
         app:iconSize="22dp"
         app:iconTint="#FFB9B2FF"
-        app:strokeColor="#FFB9B2FF"
-        app:strokeWidth="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/register_card"
         app:layout_constraintWidth_default="percent"
-        app:layout_constraintWidth_percent="0.72" />
+        app:layout_constraintWidth_percent="0.72"
+        app:strokeColor="#FFB9B2FF"
+        app:strokeWidth="2dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

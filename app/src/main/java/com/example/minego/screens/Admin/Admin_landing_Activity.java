@@ -11,6 +11,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.minego.R;
+import com.example.minego.screens.Mini_Game_Activity;
 
 public class Admin_landing_Activity extends AppCompatActivity {
     Button UserList, MinerEdit;
@@ -31,6 +32,9 @@ public class Admin_landing_Activity extends AppCompatActivity {
 
         MinerEdit = findViewById(R.id.btn_admin_lan_Miners_list);
         MinerEdit.setOnClickListener(v -> startActivity(new Intent(this, AdminActivity.class)));
+
+        MinerEdit = findViewById(R.id.btn_admin_join_minigames);
+        MinerEdit.setOnClickListener(v -> startActivity(new Intent(this, Mini_Game_Activity.class)));
 
     }
 }

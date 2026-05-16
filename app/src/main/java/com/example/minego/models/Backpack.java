@@ -10,6 +10,9 @@ import java.util.function.Predicate;
 
 public class Backpack {
     public String name;
+    @Exclude
+    public String id;
+    @Exclude
     public int totalSize;
     private List<Item> items;
 

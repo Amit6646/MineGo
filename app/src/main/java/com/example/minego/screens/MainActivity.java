@@ -106,7 +106,6 @@ public class MainActivity extends AppCompatActivity {
         btnUpgrade = findViewById(R.id.btn_main_upgrade);
         btnUpgrade.setOnClickListener(v -> startActivity(new Intent(this, UpgradesActivity.class)));
 
-
         //מגדיר את הכפתור של עריכת פרופיל
         //כאשר אתה לוחץ על הכפתור זה מעביר אותך למסך admin_UserProfile_activity
         //לפי המידע של המשתמש שלך
@@ -116,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
 
             intent.putExtra("USER_UID", user.getId());
             startActivity(intent);
-    
+
 
         });
     }

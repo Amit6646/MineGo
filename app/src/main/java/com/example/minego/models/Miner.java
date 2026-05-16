@@ -2,6 +2,8 @@ package com.example.minego.models;
 
 import androidx.annotation.NonNull;
 
+import com.google.firebase.database.Exclude;
+
 import org.osmdroid.util.GeoPoint;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -17,6 +19,8 @@ public class Miner {
 
     private double lat;
     private double lon;
+
+    @Exclude
     private Upgrade upgrade;
 
 
@@ -88,6 +92,16 @@ public class Miner {
 
     public void setLon(double lon) {
         this.lon = lon;
+    }
+
+    @Exclude
+    public Upgrade getUpgrade() {
+        return upgrade;
+    }
+
+    @Exclude
+    public void setUpgrade(Upgrade upgrade) {
+        this.upgrade = upgrade;
     }
 
     @NonNull

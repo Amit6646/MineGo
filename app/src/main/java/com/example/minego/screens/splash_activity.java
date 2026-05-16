@@ -82,7 +82,9 @@ public class splash_activity extends AppCompatActivity {
         });
     }
 
-    /** ממתין עד שעבר זמן הספלאש המינימלי, ואז מנווט (כדי שלא “יקפוץ” מסך מוקדם מדי). */
+    /**
+     * ממתין עד שעבר זמן הספלאש המינימלי, ואז מנווט (כדי שלא “יקפוץ” מסך מוקדם מדי).
+     */
     private void scheduleNavigateAfterSplash(long splashStartMs, Runnable goNext) {
         long elapsed = SystemClock.elapsedRealtime() - splashStartMs;
         long remaining = Math.max(0, SPLASH_DISPLAY_TIME_MS - elapsed);

@@ -30,6 +30,7 @@ public class Item {
     public void setCount(int count) {
         this.count = count;
     }
+
     public void removeCount(int count) {
         this.count -= count;
     }

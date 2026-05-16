@@ -13,7 +13,6 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.minego.R;
 import com.example.minego.models.User;
-import com.example.minego.services.DatabaseService;
 import com.example.minego.utils.SharedPreferencesUtil;
 
 public class LandingActivity extends AppCompatActivity {

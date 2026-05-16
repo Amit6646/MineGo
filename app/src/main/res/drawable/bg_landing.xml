@@ -14,8 +14,8 @@
 
     <!-- Top-right soft blob -->
     <item
-        android:top="-60dp"
-        android:right="-80dp">
+        android:right="-80dp"
+        android:top="-60dp">
         <shape android:shape="oval">
             <size
                 android:width="260dp"

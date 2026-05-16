@@ -11,12 +11,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.google.android.material.textfield.TextInputEditText;
-
 import com.example.minego.R;
 import com.example.minego.models.Upgrade;
 import com.example.minego.models.User;
 import com.example.minego.utils.SharedPreferencesUtil;
+import com.google.android.material.textfield.TextInputEditText;
 
 public class UpgradesActivity extends AppCompatActivity {
 
@@ -26,9 +25,8 @@ public class UpgradesActivity extends AppCompatActivity {
     TextInputEditText et_upgrade_1_cost, et_upgrade_2_cost, et_upgrade_3_cost, et_upgrade_4_cost;
 
     int MaxUpgradeMineLevel, MaxUpgradeRadius, MaxUpgradeEfficiency, MaxUpgradeBackpack;
-
-    private User user;
     Upgrade upgrade;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +81,11 @@ public class UpgradesActivity extends AppCompatActivity {
                 updateProgressBars();
             }
         });
+        btn_upgrade_4.setOnClickListener(v -> {
+            if (upgrade.UpgradeBackPack(UpgradesActivity.this)) {
+                updateProgressBars();
+            }
+        });
     }
 
     @Override
@@ -123,6 +126,11 @@ public class UpgradesActivity extends AppCompatActivity {
 
         MaxUpgradeBackpack = (int) Math.round((upgrade.getBackpacksize() * 100.0) / Math.max(1, upgrade.MaxUpgradeBackpack()));
         pb_upgrade_4.setProgress(MaxUpgradeBackpack);
+        iv_upgrade_4_image.setImageResource(upgrade.getBackpackImage());
+        et_upgrade_4_cost.setText(upgrade.getbackpackUpgradeCostText());
+
+
+
 
     }
 }

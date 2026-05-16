@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- שק כסף פשוט (24dp) — מתאים ל-app:icon / startIconDrawable + iconTint -->
+<?xml version="1.0" encoding="utf-8"?><!-- שק כסף פשוט (24dp) — מתאים ל-app:icon / startIconDrawable + iconTint -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="24dp"
     android:height="24dp"

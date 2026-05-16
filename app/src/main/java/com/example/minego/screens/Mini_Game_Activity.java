@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,34 +15,31 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.minego.R;
-
 import com.example.minego.models.Backpack;
 import com.example.minego.models.Item;
-import com.example.minego.models.ItemType;
 import com.example.minego.models.Miner;
 import com.example.minego.models.Upgrade;
 import com.example.minego.models.User;
 import com.example.minego.services.DatabaseService;
 import com.example.minego.utils.SharedPreferencesUtil;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class Mini_Game_Activity extends AppCompatActivity {
 
     private int MineHp;
     //private Upgrade upgrade;
     private ImageButton btn_clicker;
-    private TextView tv_hp;
+    private TextView tv_hp, tv_hint;
+    private ProgressBar pb_hp;
     private User user;
-    private int Minelevel = 0;
 
-    private Miner miner;
+
     private int StartHP;
     private int imgStage = 1;
-    /** מונע מהמכרה להגיע ל -1 HP */
-    private boolean mineClearedHandled = false;
+    /**
+     * מונע מהמכרה להגיע ל -1 HP
+     */
     private int[] mineImages = {
             R.drawable.mine1,
             R.drawable.mine2,
@@ -71,22 +69,30 @@ public class Mini_Game_Activity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+
         user = SharedPreferencesUtil.getUser(this);
         Upgrade upgrade = user.getUpgrade();
-        Minelevel = upgrade.getMineDrop();
         MineHp = upgrade.getMineHp();
         StartHP = MineHp;
 
         btn_clicker = findViewById(R.id.btn_minigame_temp);
         tv_hp = findViewById(R.id.tv_minigame_temp);
-        tv_hp.setText("Hp: " + MineHp);
+        pb_hp = findViewById(R.id.pb_minigame_hp);
+        tv_hint = findViewById(R.id.tv_minigame_hint);
+        tv_hint.setText("Every time you click on the mine it will process " + upgrade.GetEfficiencyReward() + " HP ");
+        pb_hp.setMax(Math.max(1, StartHP));
+        updateHpUi();
 
         btn_clicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MineHp -= 1;
-                GetImgLevel(MineHp);
-                tv_hp.setText("Hp: " + MineHp);
+                for (int i = 0; i < upgrade.GetEfficiencyReward(); i++) {
+                    MineHp--;
+                    GetImgLevel(MineHp);
+
+                }
+                updateHpUi();
                 if (MineHp <= 0) {
                     onMineDepleted();
                 }
@@ -96,28 +102,28 @@ public class Mini_Game_Activity extends AppCompatActivity {
     }
 
     private void onMineDepleted() {
-        if (mineClearedHandled) {
-            return;
-        }
-        mineClearedHandled = true;
         btn_clicker.setEnabled(false);
         MineHp = 0;
-        tv_hp.setText("Hp: 0");
-        final Item rewards = miner.GetItemDrop();
-        Toast.makeText(this, (rewards.getType() + " *" + rewards.getCount()) , Toast.LENGTH_LONG).show();
+        updateHpUi();
 
+        // add database rewarsd
 
         if (user == null || user.getId() == null || user.getId().isEmpty()) {
-            Toast.makeText(this, "שגיאה במציאת השחקן", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Could not find player", Toast.LENGTH_LONG).show();
             goToMainScreen();
             return;
         }
+        final Item rewards = user.upgrade.GetItemDrop();
+        user.backpack.addItem(rewards);
+
+        Toast.makeText(this, (rewards.getType() + " *" + rewards.getCount()), Toast.LENGTH_LONG).show();
+
 
         DatabaseService.getInstance().updateUser(user.getId(), currentUser -> {
             if (currentUser == null) {
                 return null;
             }
-           // mergeRewardsIntoBackpack(currentUser, rewards);
+            mergeRewardsIntoBackpack(currentUser, List.of(rewards));
             return currentUser;
         }, new DatabaseService.DatabaseCallback<User>() {
             @Override
@@ -125,7 +131,6 @@ public class Mini_Game_Activity extends AppCompatActivity {
                 if (updatedUser != null) {
                     SharedPreferencesUtil.saveUser(Mini_Game_Activity.this, updatedUser);
                 }
-                // Toast.makeText(Mini_Game_Activity.this, toastText, Toast.LENGTH_LONG).show();
                 goToMainScreen();
             }
 
@@ -133,12 +138,8 @@ public class Mini_Game_Activity extends AppCompatActivity {
             public void onFailed(Exception e) {
                 User local = SharedPreferencesUtil.getUser(Mini_Game_Activity.this);
                 if (local != null && user.getId().equals(local.getId())) {
-                   // mergeRewardsIntoBackpack(local, rewards);
                     SharedPreferencesUtil.saveUser(Mini_Game_Activity.this, local);
                 }
-                //Toast.makeText(Mini_Game_Activity.this,
-                //        toastText + "\n" + getString(R.string.minigame_sync_failed, e.getMessage() != null ? e.getMessage() : ""),
-                //        Toast.LENGTH_LONG).show();
                 goToMainScreen();
             }
         });
@@ -152,7 +153,6 @@ public class Mini_Game_Activity extends AppCompatActivity {
     }
 
 
-
     private void mergeRewardsIntoBackpack(User targetUser, List<Item> rewards) {
         Backpack bp = targetUser.getBackpack();
         if (bp == null) {
@@ -164,36 +164,48 @@ public class Mini_Game_Activity extends AppCompatActivity {
             sumNew += r.getCount();
         }
         int needed = bp.currentSize() + sumNew;
+
+        // כאשר אין לי מקום בתיק
         if (bp.totalSize < needed) {
-            bp.totalSize = needed + 100;
+            int temp = 0;
+            int freeSpace = bp.totalSize - bp.currentSize();
+            for (int i = 0; i < rewards.size(); i++) {
+                temp = rewards.get(i).getCount();
+                if (temp > freeSpace) {
+                    rewards.get(i).setCount(freeSpace);
+                    break;
+                }
+                freeSpace -= temp;
+            }
         }
         for (Item reward : rewards) {
             bp.addItem(new Item(reward.getType(), reward.getCount()));
         }
     }
 
-    private void GetImgLevel(int hp)
-    {
+    private void updateHpUi() {
+        int displayHp = Math.max(0, MineHp);
+        tv_hp.setText("HP: " + displayHp + " / " + StartHP);
+        pb_hp.setProgress(displayHp);
+    }
+
+    private void GetImgLevel(int hp) {
         int img = StartHP / 15;
 
-        if ((hp % img) == 0)
-        {
+        if ((hp % img) == 0) {
             imgStage++;
             updateMineImage(imgStage);
 
         }
 
 
-
-
     }
 
     private void updateMineImage(int numimg) {
-        if(numimg < 1){
+        if (numimg < 1) {
             numimg = 1;
         }
-        if(numimg > mineImages.length)
-        {
+        if (numimg > mineImages.length) {
             numimg = mineImages.length;
         }
 

@@ -31,6 +31,7 @@ public class MapManager {
     private final MapView map;
     private final Context context;
     private final Handler handler = new Handler();
+    private final OnMapManagerListener listener;
     private MyLocationNewOverlay locationOverlay;
     private Marker myLocationMarker;
     private final Runnable locationUpdater = new Runnable() {
@@ -48,7 +49,6 @@ public class MapManager {
     };
     private MapBehavior currentBehavior; // <--- The Injected Logic
     private User user;
-    private final OnMapManagerListener listener;
 
     public MapManager(Context context, MapView map, OnMapManagerListener listener) {
         this.context = context;

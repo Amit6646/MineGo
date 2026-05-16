@@ -75,9 +75,9 @@
                             app:boxCornerRadiusBottomEnd="12dp"
                             app:boxCornerRadiusBottomStart="12dp"
                             app:boxCornerRadiusTopEnd="12dp"
-                            app:startIconDrawable="@android:drawable/ic_menu_edit"
+                            app:boxCornerRadiusTopStart="12dp"
 
-                            app:boxCornerRadiusTopStart="12dp">
+                            app:startIconDrawable="@android:drawable/ic_menu_edit">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/et_user_username"

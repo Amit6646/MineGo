@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:text="שדרוגים"
+                android:text="Upgrades"
                 android:textColor="@color/white"
                 android:textSize="22sp"
                 android:textStyle="bold" />
@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:gravity="center"
-                android:text="שפר יכולות כדי להתקדם מהר יותר"
+                android:text="Upgrade your abilities to progress faster"
                 android:textColor="#CCFFFFFF"
                 android:textSize="14sp" />
 
@@ -71,7 +71,7 @@
                     android:id="@+id/iv_upgrade_1_image"
                     android:layout_width="match_parent"
                     android:layout_height="110dp"
-                    android:contentDescription="תמונת שדרוג מכרה"
+                    android:contentDescription="Mine upgrade image"
                     android:scaleType="fitCenter"
                     tools:src="@android:drawable/ic_menu_manage" />
 
@@ -81,7 +81,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:gravity="center"
-                    android:text="רמת מכרה"
+                    android:text="Mine level"
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -90,7 +90,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:hint="עלות שיפור"
+                    android:hint="Upgrade cost"
                     app:hintTextColor="#CCFFFFFF">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -123,7 +123,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:layout_marginTop="12dp"
-                    android:text="שדרוג רמת מכרה"
+                    android:text="Upgrade mine level"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     app:backgroundTint="#00000000"
@@ -150,7 +150,7 @@
                     android:id="@+id/iv_upgrade_2_image"
                     android:layout_width="match_parent"
                     android:layout_height="110dp"
-                    android:contentDescription="תמונת שדרוג רדיוס"
+                    android:contentDescription="Radius upgrade image"
                     android:scaleType="fitCenter"
                     tools:src="@android:drawable/ic_menu_mylocation" />
 
@@ -158,9 +158,9 @@
                     android:id="@+id/tv_upgrade_2_label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:layout_marginTop="12dp"
-                    android:text="רדיוס איתור מכרות"
+                    android:gravity="center"
+                    android:text="Mine detection radius"
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -169,7 +169,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:hint="עלות שיפור"
+                    android:hint="Upgrade cost"
                     app:hintTextColor="#CCFFFFFF">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -202,7 +202,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:layout_marginTop="12dp"
-                    android:text="שדרוג רדיוס"
+                    android:text="Upgrade radius"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     app:backgroundTint="#00000000"
@@ -229,7 +229,7 @@
                     android:id="@+id/iv_upgrade_3_image"
                     android:layout_width="match_parent"
                     android:layout_height="110dp"
-                    android:contentDescription="תמונת שדרוג יעילות"
+                    android:contentDescription="Efficiency upgrade image"
                     android:scaleType="fitCenter"
                     tools:src="@android:drawable/ic_menu_recent_history" />
 
@@ -237,9 +237,9 @@
                     android:id="@+id/tv_upgrade_3_label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:layout_marginTop="12dp"
-                    android:text="יעילות"
+                    android:gravity="center"
+                    android:text="Efficiency"
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -248,7 +248,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:hint="עלות שיפור"
+                    android:hint="Upgrade cost"
                     app:hintTextColor="#CCFFFFFF">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -281,7 +281,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:layout_marginTop="12dp"
-                    android:text="שדרוג יעילות"
+                    android:text="Upgrade efficiency"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     app:backgroundTint="#00000000"
@@ -294,7 +294,7 @@
                     app:strokeWidth="2dp" />
             </LinearLayout>
 
-            <!-- Row 4: גודל תיק -->
+            <!-- Row 4: Backpack size -->
             <LinearLayout
                 android:id="@+id/card_upgrade_row_4"
                 android:layout_width="match_parent"
@@ -309,7 +309,7 @@
                     android:id="@+id/iv_upgrade_4_image"
                     android:layout_width="match_parent"
                     android:layout_height="110dp"
-                    android:contentDescription="תמונת שדרוג גודל תיק"
+                    android:contentDescription="Backpack size upgrade image"
                     android:scaleType="fitCenter"
                     tools:src="@android:drawable/ic_menu_upload" />
 
@@ -319,7 +319,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:gravity="center"
-                    android:text="גודל תיק"
+                    android:text="Backpack size"
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -328,7 +328,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:hint="עלות שיפור"
+                    android:hint="Upgrade cost"
                     app:hintTextColor="#CCFFFFFF">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -340,7 +340,7 @@
                         android:focusable="false"
                         android:inputType="none"
                         android:text="—"
-                        android:textColor="#99FFFFFF"
+                        android:textColor="#FFFFFF"
                         android:textIsSelectable="true" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -361,7 +361,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:layout_marginTop="12dp"
-                    android:text="שדרוג גודל תיק"
+                    android:text="Upgrade backpack size"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     app:backgroundTint="#00000000"

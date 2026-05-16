@@ -1,7 +1,6 @@
 package com.example.minego.models;
 
 import android.content.Context;
-import android.media.effect.Effect;
 
 import androidx.annotation.Nullable;
 
@@ -12,19 +11,64 @@ import com.google.firebase.database.Exclude;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Upgrade implements Serializable {
+
+
     private static final int MAX_MINE_LEVEL = 3;
     private static final int MAX_RADIUS_LEVEL = 3;
     private static final int MAX_EFFICIENCY = 4;
-    private static final int MAX_BACKPACK_SIZE = 4;
+    private static final int MAX_BACKPACK_SIZE = 3;
+    @Exclude
+    private final int[] mineImages = {
+            R.drawable.mineupgradelevel1,
+            R.drawable.mineupgradelevel2,
+            R.drawable.mineupgradelevel3,
+            R.drawable.mineupgradelevel4
+    };
+    @Exclude
+    private final int[] RadiusImages = {
+            R.drawable.radiuslevel1,
+            R.drawable.radiuslevel2,
+            R.drawable.radiuslevel3,
+            R.drawable.radiuslevel4
+    };
+    @Exclude
+    private final int[] efficiencyImages = {
+            R.drawable.efficiencyupgradelevel1,
+            R.drawable.efficiencyupgradelevel2,
+            R.drawable.efficiencyupgradelevel3,
+            R.drawable.efficiencyupgradelevel4,
+            R.drawable.efficiencyupgradelevel5
+    };
+
+    @Exclude
+    private final int[] backpackImages = {
+            R.drawable.backpackupgradelevel1,
+            R.drawable.backpackupgradelevel2,
+            R.drawable.backpackupgradelevel3,
+            R.drawable.backpackupgradelevel4
+    };
     private int MineLevel;
     private int RadiusLevel;
     private int efficiency;
     private int backpacksize;
-
     @Exclude
     private transient User pendingUserForDbMerge;
+
+    public Upgrade(int mineLevel, int radius, int efficiency, int backpacksize) {
+        this.MineLevel = mineLevel;
+        this.RadiusLevel = radius;
+        this.efficiency = efficiency;
+        this.backpacksize = backpacksize;
+    }
+
+
+    // -- Mine Level --
+
+    public Upgrade() {
+    }
 
     public boolean checkprice(Item[] items, List<Item> UserBackPack) {
         if (UserBackPack.isEmpty()) return false;
@@ -71,27 +115,6 @@ public class Upgrade implements Serializable {
         return true;
     }
 
-    public Upgrade(int mineLevel, int radius, int efficiency, int backpacksize) {
-        this.MineLevel = mineLevel;
-        this.RadiusLevel = radius;
-        this.efficiency = efficiency;
-        this.backpacksize = backpacksize;
-    }
-
-    public Upgrade() {
-    }
-
-
-    // -- Mine Level --
-
-    @Exclude
-    private final int[] mineImages = {
-            R.drawable.mineupgradelevel1,
-            R.drawable.mineupgradelevel2,
-            R.drawable.mineupgradelevel3,
-            R.drawable.mineupgradelevel4
-    };
-
     @Exclude
     public boolean UpgradeMineLevel(Context context) {
         if (MineLevel >= MAX_MINE_LEVEL) {
@@ -122,25 +145,24 @@ public class Upgrade implements Serializable {
         return mineImages[ml];
     }
 
+    //Radius
+
     @Exclude
     public Item[] PriceMineLevel() {
         Item[] items;
         if (MineLevel == 0) {
             items = new Item[1];
             items[0] = new Item(ItemType.stone, 3);
-        }
-        else if(MineLevel == 1){
+        } else if (MineLevel == 1) {
             items = new Item[2];
             items[0] = new Item(ItemType.stone, 5);
             items[1] = new Item(ItemType.iron, 3);
-        }
-        else if(MineLevel == 2){
+        } else if (MineLevel == 2) {
             items = new Item[3];
             items[0] = new Item(ItemType.iron, 7);
             items[1] = new Item(ItemType.gold, 5);
             items[2] = new Item(ItemType.ruby, 3);
-        }
-        else{
+        } else {
             items = null;
         }
         return items;
@@ -157,10 +179,9 @@ public class Upgrade implements Serializable {
                 return text;
             } else {
                 for (int i = 0; i < items.length; i++) {
-                    if (i == items.length - 1){
+                    if (i == items.length - 1) {
                         text += items[i].getType() + ":" + items[i].getCount();
-                    }
-                    else {
+                    } else {
                         text += items[i].getType() + ":" + items[i].getCount() + " + ";
                     }
                 }
@@ -170,17 +191,6 @@ public class Upgrade implements Serializable {
         }
         return text;
     }
-
-    //Radius
-
-
-    @Exclude
-    private final int[] RadiusImages = {
-            R.drawable.radiuslevel1,
-            R.drawable.radiuslevel2,
-            R.drawable.radiuslevel3,
-            R.drawable.radiuslevel4
-    };
 
     @Exclude
     public int getRadiusImage() {
@@ -192,7 +202,6 @@ public class Upgrade implements Serializable {
         }
         return RadiusImages[rl];
     }
-
 
     @Exclude
     public boolean UpgradeRadius(Context context) {
@@ -223,10 +232,9 @@ public class Upgrade implements Serializable {
                 return text;
             } else {
                 for (int i = 0; i < items.length; i++) {
-                    if (i == items.length - 1){
+                    if (i == items.length - 1) {
                         text += items[i].getType() + ":" + items[i].getCount();
-                    }
-                    else {
+                    } else {
                         text += items[i].getType() + ":" + items[i].getCount() + " + ";
                     }
                 }
@@ -236,42 +244,32 @@ public class Upgrade implements Serializable {
         }
         return text;
     }
-    
+
+
     public Item[] PriceRadius() {
         Item[] items;
         if (RadiusLevel == 0) {
             items = new Item[1];
             items[0] = new Item(ItemType.stone, 5);
-        }
-        else if(RadiusLevel == 1){
+        } else if (RadiusLevel == 1) {
             items = new Item[2];
             items[0] = new Item(ItemType.stone, 8);
             items[1] = new Item(ItemType.iron, 5);
-        }
-        else if(RadiusLevel == 2){
+        } else if (RadiusLevel == 2) {
             items = new Item[3];
             items[0] = new Item(ItemType.iron, 12);
             items[1] = new Item(ItemType.gold, 9);
             items[2] = new Item(ItemType.ruby, 5);
-        }
-        else{
+        } else {
             items = null;
         }
         return items;
     }
 
 
-
     //efficiency
 
-    @Exclude
-    private final int[] efficiencyImages = {
-            R.drawable.efficiencyupgradelevel1,
-            R.drawable.efficiencyupgradelevel2,
-            R.drawable.efficiencyupgradelevel3,
-            R.drawable.efficiencyupgradelevel4,
-            R.drawable.efficiencyupgradelevel5
-    };
+
     @Exclude
     public int getefficiencyImages() {
         int el = efficiency;
@@ -279,6 +277,7 @@ public class Upgrade implements Serializable {
             el = 0;
         } else if (el >= efficiencyImages.length) {
             el = efficiencyImages.length - 1;
+
         }
         return efficiencyImages[el];
     }
@@ -307,32 +306,27 @@ public class Upgrade implements Serializable {
         if (efficiency == 0) {
             items = new Item[1];
             items[0] = new Item(ItemType.stone, 12);
-        }
-        else if(efficiency == 1){
+        } else if (efficiency == 1) {
             items = new Item[2];
             items[0] = new Item(ItemType.stone, 10);
             items[1] = new Item(ItemType.iron, 8);
-        }
-        else if(efficiency == 2){
+        } else if (efficiency == 2) {
             items = new Item[3];
             items[0] = new Item(ItemType.iron, 16);
             items[1] = new Item(ItemType.gold, 12);
             items[2] = new Item(ItemType.ruby, 8);
-        }
-        else if(efficiency == 3){
+        } else if (efficiency == 3) {
             items = new Item[4];
             items[0] = new Item(ItemType.iron, 20);
             items[1] = new Item(ItemType.gold, 12);
             items[2] = new Item(ItemType.ruby, 10);
             items[3] = new Item(ItemType.diamond, 6);
 
-        }
-        else{
+        } else {
             items = null;
         }
         return items;
     }
-
 
 
     @Exclude
@@ -346,10 +340,9 @@ public class Upgrade implements Serializable {
                 return text;
             } else {
                 for (int i = 0; i < items.length; i++) {
-                    if (i == items.length - 1){
+                    if (i == items.length - 1) {
                         text += items[i].getType() + ":" + items[i].getCount();
-                    }
-                    else {
+                    } else {
                         text += items[i].getType() + ":" + items[i].getCount() + " + ";
                     }
                 }
@@ -359,6 +352,90 @@ public class Upgrade implements Serializable {
         }
         return text;
     }
+
+ // --------------------------------------
+
+    @Exclude
+    public int getBackpackImage() {
+        int bpl = backpacksize;
+        if (bpl < 0) {
+            bpl = 0;
+        } else if (bpl >= backpackImages.length) {
+            bpl = backpackImages.length - 1;
+        }
+        return backpackImages[bpl];
+    }
+
+    @Exclude
+    public boolean UpgradeBackPack(Context context) {
+        if (backpacksize >= MAX_BACKPACK_SIZE) {
+            return false;
+        }
+        User user = SharedPreferencesUtil.getUser(context);
+
+        Item[] items = priceBackpack();
+        if (!takeprice(items, user.getBackpack())) return false;
+
+        this.pendingUserForDbMerge = user;
+
+        backpacksize++;
+
+
+        updateUpgradeindb(context, null);
+        return true;
+    }
+
+
+    public Item[] priceBackpack() {
+        Item[] items;
+        if (backpacksize == 0) {
+            items = new Item[2];
+            items[0] = new Item(ItemType.stone, 5);
+            items[1] = new Item(ItemType.iron, 2);
+
+        } else if (backpacksize == 1) {
+            items = new Item[2];
+            items[0] = new Item(ItemType.iron, 8);
+            items[1] = new Item(ItemType.gold, 5);
+        } else if (backpacksize == 2) {
+            items = new Item[3];
+            items[0] = new Item(ItemType.iron, 20);
+            items[1] = new Item(ItemType.gold, 12);
+            items[2] = new Item(ItemType.ruby, 8);
+            items[2] = new Item(ItemType.diamond, 5);
+
+        }
+        else {
+            items = null;
+        }
+        return items;
+    }
+    @Exclude
+    public String getbackpackUpgradeCostText() {
+        String text = "";
+        if (backpacksize >= MAX_BACKPACK_SIZE) {
+            return "Max Level";
+        } else {
+            Item[] items = priceBackpack();
+            if (items == null) {
+                return text;
+            } else {
+                for (int i = 0; i < items.length; i++) {
+                    if (i == items.length - 1) {
+                        text += items[i].getType() + ":" + items[i].getCount();
+                    } else {
+                        text += items[i].getType() + ":" + items[i].getCount() + " + ";
+                    }
+                }
+
+            }
+
+        }
+        return text;
+    }
+
+
+
 
     @Exclude
     public int MaxUpgradeMineLevel() {
@@ -377,7 +454,7 @@ public class Upgrade implements Serializable {
 
     @Exclude
     public int MaxUpgradeBackpack() {
-        return  MAX_BACKPACK_SIZE;
+        return MAX_BACKPACK_SIZE;
     }
 
 
@@ -412,9 +489,6 @@ public class Upgrade implements Serializable {
     public void setBackpacksize(int backpacksize) {
         this.backpacksize = backpacksize;
     }
-
-
-
 
 
     //rewards
@@ -462,17 +536,87 @@ public class Upgrade implements Serializable {
         if (RadiusLevel == 3) {
             return 45;
         }
-        if (RadiusLevel == 4) {
-            return 60;
-        }
         return 15;
     }
 
+    @Exclude
+    public int GetEfficiencyReward() {
+        if (efficiency == 1) {
+            return 2;
+        }
+        if (efficiency == 2) {
+            return 3;
+        }
+        if (efficiency == 3) {
+            return 4;
+        }
+        if (efficiency == 4) {
+            return 5;
+        }
+        return 1;
+    }
 
 
+    @Exclude
+    public int GetBackPackSize() {
+        if (backpacksize == 1) {
+            return 15;
+        }
+        if (backpacksize == 2) {
+            return 20;
+        }
+        if (backpacksize == 3) {
+            return 40;
+        }
+        return 10;
+    }
 
 
+    @Exclude
+    public Item GetItemDrop() {
+        Item item = new Item();
 
+        int level = getMineDrop();
+        int random = ThreadLocalRandom.current().nextInt(1, 101);
+        item.setType(determineType(level, random));
+        item.setCount(ThreadLocalRandom.current().nextInt(1, 3));
+        return item;
+    }
+
+
+    @Exclude
+
+    private ItemType determineType(int level, int random) {
+        switch (level) {
+            case 1:
+                return ItemType.stone; // 100%
+
+            case 2:
+                if (random <= 70) return ItemType.stone; // 70%
+                return ItemType.iron; // 30%
+
+            case 3:
+                if (random <= 50) return ItemType.stone; // 50%
+                if (random <= 80) return ItemType.iron; // 30%
+                return ItemType.gold; // 20%
+
+            case 4:
+                if (random <= 40) return ItemType.stone; // 40%
+                if (random <= 70) return ItemType.iron; // 30%
+                if (random <= 90) return ItemType.gold; // 20%
+                return ItemType.ruby; // 10%
+
+            case 5:
+                if (random <= 35) return ItemType.stone; // 35%
+                if (random <= 60) return ItemType.iron; // 25%
+                if (random <= 80) return ItemType.gold; // 20%
+                if (random <= 92) return ItemType.ruby; // 12%
+                return ItemType.diamond; // 8%
+
+            default:
+                return ItemType.stone;
+        }
+    }
 
     // database
 
@@ -538,8 +682,6 @@ public class Upgrade implements Serializable {
             }
         });
     }
-
-
 
 
 }

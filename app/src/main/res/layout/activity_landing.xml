@@ -37,15 +37,15 @@
         app:iconPadding="12dp"
         app:iconSize="22dp"
         app:iconTint="#FFB9B2FF"
-        app:strokeColor="#FFB9B2FF"
-        app:strokeWidth="2dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_landing_to_register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_landing_logo"
+        app:layout_constraintVertical_chainStyle="packed"
         app:layout_constraintWidth_default="percent"
         app:layout_constraintWidth_percent="0.72"
-        app:layout_constraintTop_toBottomOf="@+id/iv_landing_logo"
-        app:layout_constraintBottom_toTopOf="@+id/btn_landing_to_register"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:strokeColor="#FFB9B2FF"
+        app:strokeWidth="2dp" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_landing_to_register"
@@ -64,12 +64,12 @@
         app:iconPadding="12dp"
         app:iconSize="22dp"
         app:iconTint="#FFB9B2FF"
-        app:strokeColor="#FFB9B2FF"
-        app:strokeWidth="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_landing_to_login"
         app:layout_constraintWidth_default="percent"
         app:layout_constraintWidth_percent="0.72"
-        app:layout_constraintTop_toBottomOf="@+id/btn_landing_to_login"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:strokeColor="#FFB9B2FF"
+        app:strokeWidth="2dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
