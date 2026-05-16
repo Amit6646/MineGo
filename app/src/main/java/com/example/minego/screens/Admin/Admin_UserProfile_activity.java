@@ -156,7 +156,6 @@ public class Admin_UserProfile_activity extends AppCompatActivity {
         }
 
         if (!checkInput(username, password, email)) {
-            Log.i(TAG, "input is not valid");
             return;
         }
 
