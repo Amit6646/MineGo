@@ -62,10 +62,10 @@ public class MapManager {
         map.setBuiltInZoomControls(true);
         map.setMultiTouchControls(true);
         map.setMaxZoomLevel(21.0);
-        map.setMinZoomLevel(8.0);
+        map.setMinZoomLevel(15.0);
 
         IMapController mapController = map.getController();
-        mapController.setZoom(15.0);
+        mapController.setZoom(17.0);
         mapController.setCenter(new GeoPoint(31.9700, 34.7790));
 
         // Global Event Receiver that delegates to the Interface

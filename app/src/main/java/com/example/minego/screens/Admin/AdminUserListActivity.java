@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.minego.R;
 import com.example.minego.adapters.UserAdapter;
 import com.example.minego.models.User;
+import com.example.minego.screens.UserProfileActivity;
 import com.example.minego.services.DatabaseService;
 
 import java.util.List;
@@ -43,7 +44,7 @@ public class AdminUserListActivity extends AppCompatActivity {
             @Override
             public void onUserClick(User user) {
                 // Handle user click
-                Intent intent = new Intent(AdminUserListActivity.this, Admin_UserProfile_activity.class);
+                Intent intent = new Intent(AdminUserListActivity.this, UserProfileActivity.class);
                 intent.putExtra("USER_UID", user.getId());
                 startActivity(intent);
             }

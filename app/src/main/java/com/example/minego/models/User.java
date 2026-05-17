@@ -12,10 +12,7 @@ public class User implements Serializable {
     public String password;
     public String email;
 
-    public int xp;
-
     public Backpack backpack;
-    public Stats stats;
     public Upgrade upgrade;
 
     public boolean admin;
@@ -27,15 +24,13 @@ public class User implements Serializable {
     }
 
     public User(String id, String username, String password, int xp, Backpack backpack,
-                Stats stats, Upgrade upgrade, boolean admin, Gender gender, String email) {
+                 Upgrade upgrade, boolean admin, Gender gender, String email) {
 
         this.id = id;
         this.admin = admin;
         this.username = username;
         this.password = password;
-        this.xp = xp;
         this.backpack = backpack;
-        this.stats = stats;
         this.upgrade = upgrade;
         this.gender = gender;
         this.email = email;
@@ -66,14 +61,6 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public int getXp() {
-        return xp;
-    }
-
-    public void setXp(int xp) {
-        this.xp = xp;
-    }
-
     public Backpack getBackpack() {
         return backpack;
     }
@@ -82,20 +69,28 @@ public class User implements Serializable {
         this.backpack = backpack;
     }
 
-    public Stats getStats() {
-        return stats;
-    }
-
-    public void setStats(Stats stats) {
-        this.stats = stats;
-    }
-
     public Upgrade getUpgrade() {
         return upgrade;
     }
 
     public void setUpgrade(Upgrade upgrade) {
         this.upgrade = upgrade;
+    }
+
+    /**
+     * Applies {@link Upgrade#GetBackPackSize()} to {@link Backpack#totalSize}.
+     * Capacity is derived from upgrade level; totalSize is not stored in Firebase.
+     */
+    public void syncBackpackCapacityFromUpgrade() {
+        if (upgrade == null) {
+            return;
+        }
+        if (backpack == null) {
+            backpack = new Backpack();
+        }
+        int cap = upgrade.GetBackPackSize();
+        int used = backpack.currentSize();
+        backpack.totalSize = Math.max(cap, used);
     }
 
     public boolean isAdmin() {
@@ -129,10 +124,8 @@ public class User implements Serializable {
                 "id='" + id + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", xp=" + xp +
                 ", email=" + email +
                 ", backpack=" + backpack +
-                ", stats=" + stats +
                 ", upgrades=" + upgrade +
                 ". admin= " + admin +
                 '}';

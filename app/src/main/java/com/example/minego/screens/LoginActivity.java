@@ -42,27 +42,32 @@ public class LoginActivity extends AppCompatActivity {
 
     private void Login() {
 
+
+        // לוקח את השם משתמש וסיסמה מהתצוגה מהתצוגה
         String username = etUsername.getText().toString();
         String password = etPassword.getText().toString();
 
+        // רושם הודעות שגיאה במידע שהמידע שהוזן לא עומד בדרישות
         if (!checkInput(username, password)) {
             return;
         }
 
+        //בודק במסד נתונים עם המשתמש קיים
         DatabaseService databaseService = DatabaseService.getInstance();
         databaseService.getUserByUsernameAndPassword(username, password, new DatabaseService.DatabaseCallback<User>() {
             @Override
             public void onCompleted(User user) {
                 if (user == null) {
-                    // failed to find the user
+                    // הודעת שגיאה במידע והמשתמש לא נמצא
                     etPassword.setError("Username or Password are invalid or User not exist");
                     etPassword.requestFocus();
                     return;
                 }
+                // שומר את המשתמש על המחשיר בשביל שהוא לא כל פעם יצתרך להתחבר מחדש
                 SharedPreferencesUtil.saveUser(LoginActivity.this, user);
 
+                // מעביר את המשתמש למסך של המשחק
                 Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
-                /// Clear the back stack (clear history) and start the MainActivity
                 mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(mainIntent);
             }

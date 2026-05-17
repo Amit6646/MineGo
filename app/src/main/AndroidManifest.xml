@@ -23,10 +23,13 @@
             android:name=".screens.UpgradesActivity"
             android:exported="false" />
         <activity
+            android:name=".backpack"
+            android:exported="false" />
+        <activity
             android:name=".screens.Mini_Game_Activity"
             android:exported="false" />
         <activity
-            android:name=".screens.Admin.Admin_UserProfile_activity"
+            android:name=".screens.UserProfileActivity"
             android:exported="false" />
         <activity
             android:name=".screens.Admin.Admin_landing_Activity"
@@ -38,9 +41,6 @@
             android:name="com.google.android.gms.wallet.api.enabled"
             android:value="true" />
 
-        <activity
-            android:name=".screens.UserEditProfileActivity"
-            android:exported="false" />
         <activity
             android:name=".screens.Admin.AdminActivity"
             android:exported="false" />

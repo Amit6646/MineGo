@@ -15,9 +15,9 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.minego.R;
+import com.example.minego.backpack;
 import com.example.minego.models.Miner;
 import com.example.minego.models.User;
-import com.example.minego.screens.Admin.Admin_UserProfile_activity;
 import com.example.minego.screens.Admin.Admin_landing_Activity;
 import com.example.minego.services.DatabaseService;
 import com.example.minego.utils.MapManager;
@@ -30,7 +30,7 @@ import org.osmdroid.views.MapView;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    Button btnLogout, btnAdmin, btnEditProfile, btnUpgrade;
+    Button btnAdmin, btnEditProfile, btnUpgrade, btnBackpack;
     private MapManager mapManager;
     private User user;
 
@@ -78,17 +78,6 @@ public class MainActivity extends AppCompatActivity {
         //מגדיר את השחקן לפי המידע ששמור
         user = SharedPreferencesUtil.getUser(this);
 
-        //מגדיר את הכפתור של להתנתק
-        //מנתק את השחקן מהאפליקציה ומעביר אותו למסך LandingActivity
-        btnLogout = findViewById(R.id.btn_main_logout);
-        btnLogout.setOnClickListener(v -> {
-            SharedPreferencesUtil.signOutUser(MainActivity.this);
-            Intent mainIntent = new Intent(MainActivity.this, LandingActivity.class);
-            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(mainIntent);
-        });
-
-
         //מגדיר את הכפתור של האדמינים
         //ומציג אותו רק כאשר אתה אדמין
         //כאשר אתה לוחץ על הכפתור זה מעביר אותך למסך Admin_landing_Activity
@@ -102,21 +91,22 @@ public class MainActivity extends AppCompatActivity {
         btnAdmin.setOnClickListener(v -> startActivity(new Intent(this, Admin_landing_Activity.class)));
 
         //מגדיר את הכפתור של השיפורים
-        //כאשר אתה לוחץ על הכפתור זה מעביר אותך למסך pgradesActivity
+        //כאשר אתה לוחץ על הכפתור זה מעביר אותך למסך UpgradesActivity
         btnUpgrade = findViewById(R.id.btn_main_upgrade);
         btnUpgrade.setOnClickListener(v -> startActivity(new Intent(this, UpgradesActivity.class)));
 
+        //מגדיר את הכפתור של התיק גב
+        //כאשר אתה לוחץ על הכפתור זה מעביר אותך למסך backpack
+        btnBackpack = findViewById(R.id.btn_main_backpack);
+        btnBackpack.setOnClickListener(v -> startActivity(new Intent(this, backpack.class)));
+
         //מגדיר את הכפתור של עריכת פרופיל
-        //כאשר אתה לוחץ על הכפתור זה מעביר אותך למסך admin_UserProfile_activity
-        //לפי המידע של המשתמש שלך
+        //כאשר אתה לוחץ על הכפתור זה מעביר אותך למסך UserProfileActivity
         btnEditProfile = findViewById(R.id.btn_main_editprofile);
         btnEditProfile.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, Admin_UserProfile_activity.class);
-
+            Intent intent = new Intent(MainActivity.this, UserProfileActivity.class);
             intent.putExtra("USER_UID", user.getId());
             startActivity(intent);
-
-
         });
     }
 

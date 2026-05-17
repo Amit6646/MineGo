@@ -101,8 +101,9 @@ public class UpgradesActivity extends AppCompatActivity {
         if (upgrade == null) {
             upgrade = new Upgrade(0, 0, 0, 0);
             user.setUpgrade(upgrade);
-            SharedPreferencesUtil.saveUser(this, user);
         }
+        user.syncBackpackCapacityFromUpgrade();
+        SharedPreferencesUtil.saveUser(this, user);
         updateProgressBars();
     }
 

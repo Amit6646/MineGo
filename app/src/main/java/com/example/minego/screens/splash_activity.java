@@ -53,23 +53,32 @@ public class splash_activity extends AppCompatActivity {
             finish();
         };
 
+
+        //במידע והמשתמש לא מחובר לאפליקציה
         if (!SharedPreferencesUtil.isUserLoggedIn(this)) {
             mainHandler.postDelayed(goNext, SPLASH_DISPLAY_TIME_MS);
-            return;
+            return; // מעביר למסך של LandingActivity
         }
 
+
+        //במידה והמשתמש כן מחובר לאפלקציה זה בודק עם יש בעיות במשתמש עצמו
         User cached = SharedPreferencesUtil.getUser(this);
         if (cached == null || cached.getId() == null || cached.getId().isEmpty()) {
             mainHandler.postDelayed(goNext, SPLASH_DISPLAY_TIME_MS);
-            return;
+            return; // מעביר למסך של LandingActivity
         }
 
+
+        // מגדיר ב uid את ה id של השחקן
         String uid = cached.getId();
 
+        //מעדכן את המידה של השחקן מהמסד נתונים
         DatabaseService.getInstance().getUser(uid, new DatabaseService.DatabaseCallback<User>() {
             @Override
             public void onCompleted(User fromServer) {
                 if (fromServer != null) {
+                    fromServer.syncBackpackCapacityFromUpgrade();
+                    // שומר את היוזר במסד נתונים של המכשיר
                     SharedPreferencesUtil.saveUser(splash_activity.this, fromServer);
                 }
                 scheduleNavigateAfterSplash(splashStartMs, goNext);
@@ -82,9 +91,7 @@ public class splash_activity extends AppCompatActivity {
         });
     }
 
-    /**
-     * ממתין עד שעבר זמן הספלאש המינימלי, ואז מנווט (כדי שלא “יקפוץ” מסך מוקדם מדי).
-     */
+    //
     private void scheduleNavigateAfterSplash(long splashStartMs, Runnable goNext) {
         long elapsed = SystemClock.elapsedRealtime() - splashStartMs;
         long remaining = Math.max(0, SPLASH_DISPLAY_TIME_MS - elapsed);

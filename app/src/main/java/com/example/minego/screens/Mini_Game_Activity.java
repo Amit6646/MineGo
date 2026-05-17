@@ -72,6 +72,10 @@ public class Mini_Game_Activity extends AppCompatActivity {
 
 
         user = SharedPreferencesUtil.getUser(this);
+        if (user != null) {
+            user.syncBackpackCapacityFromUpgrade();
+            SharedPreferencesUtil.saveUser(this, user);
+        }
         Upgrade upgrade = user.getUpgrade();
         MineHp = upgrade.getMineHp();
         StartHP = MineHp;

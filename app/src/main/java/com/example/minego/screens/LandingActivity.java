@@ -18,7 +18,6 @@ import com.example.minego.utils.SharedPreferencesUtil;
 public class LandingActivity extends AppCompatActivity {
 
     Button btnLogin, btnRegister;
-    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,16 +31,11 @@ public class LandingActivity extends AppCompatActivity {
         });
 
 
-        if (SharedPreferencesUtil.isUserLoggedIn(LandingActivity.this)) {
-            Intent mainIntent = new Intent(LandingActivity.this, MainActivity.class);
-            /// Clear the back stack (clear history) and start the MainActivity
-            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(mainIntent);
-        }
-
+        // מקשר את הכפתורים לתצוגה
         btnLogin = findViewById(R.id.btn_landing_to_login);
         btnRegister = findViewById(R.id.btn_landing_to_register);
 
+        //מגדיר שכאשר אני לוחץ על הכפתור זה מעביר אותי למסך של ההתחברות
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,6 +44,7 @@ public class LandingActivity extends AppCompatActivity {
             }
         });
 
+        //מגדיר שכאשר אני לוחץ על הכפתור זה מעביר אותי למסך של ההרשמה
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

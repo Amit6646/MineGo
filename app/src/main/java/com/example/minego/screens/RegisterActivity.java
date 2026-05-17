@@ -18,7 +18,6 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.minego.R;
 import com.example.minego.models.Backpack;
 import com.example.minego.models.Gender;
-import com.example.minego.models.Stats;
 import com.example.minego.models.Upgrade;
 import com.example.minego.models.User;
 import com.example.minego.services.DatabaseService;
@@ -125,39 +124,46 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
+    //מקבל את המידע של המשתמש שהוא צריך
     private void registerUser(String UserName, String password, String Email) {
 
         DatabaseService databaseService = DatabaseService.getInstance();
-        String uid = databaseService.generateUserId();
+        String uid = databaseService.generateUserId(); // יוצר מזהה יחודי למשתמש שלו
 
-        Gender gender;
+        Gender gender; // יותר לי מגדל
+        // שואל האם לחצתי גבר
         if (rgGender.getCheckedRadioButtonId() == rbGenderMale.getId()) {
-            gender = Gender.Male;
+            gender = Gender.Male; // מגדיר את המגדר לזכר
         } else //if (rgGender.getCheckedRadioButtonId() == rbGenderFemale.getId())
         {
-            gender = Gender.Female;
+            gender = Gender.Female; // מגדיר את המגדר לזכר
         }
+        //מגדיר את התיק גב ואומר שכל הרמות שוות ל-0
         Upgrade upgrade = new Upgrade(0, 0, 0, 0);
-        /// create a new user object
-        User user = new User(uid, UserName, password, 0, new Backpack(),
-                new Stats(), upgrade, false, gender, Email);
+        User user = new User(uid, UserName, password, 0, new Backpack()
+                , upgrade, false, gender, Email); // מגדיר את השחקן
+        user.syncBackpackCapacityFromUpgrade();
 
+        //המערכת בודקת במסד נתונים עם השם משתמש הזה כבר תפוס
         databaseService.checkIfUsernameExists(user.username, new DatabaseService.DatabaseCallback<Boolean>() {
             @Override
             public void onCompleted(Boolean exists) {
                 if (exists) {
-                    /// show error message to user
+
+                    // רושם הודעת שגיאה במידה והשם משתמ ש תפוס
+
                     Toast.makeText(RegisterActivity.this, "Username already exists", Toast.LENGTH_SHORT).show();
                 } else {
 
+                    // במידה והשם משתמש לא תפוס זה בודק עם המייל תפוס
                     databaseService.checkIfEmailExists(user.email, new DatabaseService.DatabaseCallback<Boolean>() {
                         @Override
                         public void onCompleted(Boolean exists) {
                             if (exists) {
-                                /// show error message to user
+                                // רושם הודעת שגיאה שהמייל תפוס
                                 Toast.makeText(RegisterActivity.this, "Email already exists", Toast.LENGTH_SHORT).show();
                             } else {
-                                /// proceed to create the user
+                                // יוצר את המשתמש
                                 createUserInDatabase(user);
                             }
                         }

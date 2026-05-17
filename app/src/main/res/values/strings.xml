@@ -2,6 +2,20 @@
     <string name="app_name">MineGo</string>
     <string name="minigame_sync_failed">שגיאה בשמירה לענן: %1$s</string>
 
+    <!-- Backpack screen -->
+    <string name="backpack_capacity_format">%1$d / %2$d</string>
+    <string name="backpack_capacity_no_limit">Used: %1$d</string>
+    <string name="backpack_item_count_format">×%1$d</string>
+    <string name="backpack_delete_hint">Amount to remove</string>
+    <string name="backpack_delete_title">Remove items</string>
+    <string name="backpack_delete_message">How many %1$s to remove? (max %2$d)</string>
+    <string name="backpack_delete_confirm">Remove</string>
+    <string name="backpack_delete_cancel">Cancel</string>
+    <string name="backpack_delete_invalid_amount">Enter a number between 1 and %1$d</string>
+    <string name="backpack_delete_no_user">Could not find logged-in user</string>
+    <string name="backpack_delete_sync_failed">Failed to save: %1$s</string>
+    <string name="backpack_delete_item_cd">Remove item from backpack</string>
+
     <!-- Checkout activity -->
     <string name="title_activity_checkout">CheckoutActivity</string>
     <string name="checkout_item_description">Description</string>

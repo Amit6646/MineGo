@@ -379,7 +379,7 @@ public class Upgrade implements Serializable {
         this.pendingUserForDbMerge = user;
 
         backpacksize++;
-
+        user.syncBackpackCapacityFromUpgrade();
 
         updateUpgradeindb(context, null);
         return true;
@@ -579,7 +579,7 @@ public class Upgrade implements Serializable {
         int level = getMineDrop();
         int random = ThreadLocalRandom.current().nextInt(1, 101);
         item.setType(determineType(level, random));
-        item.setCount(ThreadLocalRandom.current().nextInt(1, 3));
+        item.setCount(ThreadLocalRandom.current().nextInt(1, 4));
         return item;
     }
 
@@ -621,10 +621,6 @@ public class Upgrade implements Serializable {
     // database
 
 
-    /**
-     * מעדכן את השדרוג של המשתמש המחובר ב-Firebase (Realtime DB) תחת users/{uid}.
-     * אם אין משתמש מחובר/uid, הפעולה לא תתבצע.
-     */
     @Exclude
     public void updateUpgradeindb(Context context, @Nullable DatabaseService.DatabaseCallback<User> callback) {
         User localUser = SharedPreferencesUtil.getUser(context);
@@ -637,10 +633,7 @@ public class Upgrade implements Serializable {
         updateUpgradeindb(localUser.getId(), context, callback);
     }
 
-    /**
-     * מעדכן את השדרוג של משתמש מסוים ב-Firebase (Realtime DB) תחת users/{uid}.
-     * הפעולה מתבצעת באמצעות טרנזקציה כדי לא לדרוס שדות אחרים.
-     */
+    
     @Exclude
     public void updateUpgradeindb(String uid, @Nullable Context contextForLocalSave, @Nullable DatabaseService.DatabaseCallback<User> callback) {
         if (uid == null || uid.isEmpty()) {
@@ -660,6 +653,7 @@ public class Upgrade implements Serializable {
             if (mergeSource != null && mergeSource.getBackpack() != null) {
                 currentUser.setBackpack(mergeSource.getBackpack());
             }
+            currentUser.syncBackpackCapacityFromUpgrade();
             return currentUser;
         }, new DatabaseService.DatabaseCallback<User>() {
             @Override

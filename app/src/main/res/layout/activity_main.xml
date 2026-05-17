@@ -34,6 +34,20 @@
             android:orientation="horizontal"
             android:padding="8dp">
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_main_backpack"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Backpack"
+                android:textColor="#555555"
+                android:textSize="12sp"
+                app:icon="@drawable/backpack"
+                app:iconGravity="textTop"
+                app:iconTint="#555555" />
+
             <Button
                 android:id="@+id/btn_main_upgrade"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
@@ -76,21 +90,6 @@
                 app:icon="@android:drawable/ic_dialog_dialer"
                 app:iconGravity="textTop"
                 app:iconTint="#6200EE" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_main_logout"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="Logout"
-                android:textColor="#D32F2F"
-                android:textSize="12sp"
-                app:icon="@android:drawable/ic_lock_power_off"
-                app:iconGravity="textTop"
-                app:iconTint="#D32F2F" />
-
 
         </LinearLayout>
 
