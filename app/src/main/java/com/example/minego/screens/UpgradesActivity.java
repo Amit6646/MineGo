@@ -91,7 +91,6 @@ public class UpgradesActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // טוען מחדש מההעדפות בכל כניסה למסך — אחרת חוזרים לאקטיביטי שכבר בזיכרון ורואים נתונים ישנים
         user = SharedPreferencesUtil.getUser(this);
         if (user == null) {
             finish();
@@ -108,11 +107,17 @@ public class UpgradesActivity extends AppCompatActivity {
     }
 
     private void updateProgressBars() {
+
+        // מחשב כמה קרוב השחקן באחוזים עד לסיום כל רמות המכרה
         MaxUpgradeMineLevel = (int) Math.round((upgrade.getMineLevel() * 100.0) / Math.max(1, upgrade.MaxUpgradeMineLevel()));
+        // מעדכן את החישוב של הרמת מכרה במד התקדמות
         pb_upgrade_1.setProgress(MaxUpgradeMineLevel);
+        //מעדכן את התמונה לפי הרמה שלו
         iv_upgrade_1_image.setImageResource(upgrade.getMineLevelImage());
+        // רושם את המכיר לפי הרמה שלו
         et_upgrade_1_cost.setText(upgrade.getMineUpgradeCostText());
 
+        //הפעולה חוזרת על עצמה וזה אותו דבר לגבי כל שיפור ושיפור
 
         MaxUpgradeRadius = (int) Math.round((upgrade.getRadiusLevel() * 100.0) / Math.max(1, upgrade.MaxUpgradeRadius()));
         pb_upgrade_2.setProgress(MaxUpgradeRadius);

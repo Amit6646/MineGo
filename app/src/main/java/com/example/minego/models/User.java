@@ -77,10 +77,6 @@ public class User implements Serializable {
         this.upgrade = upgrade;
     }
 
-    /**
-     * Applies {@link Upgrade#GetBackPackSize()} to {@link Backpack#totalSize}.
-     * Capacity is derived from upgrade level; totalSize is not stored in Firebase.
-     */
     public void syncBackpackCapacityFromUpgrade() {
         if (upgrade == null) {
             return;

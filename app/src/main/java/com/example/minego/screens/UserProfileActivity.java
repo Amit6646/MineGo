@@ -3,6 +3,7 @@ package com.example.minego.screens;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -35,7 +36,7 @@ public class UserProfileActivity extends AppCompatActivity {
     boolean isCurrentUser = false;
     User selectedUser;
     private EditText etUserUsername, etUserEmail, etUserPassword;
-    private com.google.android.material.button.MaterialButton btnUpdateProfile, btnRemove, btnLogout;
+    private Button btnUpdateProfile, btnRemove, btnLogout;
     private TextView tvProfileTitle;
 
     @Override
@@ -123,23 +124,28 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     private void confirmAndRemoveUser(String uidToRemove) {
+        // בודק עם המשתמש קיים
         if (uidToRemove == null || uidToRemove.isEmpty()) {
             return;
         }
+
+        // יוצר את הדיאלוג
         new AlertDialog.Builder(this)
-                .setTitle("Remove user")
-                .setMessage("Are you sure you want to remove this user? This action cannot be undone.")
-                .setNegativeButton("Cancel", (d, which) -> d.dismiss())
-                .setPositiveButton("Remove", (d, which) ->
+                .setTitle("Remove user") // מגדיר את הכותרת
+                .setMessage("Are you sure you want to remove this user? This action cannot be undone.") // מגדיר את תיאור של הכותרת
+                .setNegativeButton("Cancel", (d, which) -> d.dismiss()) // מבטל את הפעולה
+                .setPositiveButton("Remove", (d, which) -> // מאשר את הפעולה ומוחק אותו מהמסד נתונים
                         DatabaseService.getInstance().deleteUser(uidToRemove, new DatabaseService.DatabaseCallback<Void>() {
                             @Override
                             public void onCompleted(Void object) {
+                                // הודעות אישור שהמשתמש נמחק
                                 Toast.makeText(UserProfileActivity.this, "User removed", Toast.LENGTH_SHORT).show();
                                 finish();
                             }
 
                             @Override
                             public void onFailed(Exception e) {
+                                //הודעת שגיאה שהמשתמש לא נמחק עקב שגיאה
                                 Toast.makeText(UserProfileActivity.this, "Failed to remove user", Toast.LENGTH_SHORT).show();
                             }
                         }))

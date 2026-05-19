@@ -23,7 +23,7 @@
             android:name=".screens.UpgradesActivity"
             android:exported="false" />
         <activity
-            android:name=".backpack"
+            android:name=".screens.backpack"
             android:exported="false" />
         <activity
             android:name=".screens.Mini_Game_Activity"
@@ -42,7 +42,7 @@
             android:value="true" />
 
         <activity
-            android:name=".screens.Admin.AdminActivity"
+            android:name=".screens.Admin.AdminMineListActivity"
             android:exported="false" />
         <activity
             android:name=".screens.RegisterActivity"

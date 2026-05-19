@@ -9,34 +9,12 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public class Backpack {
-    public String name;
-    @Exclude
-    public String id;
+
     @Exclude
     public int totalSize;
     private List<Item> items;
 
     public Backpack() {
-    }
-
-    public Backpack(String name, int totalSize) {
-        this.name = name;
-        this.totalSize = totalSize;
-        items = new ArrayList<>();
-    }
-
-    public Backpack(String name, int totalSize, List<Item> items) {
-        this.name = name;
-        this.totalSize = totalSize;
-        this.items = items;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public int getTotalSize() {
@@ -72,25 +50,29 @@ public class Backpack {
 
     @Exclude
     public boolean addItem(@NotNull final Item item) {
+        //בודק עם יש לי מספיק מקום בתיק בשביל להוסיף את הפריטים
         if (!canAddItemToBackpack(item)) return false;
 
+        //עובר על כל התאים שיש לי בתיק ומחפס תא את הפריט שיש לי
         for (int i = 0; i < items.size(); i++) {
+            //בגדיר את הפריט במקום מסויים כ backpackItem
             Item backpackItem = items.get(i);
+
+            //בודק עם הפריט שיש לי והפריט בתא מסויים זה אותו פריט
             if (backpackItem.getType().equals(item.getType())) {
-                // backpackItem = מה שיש לי כבר
-                // item = מה שאני רוצה להוסיף
+                //מוסיף לי את הפריט לתיק גב
                 backpackItem.increaseCount(item.getCount());
                 return true;
             }
         }
+
+        //יוצא לי תא חדש בתיק בשביל הפריט הזה
         items.add(item);
         return true;
     }
 
     @Exclude
     public void removeItem(Item item) {
-
-        // remove the item from the list
         boolean isRemoved = items.removeIf(new Predicate<Item>() {
             @Override
             public boolean test(Item it) {
@@ -101,7 +83,6 @@ public class Backpack {
 
         if (isRemoved) return;
 
-        // modify the list by the given item
         for (int i = 0; i < items.size(); i++) {
             Item it = items.get(i);
             if (!it.getType().equals(item.getType())) continue;
@@ -109,12 +90,6 @@ public class Backpack {
             it.decreaseCount(item.getCount());
             return;
         }
-
-    }
-
-    @Exclude
-    public boolean isFull() {
-        return currentSize() == totalSize;
     }
 
     @Exclude

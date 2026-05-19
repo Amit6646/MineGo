@@ -15,7 +15,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.minego.R;
-import com.example.minego.backpack;
 import com.example.minego.models.Miner;
 import com.example.minego.models.User;
 import com.example.minego.screens.Admin.Admin_landing_Activity;
@@ -98,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         //מגדיר את הכפתור של התיק גב
         //כאשר אתה לוחץ על הכפתור זה מעביר אותך למסך backpack
         btnBackpack = findViewById(R.id.btn_main_backpack);
-        btnBackpack.setOnClickListener(v -> startActivity(new Intent(this, backpack.class)));
+        btnBackpack.setOnClickListener(v -> startActivity(new Intent(this, backpackActivity.class)));
 
         //מגדיר את הכפתור של עריכת פרופיל
         //כאשר אתה לוחץ על הכפתור זה מעביר אותך למסך UserProfileActivity

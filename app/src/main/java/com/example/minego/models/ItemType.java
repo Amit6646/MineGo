@@ -28,20 +28,6 @@ public enum ItemType {
         return null; // not found
     }
 
-    public static boolean isExist(String type) {
-        if (type == null || type.isBlank()) return false;
-
-        type = type.trim().toLowerCase();
-        type = Character.toUpperCase(type.charAt(0)) + type.substring(1);
-
-        for (ItemType itemType : ItemType.values()) {
-            if (itemType.type.equals(type)) {
-                return true;
-            }
-        }
-
-        return false; // not found
-    }
 
     public String getType() {
         return type;

@@ -23,6 +23,7 @@ import java.util.List;
 public class AdminUserListActivity extends AppCompatActivity {
     private TextView tvUserCount;
     private UserAdapter userAdapter;
+    private RecyclerView usersList;
 
 
     @Override
@@ -36,7 +37,7 @@ public class AdminUserListActivity extends AppCompatActivity {
             return insets;
         });
 
-        RecyclerView usersList = findViewById(R.id.rv_users_list);
+        usersList = findViewById(R.id.rv_users_list);
         tvUserCount = findViewById(R.id.tv_user_count);
         usersList.setLayoutManager(new LinearLayoutManager(this));
 

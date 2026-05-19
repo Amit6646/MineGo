@@ -19,7 +19,7 @@ import com.example.minego.utils.behaviors.AdminPlacementBehavior;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 
-public class AdminActivity extends AppCompatActivity {
+public class AdminMineListActivity extends AppCompatActivity {
     Button btnSave;
     private MapManager mapManager;
     private AdminPlacementBehavior adminBehavior;
@@ -28,7 +28,7 @@ public class AdminActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_admin);
+        setContentView(R.layout.activity_admin_mine_list);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -47,15 +47,22 @@ public class AdminActivity extends AppCompatActivity {
         adminBehavior = new AdminPlacementBehavior(this, org.osmdroid.library.R.drawable.marker_default);
         mapManager.setBehavior(adminBehavior);
 
-        btnSave = findViewById(R.id.btn_admin_save);
-        btnSave.setOnClickListener(v -> {
-            GeoPoint pos = adminBehavior.getSelectedPosition();
 
+        // מגדיר את הכפתור של השמירה שהיה מקושר לעיצוב
+        btnSave = findViewById(R.id.btn_admin_save);
+        // כאשר אני לוחץ על הכפתור
+        btnSave.setOnClickListener(v -> {
+            GeoPoint pos = adminBehavior.getSelectedPosition(); // בודק איפה לחצתי על המפה ושומר ב pos
+
+            // במידה ולא לחצתי זה רושם הודעת שגיאה
             if (pos == null) {
-                Toast.makeText(AdminActivity.this, "אתה צריך לבחור מיקום בשביל ליצור מכרה", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AdminMineListActivity.this, "אתה צריך לבחור מיקום בשביל ליצור מכרה", Toast.LENGTH_SHORT).show();
             } else {
+                // עם רשמתי זה יוצר למכרה id
                 String id = DatabaseService.getInstance().generateMinerId();
+                // מגדיר מכרה לפי המיקום וה id
                 Miner miner = new Miner(id, pos);
+                // מוסיף את המכרה למסך נתוניפ
                 createMinerInDatabase(miner);
             }
         });
@@ -65,13 +72,13 @@ public class AdminActivity extends AppCompatActivity {
         DatabaseService.getInstance().createNewMiner(miner, new DatabaseService.DatabaseCallback<Void>() {
             @Override
             public void onCompleted(Void object) {
-                Toast.makeText(AdminActivity.this, "המכרה נוצר בהצלחה!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AdminMineListActivity.this, "המכרה נוצר בהצלחה!", Toast.LENGTH_SHORT).show();
                 finish();
             }
 
             @Override
             public void onFailed(Exception e) {
-                Toast.makeText(AdminActivity.this, "שגיאה ביצירת המכרה", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AdminMineListActivity.this, "שגיאה ביצירת המכרה", Toast.LENGTH_SHORT).show();
             }
         });
     }

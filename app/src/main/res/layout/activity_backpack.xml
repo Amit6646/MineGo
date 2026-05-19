@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_landing"
     android:padding="24dp"
-    tools:context=".backpack">
+    tools:context=".screens.backpackActivity">
 
     <ScrollView
         android:id="@+id/scroll_backpack"
@@ -120,12 +120,13 @@
                     android:textSize="14sp"
                     android:visibility="gone" />
 
-                <LinearLayout
-                    android:id="@+id/ll_backpack_items"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_backpack_items"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:orientation="vertical" />
+                    android:nestedScrollingEnabled="false"
+                    tools:listitem="@layout/item_backpack_row" />
 
             </LinearLayout>
 
