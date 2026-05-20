@@ -58,17 +58,17 @@ public class MapManager {
     }
 
     private void initMap() {
-        map.setTileSource(TileSourceFactory.MAPNIK);
-        map.setBuiltInZoomControls(true);
-        map.setMultiTouchControls(true);
-        map.setMaxZoomLevel(21.0);
-        map.setMinZoomLevel(15.0);
+        //
+        map.setTileSource(TileSourceFactory.MAPNIK); // מגדיר את סוג המפה ברקע
+        map.setMultiTouchControls(true); // מגדיר שהמפה תעבוד לדגובות של יותר מאצבע אחת
+        map.setMaxZoomLevel(21.0); // מגדיר את המקסימום ששחקן יכול לעשות זום
+        map.setMinZoomLevel(15.0); // מגדיר את המינימום ששחקן יכול לעשות זום
 
         IMapController mapController = map.getController();
-        mapController.setZoom(17.0);
-        mapController.setCenter(new GeoPoint(31.9700, 34.7790));
+        mapController.setZoom(17.0); // מגדיר את הזום שבוא השחקן מתחיל
+        mapController.setCenter(new GeoPoint(0, 0)); // מגדיר את הנקודה בעולם שבה השחקן מתחיל
 
-        // Global Event Receiver that delegates to the Interface
+        // מוסיף לי מאזין לחיצה על המפה
         MapEventsReceiver mReceive = new MapEventsReceiver() {
             @Override
             public boolean singleTapConfirmedHelper(GeoPoint p) {
@@ -84,27 +84,6 @@ public class MapManager {
             }
         };
         map.getOverlays().add(new MapEventsOverlay(mReceive));
-    }
-
-    public MapBehavior getBehavior() {
-        return currentBehavior;
-    }
-
-    /**
-     * INJECT YOUR LOGIC HERE
-     */
-    public void setBehavior(MapBehavior behavior) {
-        // Cleanup old behavior if exists
-        if (this.currentBehavior != null) {
-            this.currentBehavior.onTeardown(map);
-        }
-
-        this.currentBehavior = behavior;
-
-        // Setup new behavior
-        if (this.currentBehavior != null) {
-            this.currentBehavior.onSetup(map);
-        }
     }
 
     public void enableLocation(Context context) {

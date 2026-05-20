@@ -45,31 +45,6 @@ public class SharedPreferencesUtil {
         return sharedPreferences.getString(key, defaultValue);
     }
 
-    /// Save an integer to shared preferences
-    ///
-    /// @param context The context to use
-    /// @param key     The key to save the integer with
-    /// @param value   The integer to save
-    /// @see SharedPreferences.Editor#putInt(String, int)
-    private static void saveInt(Context context, String key, int value) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt(key, value);
-        editor.apply();
-    }
-
-    /// Get an integer from shared preferences
-    ///
-    /// @param context      The context to use
-    /// @param key          The key to get the integer with
-    /// @param defaultValue The default value to return if the key is not found
-    /// @return The integer value stored in shared preferences
-    /// @see SharedPreferences#getInt(String, int)
-    private static int getInt(Context context, String key, int defaultValue) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-        return sharedPreferences.getInt(key, defaultValue);
-    }
-
     // Add more methods for other data types as needed
 
     /// Clear all data from shared preferences
@@ -162,18 +137,6 @@ public class SharedPreferencesUtil {
         return contains(context, "user");
     }
 
-    /// Get the user id of the logged in user
-    ///
-    /// @param context The context to use
-    /// @return The user id of the logged in user, or null if no user is logged in
-    @Nullable
-    public static String getUserId(Context context) {
-        User user = getUser(context);
-        if (user != null) {
-            return user.getId();
-        }
-        return null;
-    }
 
 
 }

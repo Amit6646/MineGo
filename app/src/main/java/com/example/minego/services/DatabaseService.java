@@ -38,12 +38,12 @@ public class DatabaseService {
     /// paths for different data types in the database
     ///
     /// @see DatabaseService#readData(String)
-    private static final String USERS_PATH = "users",
-            Miner_PATH = "miner";
+    private static final String USERS_PATH = "users", Miner_PATH = "miner";
     /// the instance of this class
     ///
     /// @see #getInstance()
     private static DatabaseService instance;
+
     /// the reference to the database
     ///
     /// @see DatabaseReference
